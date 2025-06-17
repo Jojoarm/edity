@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #2563eb;
+  --color-secondary: #fbbf24;
+  --color-dark-100: #1f1f36;
+  --color-dark-200: #141627;
+  --color-dark-300: #101828;
+  --color-dark-400: #2e2c48;
+  --color-gray-100: #7f7e83;
+  --color-gray-200: #eaecf0;
+  --color-gray-500: #667085;
+  --color-gray-700: #344054;
+  --color-primary-50: #e9f3fb;
+  --color-primary-100: #256ff1;
+  --color-primary-500: #175cd3;
+  --color-light-100: #ecf2ef;
+  --color-light-200: #f9fbfc;
+  --color-light-300: #f2f4f7;
+  --color-light-400: #ebeeed;
+  --color-light-500: #e3f1ff;
+  --color-success-50: #ecfdf3;
+  --color-success-500: #12b76a;
+  --color-success-700: #027a48;
+  --color-pink-50: #f7edf6;
+  --color-pink-500: #c11574;
+  --color-navy-50: #f0f9ff;
+  --color-navy-500: #026aa2;
+  --color-red-500: #b93815;
+  --color-red-50: #fff4ed;
+  --color-red-100: #ff543d;
+  --color-white-50: #d9ecff;
+}
+
+* {
+  font-family: Poppins, sans-serif;
+}
+
+.font-outfit {
+  font-family: 'Outfit', sans-serif !important;
+}
+
+.font-roboto {
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.font-playfair {
+  font-family: 'Playfair', serif !important;
+}
