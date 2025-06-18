@@ -2,17 +2,23 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-primary: #2563eb;
+  --color-primary-200: #3a78c0;
   --color-secondary: #fbbf24;
   --color-dark-100: #1f1f36;
   --color-dark-200: #141627;
   --color-dark-300: #101828;
   --color-dark-400: #2e2c48;
+  --color-dark-500: #212121;
   --color-gray-100: #7f7e83;
   --color-gray-200: #eaecf0;
   --color-gray-500: #667085;
+  --color-gray-600: #757575;
   --color-gray-700: #344054;
   --color-primary-50: #e9f3fb;
+  --color-primary: #4a90e2;
+  --color-dark-background-color: #1c2833;
+  --color-light-background-color: #ecf5fb;
+  --color-medium-background-color: #d6e8f7;
   --color-primary-100: #256ff1;
   --color-primary-500: #175cd3;
   --color-light-100: #ecf2ef;
@@ -47,4 +53,10 @@
 
 .font-playfair {
   font-family: 'Playfair', serif !important;
+}
+
+@layer component {
+  .section {
+    @apply px-4 md:px-16 xl:px-32;
+  }
 }
