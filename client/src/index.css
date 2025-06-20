@@ -55,7 +55,7 @@
   font-family: 'Playfair', serif !important;
 }
 
-form {
+.contact-form {
   label {
     @apply block text-dark-500 mb-2 font-medium;
   }

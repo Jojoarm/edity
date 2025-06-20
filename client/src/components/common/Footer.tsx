@@ -7,16 +7,16 @@ const Footer = () => {
       <CircularShape
         xPosition="-left-40"
         yPosition="-top-40"
-        width="400px"
-        height="400px"
-        border="60px"
+        widthClass="w-[400px]"
+        heightClass="h-[400px]"
+        borderClass="border-[60px]"
       />
       <CircularShape
         xPosition="-right-50"
         yPosition="bottom-0"
-        width="400px"
-        height="400px"
-        border="60px"
+        widthClass="w-[400px]"
+        heightClass="h-[400px]"
+        borderClass="border-[60px]"
       />
       <div className="relative flex flex-wrap justify-between gap-12 mb-8 md:gap-6">
         <div className="max-w-80">

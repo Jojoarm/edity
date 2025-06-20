@@ -7,16 +7,16 @@ const Hero = () => {
       <CircularShape
         xPosition="-left-56"
         yPosition="top-0"
-        width="400px"
-        height="400px"
-        border="60px"
+        widthClass="w-[400px]"
+        heightClass="h-[400px]"
+        borderClass="border-[60px]"
       />
       <CircularShape
         xPosition="-right-60"
         yPosition="bottom-14"
-        width="400px"
-        height="400px"
-        border="60px"
+        widthClass="w-[400px]"
+        heightClass="h-[400px]"
+        borderClass="border-[60px]"
         hidden
       />
       <div className="relative flex flex-col lg:flex-row">

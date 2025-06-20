@@ -8,9 +8,9 @@ const Info2 = () => {
           <CircularShape
             xPosition="-left-16"
             yPosition="-top-16"
-            width="300px"
-            height="300px"
-            border="50px"
+            widthClass="w-[300px]"
+            heightClass="h-[300px]"
+            borderClass="border-[50px]"
           />
           <div className="w-full px-5 md:px-10 lg:px-30 relative flex flex-col items-center justify-center text-center md:text-start md:items-start">
             <p className="mb-4 text-sm">
@@ -48,9 +48,9 @@ const Info2 = () => {
             <CircularShape
               xPosition="-right-16"
               yPosition="-bottom-16"
-              width="300px"
-              height="300px"
-              border="50px"
+              widthClass="w-[300px]"
+              heightClass="h-[300px]"
+              borderClass="border-[50px]"
               hidden
             />
           </div>

@@ -4,12 +4,12 @@ import { ChevronDown, LayoutDashboard, LogOut, Settings } from 'lucide-react';
 import { navLinks } from '../../assets/assets';
 
 const Navbar = () => {
-  //   const user = '';
-  const user = {
-    name: 'Dev Armani',
-    image: '',
-    email: 'devarmani33@gmail.com',
-  };
+  const user = false;
+  // const user = {
+  //   name: 'Dev Armani',
+  //   image: '',
+  //   email: 'devarmani33@gmail.com',
+  // };
   const navigate = useNavigate();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);

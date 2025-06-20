@@ -1,7 +1,7 @@
 type Props = {
-  width: string;
-  height: string;
-  border: string;
+  widthClass: string;
+  heightClass: string;
+  borderClass: string;
   xPosition: string;
   yPosition: string;
   hidden?: boolean;
@@ -10,16 +10,16 @@ type Props = {
 const CircularShape = ({
   xPosition,
   yPosition,
-  width,
-  height,
-  border,
+  widthClass,
+  heightClass,
+  borderClass,
   hidden,
 }: Props) => {
   return (
     <div
       className={`${
         hidden ? 'hidden lg:block' : ''
-      } absolute ${yPosition} ${xPosition} h-[${height}] w-[${width}] rounded-full border-[${border}] border-medium-background-color`}
+      } absolute ${yPosition} ${xPosition} ${heightClass} ${widthClass} rounded-full ${borderClass} border-medium-background-color`}
     />
   );
 };

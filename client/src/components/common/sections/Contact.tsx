@@ -100,7 +100,7 @@ const Contact = () => {
               <form
                 ref={formRef}
                 onSubmit={handleSubmit}
-                className="w-full flex flex-col px-10 gap-7"
+                className="contact-form w-full flex flex-col px-10 gap-7"
               >
                 <div className="w-full flex flex-col md:flex-row gap-4 space-x-10">
                   <div className="w-full">
