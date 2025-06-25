@@ -2,16 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { ChevronDown, LayoutDashboard, LogOut, Settings } from 'lucide-react';
 import { navLinks } from '../../assets/assets';
+import { useAppStore } from '../../contexts/useAppStore';
+import { useMutation } from '@tanstack/react-query';
+import { logout } from '../../api/user-api';
+import toast from 'react-hot-toast';
 
 const Navbar = () => {
-  const user = false;
-  // const user = {
-  //   name: 'Dev Armani',
-  //   image: '',
-  //   email: 'devarmani33@gmail.com',
-  // };
+  const { user, setUser, setIsLoggedIn } = useAppStore();
   const navigate = useNavigate();
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserOpen, setIsUserOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -37,6 +35,23 @@ const Navbar = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isUserOpen]);
+
+  //user logout
+  const mutation = useMutation({
+    mutationFn: logout,
+    onSuccess: async () => {
+      setUser(null);
+      setIsLoggedIn(false);
+      navigate('/');
+      scrollTo(0, 0);
+    },
+    onError: (error: Error) => {
+      toast.error((error as Error).message);
+    },
+  });
+  const handleLogout = () => {
+    mutation.mutate();
+  };
 
   return (
     <nav className="w-full flex items-center justify-between bg-light-background-color py-10 px-4 md:px-16 lg:px-24 xl:px-32 z-50">
@@ -100,9 +115,9 @@ const Navbar = () => {
               onClick={() => setIsUserOpen(!isUserOpen)}
               className="size-8 md:size-12 flex justify-center items-center rounded-full bg-gray-600 overflow-hidden cursor-pointer"
             >
-              {user.image ? (
+              {user.profilePicture ? (
                 <img
-                  src={`${user?.image}`}
+                  src={`${user?.profilePicture}`}
                   alt="profile picture"
                   className=" object-cover "
                   referrerPolicy="no-referrer"
@@ -118,9 +133,9 @@ const Navbar = () => {
               <div className="absolute top-12 md:top-15 right-0 w-[300px] md:w-[350px] z-50 bg-white rounded-2xl shadow shadow-black pb-7">
                 <div className="flex border-b border-gray-300 gap-5 p-5">
                   <div className="w-14 flex justify-center items-center  overflow-hidden ">
-                    {user.image ? (
+                    {user.profilePicture ? (
                       <img
-                        src={`${user.name[0]}`}
+                        src={`${user?.profilePicture}`}
                         alt="profile picture"
                         referrerPolicy="no-referrer"
                         className="size-8 md:size-12 rounded-full object-contain m-auto"
@@ -165,7 +180,7 @@ const Navbar = () => {
                 </div>
 
                 <div
-                  //   onClick={handleLogout}
+                  onClick={handleLogout}
                   className="flex border-b border-gray-300 gap-6 py-3 px-5 hover:bg-slate-100 cursor-pointer"
                 >
                   <div className="w-14 ">

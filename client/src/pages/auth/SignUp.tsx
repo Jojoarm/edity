@@ -1,22 +1,23 @@
 import { Lock, Mail, User } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-// import * as apiClient from '../../api-client';
+import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
 import GoogleLoginButton from '../../components/common/GoogleLoginButton';
 import PasswordStrengthMeter from '../../components/common/PasswordStrengthMeter';
+import { createUser, fetchUser } from '../../api/user-api';
+import { useAppStore } from '../../contexts/useAppStore';
 
 export type RegisterFormData = {
-  username: string;
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
 };
 
 const SignUp = () => {
-  const queryClient = useQueryClient();
+  const { setUser, setAuthLoading } = useAppStore();
   const navigate = useNavigate();
   const {
     register,
@@ -25,12 +26,14 @@ const SignUp = () => {
     formState: { errors },
   } = useForm<RegisterFormData>();
 
+  //using email to send state to complete registration
+
   // Mutations
   const mutation = useMutation({
-    // mutationFn: apiClient.createUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['fetchUser'] });
-      navigate('/');
+    mutationFn: createUser,
+    onSuccess: async () => {
+      await fetchUser(setUser, setAuthLoading);
+      navigate('/complete-profile');
     },
     onError: (error: Error) => {
       toast.error((error as Error).message);
@@ -38,8 +41,7 @@ const SignUp = () => {
   });
 
   const onSubmit = handleSubmit((data) => {
-    // mutation.mutate(data);
-    console.log(data);
+    mutation.mutate(data);
   });
 
   return (
@@ -71,15 +73,13 @@ const SignUp = () => {
               placeholder="Full name"
               className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
-              {...register('username', {
+              {...register('name', {
                 required: 'This field is required!',
               })}
             />
           </div>
-          {errors.username && (
-            <span className="text-red-500 text-xs">
-              {errors.username.message}
-            </span>
+          {errors.name && (
+            <span className="text-red-500 text-xs">{errors.name.message}</span>
           )}
         </div>
 

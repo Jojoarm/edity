@@ -4,9 +4,9 @@ import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
 // import * as apiClient from '../../api-client';
 import toast from 'react-hot-toast';
-import Loader from './Loader';
 import { useEffect } from 'react';
-import PasswordStrengthMeter from './PasswordStrengthMeter';
+import Loader from '../../components/common/Loader';
+import PasswordStrengthMeter from '../../components/common/PasswordStrengthMeter';
 
 export type ResetPasswordData = {
   password: string;

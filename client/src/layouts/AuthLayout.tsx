@@ -1,20 +1,21 @@
-// import { useAppContext } from '@/context/AppContext';
-// import { Loader } from 'lucide-react';
 import { Navigate, Outlet } from 'react-router';
 import CircularShape from '../components/common/CircularShape';
+import { useAppStore } from '../contexts/useAppStore';
+import Loader from '../components/common/Loader';
 
 const AuthLayout = () => {
-  // const { user, isAuthLoading } = useAppContext();
+  const { isLoggedIn, isAuthLoading } = useAppStore();
 
-  // if (isAuthLoading) return <Loader />;
+  if (isAuthLoading) {
+    return <Loader />;
+  }
 
-  const user = false;
-
-  if (user) {
+  if (isLoggedIn) {
     return <Navigate to="/" replace />;
   }
+
   return (
-    <div className="relative h-screen bg-light-background-color overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center bg-light-background-color overflow-hidden">
       <CircularShape
         xPosition="-left-40"
         yPosition="-top-40"

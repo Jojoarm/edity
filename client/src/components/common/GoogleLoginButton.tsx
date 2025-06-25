@@ -1,14 +1,16 @@
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useQueryClient } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
+import { useAppStore } from '../../contexts/useAppStore';
+import { fetchUser } from '../../api/user-api';
 
 const GoogleLoginButton = () => {
-  const queryClient = useQueryClient();
+  const { setUser, setAuthLoading } = useAppStore();
   const navigate = useNavigate();
   const location = useLocation();
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
   const handleCallbackResponse = async (
     response: google.accounts.id.CredentialResponse
@@ -25,8 +27,18 @@ const GoogleLoginButton = () => {
       );
 
       if (res.data.success) {
-        queryClient.invalidateQueries({ queryKey: ['fetchUser'] });
-        navigate(location.state?.from?.pathname || '/');
+        await fetchUser(setUser, setAuthLoading);
+
+        // Differentiate between login and signup
+        if (res.data.newUser === true) {
+          toast.success('Welcome! Account created successfully');
+          // Redirect to onboarding or profile completion
+          navigate('/complete-profile');
+        } else {
+          toast.success('Welcome back!');
+          // Redirect to dashboard or intended page
+          navigate(location.state?.from?.pathname || '/dashboard');
+        }
       } else {
         toast.error(res.data.message);
       }

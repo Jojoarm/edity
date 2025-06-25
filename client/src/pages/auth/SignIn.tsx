@@ -1,10 +1,12 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { Lock, Mail } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router';
 // import * as apiClient from '../../api-client';
 import toast from 'react-hot-toast';
 import GoogleLoginButton from '../../components/common/GoogleLoginButton';
+import { fetchUser, userLogin } from '../../api/user-api';
+import { useAppStore } from '../../contexts/useAppStore';
 
 export type SignInFormData = {
   email: string;
@@ -12,7 +14,7 @@ export type SignInFormData = {
 };
 
 const SignIn = () => {
-  const queryClient = useQueryClient();
+  const { setUser, setAuthLoading } = useAppStore();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,9 +25,9 @@ const SignIn = () => {
   } = useForm<SignInFormData>();
 
   const mutation = useMutation({
-    // mutationFn: apiClient.signInUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['fetchUser'] });
+    mutationFn: userLogin,
+    onSuccess: async () => {
+      await fetchUser(setUser, setAuthLoading);
       navigate(location.state?.from?.pathname || '/');
     },
     onError: (error: Error) => {
@@ -34,8 +36,7 @@ const SignIn = () => {
   });
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
-    // mutation.mutate(data);
+    mutation.mutate(data);
   });
 
   return (

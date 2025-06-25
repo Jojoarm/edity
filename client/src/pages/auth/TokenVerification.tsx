@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 // import * as apiClient from '../../api-client';
 import { useLocation, useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
-import Loader from './Loader';
+import Loader from '../../components/common/Loader';
 
 const TokenVerification = () => {
   const [code, setCode] = useState<string[]>(['', '', '', '', '', '']);
