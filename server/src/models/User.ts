@@ -49,7 +49,13 @@ export interface IUser extends Document {
   gender: 'male' | 'female';
   tel: string;
   address: string;
-  role: 'educator' | 'admin' | 'student' | 'stakeholder' | 'researcher';
+  role:
+    | 'educator'
+    | 'admin'
+    | 'student'
+    | 'stakeholder'
+    | 'researcher'
+    | 'unassigned';
   applicationStatus: 'pending' | 'approved' | 'rejected';
   profilePicture?: string;
   status: 'active' | 'inactive' | 'suspended';
@@ -62,6 +68,7 @@ export interface IUser extends Document {
   educatorData?: EducatorData;
   adminData?: AdminData;
   studentData?: StudentData;
+  initializeRoleData: () => void;
 }
 
 const userSchema = new Schema<IUser>(
@@ -86,8 +93,15 @@ const userSchema = new Schema<IUser>(
     },
     role: {
       type: String,
-      enum: ['educator', 'admin', 'student', 'stakeholder', 'researcher'],
-      default: 'student',
+      enum: [
+        'educator',
+        'admin',
+        'student',
+        'stakeholder',
+        'researcher',
+        'unassigned',
+      ],
+      default: 'unassigned',
     },
     applicationStatus: {
       type: String,
@@ -127,6 +141,11 @@ const userSchema = new Schema<IUser>(
       enum: ['active', 'inactive', 'suspended'],
       default: 'active',
     },
+    permissions: [
+      {
+        type: String,
+      },
+    ],
     lastLogin: {
       type: Date,
       default: null,
@@ -194,7 +213,7 @@ const userSchema = new Schema<IUser>(
         },
         { _id: false }
       ),
-      default: undefined,
+      default: null,
     },
 
     adminData: {
@@ -208,7 +227,7 @@ const userSchema = new Schema<IUser>(
         },
         { _id: false }
       ),
-      default: undefined,
+      default: null,
     },
 
     studentData: {
@@ -250,7 +269,7 @@ const userSchema = new Schema<IUser>(
         },
         { _id: false }
       ),
-      default: undefined,
+      default: null,
     },
   },
   {
@@ -279,86 +298,72 @@ userSchema.index({ role: 1, status: 1 });
 userSchema.index({ role: 1, isDeleted: 1 });
 userSchema.index({ status: 1, isDeleted: 1 });
 
-// Virtual properties
-userSchema.virtual('fullName').get(function (this: IUser) {
-  return this.name;
-});
+// Update the initializeRoleData method in your User schema
+userSchema.methods.initializeRoleData = function () {
+  // Clear existing role data first
+  this.educatorData = null;
+  this.studentData = null;
+  this.adminData = null;
 
-userSchema.virtual('isEducator').get(function (this: IUser) {
-  return this.role === 'educator' && this.educatorData;
-});
+  switch (this.role) {
+    case 'educator':
+      this.educatorData = {
+        dateEmployed: new Date(),
+        teacherId: `TEA${Math.floor(100 + Math.random() * 900)}${Date.now()
+          .toString()
+          .slice(-4)}${this.name
+          .split(' ')
+          .map((n: string) => n[0])
+          .join('')
+          .toUpperCase()}`,
+        isWithdrawn: false,
+        isSuspended: false,
+        subjects: [],
+        classLevel: null,
+        academicYear: null,
+        academicTerm: null,
+        examsCreated: [],
+        lessonsCreated: [],
+      };
+      this.markModified('educatorData'); // Mark as modified
+      break;
 
-userSchema.virtual('isStudent').get(function (this: IUser) {
-  return this.role === 'student' && this.studentData;
-});
+    case 'student':
+      this.studentData = {
+        studentId: `STU${Math.floor(1000 + Math.random() * 9000)}${Date.now()
+          .toString()
+          .slice(-4)}${this.name
+          .split(' ')
+          .map((n: string) => n[0])
+          .join('')
+          .toUpperCase()}`,
+        enrolledSubjects: [],
+        classLevel: null,
+        academicYear: null,
+        sponsorsContact: {
+          name: '',
+          email: '',
+          phone: '',
+        },
+        enrollmentDate: new Date(),
+        graduationDate: null,
+        progressReports: [],
+        attendanceRecord: [],
+      };
+      this.markModified('studentData'); // Mark as modified
+      break;
 
-userSchema.virtual('isAdmin').get(function (this: IUser) {
-  return this.role === 'admin' && this.adminData;
-});
-
-// Pre-save middleware to set default permissions based on role
-userSchema.pre('save', function (next) {
-  if (this.isNew || this.isModified('role')) {
-    switch (this.role) {
-      case 'educator':
-        this.permissions = [
-          'create_lessons',
-          'edit_lessons',
-          'delete_lessons',
-          'view_reports',
-          'create_assessments',
-          'manage_students',
-          'view_dashboard',
-        ];
-        break;
-      case 'admin':
-        this.permissions = [
-          'manage_users',
-          'approve_roles',
-          'create_courses',
-          'manage_courses',
-          'edit_lessons',
-          'view_reports',
-          'manage_students',
-          'view_analytics',
-          'export_data',
-          'manage_users',
-          'system_settings',
-          'view_dashboard',
-        ];
-        break;
-      case 'student':
-        this.permissions = [
-          'view_dashboard',
-          'view_courses',
-          'enroll_courses',
-          'submit_assignments',
-          'view_grades',
-          'access_resources',
-          'participate_discussions',
-        ];
-        break;
-      case 'stakeholder':
-        this.permissions = ['view_reports', 'view_analytics', 'view_dashboard'];
-        break;
-      case 'researcher':
-        this.permissions = [
-          'view_reports',
-          'view_analytics',
-          'export_data',
-          'view_dashboard',
-        ];
-        break;
-      default:
-        this.permissions = ['view_dashboard'];
-    }
+    case 'admin':
+      this.adminData = {
+        academicTerms: [],
+        subjects: [],
+        yearGroups: [],
+        academicYears: [],
+        classLevels: [],
+      };
+      this.markModified('adminData'); // Mark as modified
+      break;
   }
-  next();
-});
-
-// Instance methods
-userSchema.methods.hasPermission = function (permission: string): boolean {
-  return this.permissions.includes(permission);
 };
 
 userSchema.methods.softDelete = function (deletedBy: Types.ObjectId) {

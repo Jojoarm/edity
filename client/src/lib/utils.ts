@@ -1,3 +1,16 @@
-export const capitalize = (str: string) => {
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import dayjs from 'dayjs';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+export function capitalize(str: string): string {
+  if (!str) return '';
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export const formatDate = (date: string | Date): string => {
+  return dayjs(date).format('MMMM DD, YYYY');
 };

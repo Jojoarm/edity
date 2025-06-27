@@ -165,19 +165,21 @@ const Navbar = () => {
                   <p className="flex-1 text-gray-700">Manage Account</p>
                 </div>
 
-                <div
-                  onClick={() => {
-                    navigate('/my-bookings');
-                    scrollTo({ top: 0, behavior: 'smooth' });
-                    setIsUserOpen(!isUserOpen);
-                  }}
-                  className="flex border-b border-gray-300 gap-6 py-3 px-5 hover:bg-slate-100 cursor-pointer"
-                >
-                  <div className="w-14">
-                    <LayoutDashboard className="size-5 text-gray-700 m-auto" />
+                {user.role === 'admin' && (
+                  <div
+                    onClick={() => {
+                      navigate('/admin/dashboard');
+                      scrollTo({ top: 0, behavior: 'smooth' });
+                      setIsUserOpen(!isUserOpen);
+                    }}
+                    className="flex border-b border-gray-300 gap-6 py-3 px-5 hover:bg-slate-100 cursor-pointer"
+                  >
+                    <div className="w-14">
+                      <LayoutDashboard className="size-5 text-gray-700 m-auto" />
+                    </div>
+                    <p className="flex-1 text-gray-700">Dashboard</p>
                   </div>
-                  <p className="flex-1 text-gray-700">My Bookings</p>
-                </div>
+                )}
 
                 <div
                   onClick={handleLogout}

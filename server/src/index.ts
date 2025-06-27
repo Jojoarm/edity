@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import connectDB from './config/dbConfig';
 import userRouter from './routes/userRoutes';
 import connectCloudinary from './config/cloudinary';
+import adminRouter from './routes/adminRoutes';
 
 const port = process.env.PORT || 5000;
 
@@ -30,6 +31,7 @@ app.get('/', (req: Request, res: Response) => {
 
 //routes
 app.use('/api/users', userRouter);
+app.use('/api/admin', adminRouter);
 
 app.listen(port, () => {
   console.log('Server running on localhost:', port);

@@ -20,6 +20,10 @@ export const navLinks: NavLink[] = [
         path: '/learners-dashboard',
       },
       {
+        title: 'Admin Dashboard',
+        path: '/admin-dashboard',
+      },
+      {
         title: 'Researchers Interface',
         path: '/researchers-interface',
       },
@@ -63,4 +67,37 @@ export const navLinks: NavLink[] = [
     ],
   },
   { name: 'Contact Us', path: '#contact' },
+];
+
+export const adminSidebarItems = [
+  {
+    id: 1,
+    icon: '/assets/icons/home.svg',
+    label: 'Dashboard',
+    href: '/admin/dashboard',
+  },
+  {
+    id: 2,
+    icon: '/assets/icons/users.svg',
+    label: 'All Students',
+    href: '/admin/all-students',
+  },
+  {
+    id: 3,
+    icon: '/assets/icons/graduation-cap.svg',
+    label: 'All Educators',
+    href: '/admin/all-educators',
+  },
+  {
+    id: 4,
+    icon: '/assets/icons/shield-check.svg',
+    label: 'Pending Approvals',
+    href: '/admin/approval',
+  },
+  {
+    id: 5,
+    icon: '/assets/icons/tool-case.svg',
+    label: 'Admin Tools',
+    href: '/admin/tools',
+  },
 ];

@@ -12,25 +12,39 @@ import { useEffect } from 'react';
 import { fetchUser, validateToken } from './api/user-api';
 import ResetPassword from './pages/auth/ResetPassword';
 import Register from './pages/auth/Register';
+import AdminLayout from './layouts/AdminLayout';
+import Dashboard from './pages/admin/Dashboard';
+import Approval from './pages/admin/Approval';
+import AdminTools from './pages/admin/AdminTools';
+import AllEducators from './pages/admin/AllEducators';
+import AllStudents from './pages/admin/AllStudents';
 
 const App = () => {
-  const { setUser, isLoggedIn, setIsLoggedIn, setAuthLoading } = useAppStore();
+  const { setUser, setIsLoggedIn, setAuthLoading } = useAppStore();
 
   useEffect(() => {
-    const loginStatus = async () => {
-      await validateToken(setIsLoggedIn, setAuthLoading);
+    const initializeAuth = async () => {
+      setAuthLoading(true);
+
+      try {
+        // Validate token and get the result
+        const isValidToken = await validateToken(setIsLoggedIn);
+
+        if (isValidToken) {
+          // Token is valid, fetch user data
+          await fetchUser(setUser, setAuthLoading);
+        } else {
+          // Token is invalid, stop loading
+          setAuthLoading(false);
+        }
+      } catch (error) {
+        console.error('Auth initialization failed:', error);
+        setAuthLoading(false);
+      }
     };
-    loginStatus();
-  }, [setIsLoggedIn, setAuthLoading]);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      const loadUser = async () => {
-        await fetchUser(setUser, setAuthLoading);
-      };
-      loadUser();
-    }
-  }, [isLoggedIn, setUser, setAuthLoading]);
+    initializeAuth();
+  }, [setIsLoggedIn, setUser, setAuthLoading]);
 
   return (
     <div>
@@ -51,6 +65,15 @@ const App = () => {
         {/* User Routes */}
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
+        </Route>
+
+        {/* Admin Routes */}
+        <Route element={<AdminLayout />}>
+          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/approval" element={<Approval />} />
+          <Route path="/admin/all-educators" element={<AllEducators />} />
+          <Route path="/admin/all-students" element={<AllStudents />} />
+          <Route path="/admin/tools" element={<AdminTools />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />

@@ -44,6 +44,6 @@ export interface UserType {
   educatorData?: EducatorData;
   adminData?: AdminData;
   studentData?: StudentData;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
 }

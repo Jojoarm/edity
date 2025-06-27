@@ -6,6 +6,7 @@ import { OAuth2Client } from 'google-auth-library';
 import bcrypt from 'bcryptjs';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { v2 as cloudinary } from 'cloudinary';
+import RoleRequest from '../models/RoleRequest';
 
 declare interface GooglePayload {
   email: string;
@@ -177,6 +178,11 @@ export const completeRegistration = catchAsync(
       });
     }
 
+    //send the request
+    const roleRequest = new RoleRequest({ user: userId, requestedRole: role });
+    await roleRequest.save();
+
+    //update user
     let profilePictureUrl = '';
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path, {
@@ -213,6 +219,29 @@ export const completeRegistration = catchAsync(
       success: true,
       message:
         "Role request submitted successfully. You will be notified once it's reviewed.",
+    });
+  }
+);
+
+//get role request status
+export const getRoleRequestStatus = catchAsync(
+  async (req: Request, res: Response): Promise<any> => {
+    const userId = req.userId;
+
+    const roleRequest = await RoleRequest.findOne({ userId })
+      .sort({ submittedAt: -1 })
+      .populate('reviewedBy', 'name email');
+
+    if (!roleRequest) {
+      return res.status(404).json({
+        success: false,
+        message: 'No role request found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: roleRequest,
     });
   }
 );

@@ -98,27 +98,25 @@ export const fetchUser = async (
 
 //user validation
 export const validateToken = async (
-  setIsLoggedIn: (loggedIn: boolean) => void,
-  setAuthLoading: (loading: boolean) => void
-) => {
+  setIsLoggedIn: (loggedIn: boolean) => void
+): Promise<boolean> => {
   try {
-    setAuthLoading(true);
-
     const response = await api.get('/api/users/validate-token');
     if (response.data) {
       setIsLoggedIn(true);
+      return true;
     }
+    setIsLoggedIn(false);
+    return false;
   } catch (error) {
     // Only log non-401 errors
     if (axios.isAxiosError(error) && error.response?.status !== 401) {
       console.error('Token validation error:', error);
     }
     setIsLoggedIn(false);
-  } finally {
-    setAuthLoading(false);
+    return false;
   }
 };
-
 //user logout
 export const logout = async () => {
   const { data } = await api.post('/api/users/logout');
