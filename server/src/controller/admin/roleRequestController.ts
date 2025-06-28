@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import { catchAsync } from '../utils/catchAsync';
-import RoleRequest from '../models/RoleRequest';
-import User from '../models/User';
+import { catchAsync } from '../../utils/catchAsync';
+import User from '../../models/User';
+import RoleRequest from '../../models/RoleRequest';
 import { Types } from 'mongoose';
-import { assignRolePermissions } from '../utils/permissions';
+import { assignRolePermissions } from '../../utils/permissions';
+import { createError } from '../../middlewares/errorHandler';
 
 export const getPendingRoleRequests = catchAsync(
   async (req: Request, res: Response): Promise<any> => {
@@ -153,12 +154,8 @@ export const rejectRequest = catchAsync(
 
     // Update user role and assign permissions
     const user = await User.findById(roleRequest.user._id);
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: 'User not found',
-      });
-    }
+    if (!user) throw createError('User not found');
+
     user.role = 'unassigned';
     user.applicationStatus = 'rejected';
     user.modifiedBy = new Types.ObjectId(adminId);

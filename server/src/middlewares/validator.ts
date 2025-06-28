@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { check, param, validationResult, body } from 'express-validator';
+import mongoose from 'mongoose';
 
 const handleValidationErrors = async (
   req: Request,
@@ -140,100 +141,6 @@ export const validateUserUpdateRequest = [
   handleValidationErrors,
 ];
 
-// Validation for role-specific data
-export const validateEducatorDataRequest = [
-  check('subjects')
-    .optional()
-    .isArray()
-    .withMessage('Subjects must be an array')
-    .custom((subjects) => {
-      if (subjects && subjects.length === 0) {
-        throw new Error('At least one subject must be selected');
-      }
-      return true;
-    }),
-
-  check('subjects.*')
-    .optional()
-    .isMongoId()
-    .withMessage('Each subject must be a valid ID'),
-
-  check('classLevel')
-    .optional()
-    .isMongoId()
-    .withMessage('Class level must be a valid ID'),
-
-  check('academicYear')
-    .optional()
-    .isMongoId()
-    .withMessage('Academic year must be a valid ID'),
-
-  check('academicTerm')
-    .optional()
-    .isMongoId()
-    .withMessage('Academic term must be a valid ID'),
-
-  handleValidationErrors,
-];
-
-export const validateStudentDataRequest = [
-  check('enrolledSubjects')
-    .optional()
-    .isArray()
-    .withMessage('Enrolled subjects must be an array'),
-
-  check('enrolledSubjects.*')
-    .optional()
-    .isMongoId()
-    .withMessage('Each enrolled subject must be a valid ID'),
-
-  check('classLevel')
-    .optional()
-    .isMongoId()
-    .withMessage('Class level must be a valid ID'),
-
-  check('academicYear')
-    .optional()
-    .isMongoId()
-    .withMessage('Academic year must be a valid ID'),
-
-  check('parentContact.name')
-    .optional()
-    .trim()
-    .isLength({ min: 2, max: 100 })
-    .withMessage('Parent name must be between 2 and 100 characters'),
-
-  check('parentContact.email')
-    .optional()
-    .trim()
-    .normalizeEmail()
-    .isEmail()
-    .withMessage('Parent email must be a valid email address'),
-
-  check('parentContact.phone')
-    .optional()
-    .trim()
-    .isMobilePhone('any')
-    .withMessage('Parent phone must be a valid phone number'),
-
-  check('graduationDate')
-    .optional()
-    .isISO8601()
-    .withMessage('Graduation date must be a valid date')
-    .custom((value, { req }) => {
-      const graduationDate = new Date(value);
-      const enrollmentDate = req.body.enrollmentDate
-        ? new Date(req.body.enrollmentDate)
-        : new Date();
-      if (graduationDate <= enrollmentDate) {
-        throw new Error('Graduation date must be after enrollment date');
-      }
-      return true;
-    }),
-
-  handleValidationErrors,
-];
-
 // Validation for password change
 export const validatePasswordChangeRequest = [
   check('currentPassword')
@@ -258,110 +165,153 @@ export const validatePasswordChangeRequest = [
   handleValidationErrors,
 ];
 
-// Validation for user status updates (admin only)
-export const validateUserStatusRequest = [
-  check('status')
-    .isIn(['active', 'inactive', 'suspended'])
-    .withMessage('Status must be active, inactive, or suspended'),
-
-  check('reason')
-    .optional()
-    .trim()
-    .isLength({ min: 10, max: 500 })
-    .withMessage('Reason must be between 10 and 500 characters'),
-
-  handleValidationErrors,
-];
-
-// Validation for Google OAuth signup
-export const validateGoogleSignUpRequest = [
-  check('googleId').notEmpty().withMessage('Google ID is required'),
-
+export const validateCreateAcademicYear = [
   check('name')
-    .trim()
     .notEmpty()
-    .withMessage('Name is required')
-    .isLength({ min: 2, max: 100 })
-    .withMessage('Name must be between 2 and 100 characters'),
+    .withMessage('Academic year name is required')
+    .matches(/^\d{4}\/\d{4}$/)
+    .withMessage('Academic year name must be in the format "2024/2025"'),
 
-  check('email')
-    .trim()
-    .normalizeEmail()
-    .isEmail()
-    .withMessage('Please provide a valid email address'),
+  check('startDate')
+    .notEmpty()
+    .withMessage('Start date is required')
+    .isISO8601()
+    .withMessage('Start date must be a valid ISO8601 date'),
 
-  check('role')
+  check('endDate')
+    .notEmpty()
+    .withMessage('End date is required')
+    .isISO8601()
+    .withMessage('End date must be a valid ISO8601 date')
+    .custom((value, { req }) => {
+      const start = new Date(req.body.startDate);
+      const end = new Date(value);
+      if (start >= end) {
+        throw new Error('End date must be after start date');
+      }
+      return true;
+    }),
+
+  check('isCurrent')
     .optional()
-    .isIn(['educator', 'admin', 'student', 'stakeholder', 'researcher'])
-    .withMessage('Invalid role specified'),
+    .isBoolean()
+    .withMessage('isCurrent must be a boolean'),
 
   handleValidationErrors,
 ];
 
-// Validation for bulk operations
-export const validateBulkUserRequest = [
-  check('userIds')
-    .isArray({ min: 1 })
-    .withMessage('At least one user ID is required'),
+export const validateCreateAcademicTerm = [
+  check('name')
+    .notEmpty()
+    .withMessage('Term name is required')
+    .isIn(['First Term', 'Second Term', 'Third Term'])
+    .withMessage('Name must be First Term, Second Term, or Third Term'),
 
-  check('userIds.*').isMongoId().withMessage('Each user ID must be valid'),
+  check('startDate')
+    .notEmpty()
+    .withMessage('Start date is required')
+    .isISO8601()
+    .withMessage('Start date must be a valid ISO8601 date'),
 
-  check('action')
-    .isIn(['activate', 'deactivate', 'suspend', 'delete'])
-    .withMessage('Invalid bulk action'),
+  check('endDate')
+    .notEmpty()
+    .withMessage('End date is required')
+    .isISO8601()
+    .withMessage('End date must be a valid ISO8601 date')
+    .custom((value, { req }) => {
+      const startDate = new Date(req.body.startDate);
+      const endDate = new Date(value);
+      if (startDate >= endDate) {
+        throw new Error('End date must be after start date');
+      }
+      return true;
+    }),
 
-  check('reason')
+  check('academicYear')
+    .notEmpty()
+    .withMessage('Academic year is required')
+    .custom((value) => mongoose.Types.ObjectId.isValid(value))
+    .withMessage('Invalid academicYear ID'),
+
+  check('createdBy') // optional: for cases when not set from token
     .optional()
-    .trim()
-    .isLength({ min: 10, max: 500 })
-    .withMessage('Reason must be between 10 and 500 characters'),
+    .custom((value) => mongoose.Types.ObjectId.isValid(value))
+    .withMessage('Invalid createdBy ID'),
 
   handleValidationErrors,
 ];
 
-// Validation for search/filter requests
-export const validateUserSearchRequest = [
-  check('role')
-    .optional()
-    .isIn(['educator', 'admin', 'student', 'stakeholder', 'researcher'])
-    .withMessage('Invalid role filter'),
+export const validateCreateClassLevel = [
+  check('name')
+    .notEmpty()
+    .withMessage('Class level name is required')
+    .isString()
+    .withMessage('Class level name must be a string')
+    .isLength({ min: 2 })
+    .withMessage('Class level name must be at least 2 characters'),
 
-  check('status')
+  check('description')
     .optional()
-    .isIn(['active', 'inactive', 'suspended'])
-    .withMessage('Invalid status filter'),
-
-  check('search')
-    .optional()
-    .trim()
-    .isLength({ min: 2, max: 100 })
-    .withMessage('Search term must be between 2 and 100 characters'),
-
-  check('page')
-    .optional()
-    .isInt({ min: 1 })
-    .withMessage('Page must be a positive integer'),
-
-  check('limit')
-    .optional()
-    .isInt({ min: 1, max: 100 })
-    .withMessage('Limit must be between 1 and 100'),
-
-  check('sortBy')
-    .optional()
-    .isIn(['name', 'email', 'createdAt', 'lastLogin', 'role'])
-    .withMessage('Invalid sort field'),
-
-  check('sortOrder')
-    .optional()
-    .isIn(['asc', 'desc'])
-    .withMessage('Sort order must be asc or desc'),
+    .isString()
+    .withMessage('Description must be a string'),
 
   handleValidationErrors,
 ];
 
-// Parameter validation for routes with IDs
-export const validateUserIdParam = [
-  param('id').isMongoId().withMessage('Invalid user ID format'),
+export const validateCreateCourse = [
+  check('title')
+    .notEmpty()
+    .withMessage('Course title is required')
+    .isString()
+    .withMessage('Course title must be a string')
+    .isLength({ min: 3 })
+    .withMessage('Course title must be at least 3 characters long'),
+
+  check('description')
+    .optional()
+    .isString()
+    .withMessage('Description must be a string'),
+
+  check('subject')
+    .notEmpty()
+    .withMessage('Subject is required')
+    .isString()
+    .withMessage('Subject must be a string'),
+
+  check('academicYear')
+    .notEmpty()
+    .withMessage('Academic Year is required')
+    .isMongoId()
+    .withMessage('Academic Year must be a valid Mongo ID'),
+
+  check('academicTerm')
+    .notEmpty()
+    .withMessage('Academic Term is required')
+    .isMongoId()
+    .withMessage('Academic Term must be a valid Mongo ID'),
+
+  check('classLevel')
+    .notEmpty()
+    .withMessage('Class Level is required')
+    .isMongoId()
+    .withMessage('Class Level must be a valid Mongo ID'),
+
+  handleValidationErrors,
+];
+
+export const validateCreateSubject = [
+  check('name')
+    .notEmpty()
+    .withMessage('Subject name is required')
+    .isString()
+    .withMessage('Subject name must be a string')
+    .isLength({ min: 2 })
+    .withMessage('Subject name must be at least 2 characters long'),
+
+  check('description')
+    .optional()
+    .isString()
+    .withMessage('Description must be a string'),
+
   handleValidationErrors,
 ];

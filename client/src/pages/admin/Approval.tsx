@@ -23,7 +23,6 @@ import type { UserType } from '@/types';
 import toast from 'react-hot-toast';
 import ConfirmationBox from '@/components/common/ConfirmationBox';
 import EmptyState from '@/components/common/EmptyState';
-import Breadcrumb from '@/components/admin/BreadCrumb';
 
 interface RoleRequestData {
   _id: string;
@@ -169,7 +168,6 @@ const Approval = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <Breadcrumb />
       <Title
         align="left"
         title="Manage Approval Requests"

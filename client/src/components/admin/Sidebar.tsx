@@ -31,10 +31,10 @@ const Sidebar = () => {
     <section className="flex flex-col h-full  pt-12 lg:pt-10">
       {/* Logo */}
       <Link to="/" className="pb-8 px-4 md:px-8 border-b border-light-100">
-        <h2 className=" text-primary text-2xl lg:text-4xl font-bold">EDITY</h2>
+        <h2 className=" text-primary text-xl lg:text-4xl font-bold">EDITY</h2>
       </Link>
 
-      <div className="flex flex-col gap-2 h-full md:w-64 w-16 text-base">
+      <div className="flex flex-col gap-2 h-full w-full text-base">
         {adminSidebarItems.map((item) => (
           <NavLink
             to={item.href}
@@ -52,7 +52,7 @@ const Sidebar = () => {
               className="min-h-6 min-w-6"
               alt={item.label}
             />
-            <p className="hidden md:block text-center">{item.label}</p>
+            <p className="hidden md:block text-sm">{item.label}</p>
           </NavLink>
         ))}
       </div>

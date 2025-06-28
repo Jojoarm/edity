@@ -18,6 +18,13 @@ import Approval from './pages/admin/Approval';
 import AdminTools from './pages/admin/AdminTools';
 import AllEducators from './pages/admin/AllEducators';
 import AllStudents from './pages/admin/AllStudents';
+import CreateAcademicTerm from './pages/admin/tools/CreateAcademicTerm';
+import CreateAcademicYear from './pages/admin/tools/CreateAcademicYear';
+import CreateClassLevel from './pages/admin/tools/CreateClassLevel';
+import CreateCourse from './pages/admin/tools/CreateCourse';
+import ManageUsers from './pages/admin/tools/ManageUsers';
+import SystemSettings from './pages/admin/tools/SystemSettings';
+import CreateSubject from './pages/admin/tools/CreateSubject';
 
 const App = () => {
   const { setUser, setIsLoggedIn, setAuthLoading } = useAppStore();
@@ -74,6 +81,28 @@ const App = () => {
           <Route path="/admin/all-educators" element={<AllEducators />} />
           <Route path="/admin/all-students" element={<AllStudents />} />
           <Route path="/admin/tools" element={<AdminTools />} />
+          <Route path="/admin/tools/create-course" element={<CreateCourse />} />
+          <Route
+            path="/admin/tools/create-subject"
+            element={<CreateSubject />}
+          />
+          <Route
+            path="/admin/tools/create-class-level"
+            element={<CreateClassLevel />}
+          />
+          <Route
+            path="/admin/tools/create-academic-term"
+            element={<CreateAcademicTerm />}
+          />
+          <Route
+            path="/admin/tools/create-academic-year"
+            element={<CreateAcademicYear />}
+          />
+          <Route path="/admin/tools/manage-users" element={<ManageUsers />} />
+          <Route
+            path="/admin/tools/system-settings"
+            element={<SystemSettings />}
+          />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />

@@ -36,7 +36,10 @@ const Breadcrumb: React.FC = () => {
           // Reconstruct the route with /admin prefix
           const routeTo = `/admin/${pathnames.slice(0, index + 1).join('/')}`;
           const isLast = index === pathnames.length - 1;
-          const displayName = name.charAt(0).toUpperCase() + name.slice(1);
+          const displayName = name
+            .split('-')
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
 
           return (
             <React.Fragment key={name}>

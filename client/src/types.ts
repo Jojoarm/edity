@@ -47,3 +47,14 @@ export interface UserType {
   createdAt: string;
   updatedAt: string;
 }
+
+export type AcademicYear = {
+  _id: string;
+  name: string;
+  startDate: Date;
+  endDate: Date;
+  isCurrent: boolean;
+  createdBy: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
