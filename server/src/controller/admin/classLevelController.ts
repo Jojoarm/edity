@@ -8,7 +8,7 @@ export const createClassLevel = catchAsync(
     const adminId = req.userId;
     const { name, description } = req.body;
     const existingClassLevel = await ClassLevel.findOne({ name });
-    if (existingClassLevel) throw createError('Class Level already exist');
+    if (existingClassLevel) throw createError('Class Level already exist', 400);
 
     await ClassLevel.create({ name, description, createdBy: adminId });
     res.status(200).json({

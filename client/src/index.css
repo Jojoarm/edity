@@ -111,6 +111,9 @@
   .section {
     @apply px-10 md:px-16 lg:px-32;
   }
+  .form {
+    @apply p-5 mb-10 w-full max-w-xl flex flex-col items-center justify-center shadow-xl bg-white border border-gray-300/80 rounded-2xl;
+  }
 }
 
 @theme inline {

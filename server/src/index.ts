@@ -6,6 +6,8 @@ import connectDB from './config/dbConfig';
 import userRouter from './routes/userRoutes';
 import connectCloudinary from './config/cloudinary';
 import adminRouter from './routes/adminRoutes';
+import { errorHandler } from './middlewares/errorHandler';
+import { seedSubjects } from './seeds/SubjectSeeder';
 
 const port = process.env.PORT || 5000;
 
@@ -29,9 +31,14 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Api working');
 });
 
+// seedSubjects();
+
 //routes
 app.use('/api/users', userRouter);
 app.use('/api/admin', adminRouter);
+
+//error handler
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log('Server running on localhost:', port);

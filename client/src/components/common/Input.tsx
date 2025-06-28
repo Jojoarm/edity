@@ -1,22 +1,32 @@
 import type { LucideIcon } from 'lucide-react';
-import { forwardRef, type InputHTMLAttributes } from 'react';
+import {
+  forwardRef,
+  type InputHTMLAttributes,
+  type TextareaHTMLAttributes,
+} from 'react';
 
-interface InputProps
-  extends InputHTMLAttributes<HTMLInputElement | HTMLSelectElement> {
+type InputOrTextAreaElement =
+  | HTMLInputElement
+  | HTMLSelectElement
+  | HTMLTextAreaElement;
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   icon: LucideIcon;
   error?: string;
   isSelect?: boolean;
+  isTextarea?: boolean;
   options?: { value: string; label: string }[];
 }
 
-const Input = forwardRef<HTMLInputElement | HTMLSelectElement, InputProps>(
+const Input = forwardRef<InputOrTextAreaElement, InputProps>(
   (
     {
       label,
       icon: Icon,
       error,
       isSelect = false,
+      isTextarea = false,
       options = [],
       className = '',
       ...props
@@ -28,7 +38,7 @@ const Input = forwardRef<HTMLInputElement | HTMLSelectElement, InputProps>(
         <label className="text-sm font-semibold text-gray-500/80">
           {label}:
         </label>
-        <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 rounded-xl overflow-hidden pl-6 pr-2 gap-2">
+        <div className="flex items-center w-full bg-transparent border border-gray-300/60 min-h-12 rounded-xl overflow-hidden pl-6 pr-2 gap-2">
           <Icon className="size-4 text-[#6B7280]" />
           {isSelect ? (
             <select
@@ -42,6 +52,13 @@ const Input = forwardRef<HTMLInputElement | HTMLSelectElement, InputProps>(
                 </option>
               ))}
             </select>
+          ) : isTextarea ? (
+            <textarea
+              ref={ref as React.Ref<HTMLTextAreaElement>}
+              rows={3}
+              className={`bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full py-3 resize-none ${className}`}
+              {...(props as TextareaHTMLAttributes<HTMLTextAreaElement>)}
+            />
           ) : (
             <input
               ref={ref as React.Ref<HTMLInputElement>}
