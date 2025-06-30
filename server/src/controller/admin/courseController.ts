@@ -41,3 +41,11 @@ export const createCourse = catchAsync(
     });
   }
 );
+
+export const getCourses = catchAsync(
+  async (req: Request, res: Response): Promise<any> => {
+    const courses = await Course.find();
+    if (courses.length === 0) throw createError('No Course found');
+    res.status(200).json({ success: true, data: courses });
+  }
+);

@@ -52,4 +52,10 @@ const courseSchema = new Schema<ICourse>(
   { timestamps: true }
 );
 
+courseSchema.index({ academicTerm: 1 });
+courseSchema.index({ academicYear: 1 });
+courseSchema.index({ classLevel: 1 });
+courseSchema.index({ educator: 1 });
+courseSchema.index({ title: 1 });
+
 export default mongoose.model<ICourse>('Course', courseSchema);

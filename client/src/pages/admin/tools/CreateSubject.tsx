@@ -68,7 +68,7 @@ const CreateSubject = () => {
           isTextarea
           placeholder="Enter subject description"
           required
-          error={errors.name?.message}
+          error={errors.description?.message}
           {...register('description', {
             required: 'Subject description is required',
           })}

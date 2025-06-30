@@ -9,7 +9,10 @@ import {
   createAcademicYear,
   getAcademicYears,
 } from '../controller/admin/academicYearController';
-import { createAcademicTerm } from '../controller/admin/academicTermController';
+import {
+  createAcademicTerm,
+  getAcademicTerms,
+} from '../controller/admin/academicTermController';
 import {
   validateCreateAcademicTerm,
   validateCreateAcademicYear,
@@ -17,9 +20,15 @@ import {
   validateCreateCourse,
   validateCreateSubject,
 } from '../middlewares/validator';
-import { createClassLevel } from '../controller/admin/classLevelController';
-import { createCourse } from '../controller/admin/courseController';
-import { createSubject } from '../controller/admin/subjectController';
+import {
+  createClassLevel,
+  getClassLevels,
+} from '../controller/admin/classLevelController';
+import { createCourse, getCourses } from '../controller/admin/courseController';
+import {
+  createSubject,
+  getSubjects,
+} from '../controller/admin/subjectController';
 
 const adminRouter = express.Router();
 
@@ -39,6 +48,7 @@ adminRouter.post(
   createAcademicYear
 );
 adminRouter.get('/academic-years', verifyToken, isAdmin, getAcademicYears);
+
 adminRouter.post(
   '/create-academic-term',
   verifyToken,
@@ -46,6 +56,8 @@ adminRouter.post(
   validateCreateAcademicTerm,
   createAcademicTerm
 );
+adminRouter.get('/academic-terms', verifyToken, isAdmin, getAcademicTerms);
+
 adminRouter.post(
   '/create-class-level',
   verifyToken,
@@ -53,6 +65,8 @@ adminRouter.post(
   validateCreateClassLevel,
   createClassLevel
 );
+adminRouter.get('/class-levels', verifyToken, isAdmin, getClassLevels);
+
 adminRouter.post(
   '/create-course',
   verifyToken,
@@ -60,6 +74,8 @@ adminRouter.post(
   validateCreateCourse,
   createCourse
 );
+adminRouter.get('/courses', verifyToken, isAdmin, getCourses);
+
 adminRouter.post(
   '/create-subject',
   verifyToken,
@@ -67,5 +83,6 @@ adminRouter.post(
   validateCreateSubject,
   createSubject
 );
+adminRouter.get('/subjects', verifyToken, isAdmin, getSubjects);
 
 export default adminRouter;

@@ -17,3 +17,11 @@ export const createClassLevel = catchAsync(
     });
   }
 );
+
+export const getClassLevels = catchAsync(
+  async (req: Request, res: Response): Promise<any> => {
+    const classLevels = await ClassLevel.find();
+    if (classLevels.length === 0) throw createError('No Class Level found');
+    res.status(200).json({ success: true, data: classLevels });
+  }
+);

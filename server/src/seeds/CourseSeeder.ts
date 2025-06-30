@@ -3,272 +3,207 @@ import Course from '../models/admin/Course';
 
 const ADMIN_ID = '685ada852c2eec80d9fd7341';
 
-// Sample ObjectIds - replace these with actual IDs from your database
 const SAMPLE_SUBJECT_IDS = {
-  englishLanguage: '65f1a2b3c4d5e6f7a8b9c0d1',
-  mathematics: '65f1a2b3c4d5e6f7a8b9c0d2',
-  basicScience: '65f1a2b3c4d5e6f7a8b9c0d3',
-  physics: '65f1a2b3c4d5e6f7a8b9c0d4',
-  chemistry: '65f1a2b3c4d5e6f7a8b9c0d5',
-  biology: '65f1a2b3c4d5e6f7a8b9c0d6',
-  literature: '65f1a2b3c4d5e6f7a8b9c0d7',
-  government: '65f1a2b3c4d5e6f7a8b9c0d8',
-  economics: '65f1a2b3c4d5e6f7a8b9c0d9',
-  commerce: '65f1a2b3c4d5e6f7a8b9c0da',
+  englishLanguage: '68603feb51ca93263e58177a',
+  mathematics: '68603feb51ca93263e58177b',
+  basicScience: '68603feb51ca93263e58177c',
+  basicTechnology: '68603feb51ca93263e58177d',
+  civicEducation: '68603feb51ca93263e58177e',
+  socialStudies: '68603feb51ca93263e58177f',
+  computerStudies: '68603feb51ca93263e581780',
+  homeEconomics: '68603feb51ca93263e581781',
+  agriculturalScience: '68603feb51ca93263e581782',
+  religiousStudies: '68603feb51ca93263e581783',
+  fineArt: '68603feb51ca93263e581784',
+  music: '68603feb51ca93263e581785',
+  PHE: '68603feb51ca93263e581786',
+  physics: '68603feb51ca93263e581788',
+  chemistry: '68603feb51ca93263e581789',
+  biology: '68603feb51ca93263e581787',
+  literature: '68603feb51ca93263e58178a',
+  government: '68603feb51ca93263e58178b',
+  economics: '68603feb51ca93263e58178c',
+  commerce: '68603feb51ca93263e58178d',
+  furtherMaths: '68603feb51ca93263e58178e',
+  technicalDrawing: '68603feb51ca93263e58178f',
 };
 
 const SAMPLE_CLASS_LEVEL_IDS = {
-  jss1: '65f1a2b3c4d5e6f7a8b9c1d1',
-  jss2: '65f1a2b3c4d5e6f7a8b9c1d2',
-  jss3: '65f1a2b3c4d5e6f7a8b9c1d3',
-  ss1: '65f1a2b3c4d5e6f7a8b9c1d4',
-  ss2: '65f1a2b3c4d5e6f7a8b9c1d5',
-  ss3: '65f1a2b3c4d5e6f7a8b9c1d6',
+  preKindergarten: '68602adc6ceb8e5ae9e05bad',
+  kg1: '68602b3e6ceb8e5ae9e05bb1',
+  kg2: '68602b546ceb8e5ae9e05bb5',
+  primary1: '68602b836ceb8e5ae9e05bb9',
+  primary2: '6860345ed209c392f74ab9a9',
+  primary3: '68603491d209c392f74ab9ad',
+  primary4: '686034b3d209c392f74ab9b1',
+  primary5: '686034d0d209c392f74ab9b5',
+  primary6: '686034e8d209c392f74ab9b9',
+  jss1: '68603507d209c392f74ab9bd',
+  jss2: '6860351bd209c392f74ab9c1',
+  jss3: '68603530d209c392f74ab9c5',
+  ss1: '68603549d209c392f74ab9c9',
+  ss2: '68603560d209c392f74ab9cd',
+  ss3: '68603575d209c392f74ab9d1',
 };
 
-const SAMPLE_ACADEMIC_YEAR_ID = '65f1a2b3c4d5e6f7a8b9c2d1'; // 2024/2025
-const SAMPLE_ACADEMIC_TERM_ID = '65f1a2b3c4d5e6f7a8b9c3d1'; // First Term
-
-const SAMPLE_EDUCATOR_IDS = [
-  '65f1a2b3c4d5e6f7a8b9c4d1',
-  '65f1a2b3c4d5e6f7a8b9c4d2',
-  '65f1a2b3c4d5e6f7a8b9c4d3',
-];
+const SAMPLE_ACADEMIC_YEAR_ID = '686000f7e465d7400941daf3'; // 2025/2026
+const SAMPLE_ACADEMIC_TERM_ID = {
+  firstTerm: '68600e026ceb8e5ae9e05b8d',
+  secondTerm: '68600d6f6ceb8e5ae9e05b83',
+  thirdTerm: '68600da16ceb8e5ae9e05b87',
+};
 
 const courses = [
-  // JSS1 Courses
   {
-    title: 'English Language JSS1',
+    title: 'Mathematics SS3 - First Term',
     description:
-      'Introduction to English grammar, vocabulary, and basic communication skills for JSS1 students.',
-    subject: SAMPLE_SUBJECT_IDS.englishLanguage,
-    educator: [SAMPLE_EDUCATOR_IDS[0]],
-    classLevel: SAMPLE_CLASS_LEVEL_IDS.jss1,
-    academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
-    resources: [
-      'https://example.com/english-jss1-textbook.pdf',
-      'https://example.com/english-exercises-jss1.doc',
-    ],
-  },
-  {
-    title: 'Mathematics JSS1',
-    description:
-      'Basic arithmetic, number operations, and introduction to algebra for JSS1 students.',
+      'Advanced topics including calculus introduction, statistics, and revision for WAEC.',
     subject: SAMPLE_SUBJECT_IDS.mathematics,
-    educator: [SAMPLE_EDUCATOR_IDS[1]],
-    classLevel: SAMPLE_CLASS_LEVEL_IDS.jss1,
+    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss3,
     academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
+    academicTerm: SAMPLE_ACADEMIC_TERM_ID.firstTerm,
     resources: [
-      'https://example.com/math-jss1-workbook.pdf',
-      'https://example.com/math-practice-sheets.pdf',
+      'https://example.com/ss3-maths-calculus.pdf',
+      'https://example.com/waec-maths-revision-guide.pdf',
     ],
   },
   {
-    title: 'Basic Science JSS1',
+    title: 'English Language SS3 - First Term',
     description:
-      'Introduction to scientific concepts, observation, and basic experiments for JSS1 students.',
-    subject: SAMPLE_SUBJECT_IDS.basicScience,
-    educator: [SAMPLE_EDUCATOR_IDS[2]],
-    classLevel: SAMPLE_CLASS_LEVEL_IDS.jss1,
-    academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
-    resources: [
-      'https://example.com/basic-science-jss1.pdf',
-      'https://example.com/science-experiments-guide.pdf',
-    ],
-  },
-
-  // JSS2 Courses
-  {
-    title: 'English Language JSS2',
-    description:
-      'Intermediate English language skills focusing on composition and comprehension for JSS2 students.',
+      'Comprehensive revision of grammar, essay writing, and literature for WAEC preparation.',
     subject: SAMPLE_SUBJECT_IDS.englishLanguage,
-    educator: [SAMPLE_EDUCATOR_IDS[0]],
-    classLevel: SAMPLE_CLASS_LEVEL_IDS.jss2,
+    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss3,
     academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
+    academicTerm: SAMPLE_ACADEMIC_TERM_ID.firstTerm,
     resources: [
-      'https://example.com/english-jss2-textbook.pdf',
-      'https://example.com/composition-guide-jss2.doc',
+      'https://example.com/ss3-english-grammar.pdf',
+      'https://example.com/waec-english-literature.pdf',
     ],
   },
   {
-    title: 'Mathematics JSS2',
-    description:
-      'Algebraic expressions, geometry basics, and problem-solving techniques for JSS2 students.',
-    subject: SAMPLE_SUBJECT_IDS.mathematics,
-    educator: [SAMPLE_EDUCATOR_IDS[1]],
-    classLevel: SAMPLE_CLASS_LEVEL_IDS.jss2,
-    academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
-    resources: [
-      'https://example.com/math-jss2-algebra.pdf',
-      'https://example.com/geometry-basics.pdf',
-    ],
-  },
-
-  // JSS3 Courses
-  {
-    title: 'English Language JSS3',
-    description:
-      'Advanced English language preparation for BECE including essay writing and literature appreciation.',
-    subject: SAMPLE_SUBJECT_IDS.englishLanguage,
-    educator: [SAMPLE_EDUCATOR_IDS[0]],
-    classLevel: SAMPLE_CLASS_LEVEL_IDS.jss3,
-    academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
-    resources: [
-      'https://example.com/english-jss3-bece-prep.pdf',
-      'https://example.com/essay-writing-guide.doc',
-    ],
-  },
-  {
-    title: 'Mathematics JSS3',
-    description:
-      'BECE preparation covering advanced arithmetic, algebra, and geometry for JSS3 students.',
-    subject: SAMPLE_SUBJECT_IDS.mathematics,
-    educator: [SAMPLE_EDUCATOR_IDS[1]],
-    classLevel: SAMPLE_CLASS_LEVEL_IDS.jss3,
-    academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
-    resources: [
-      'https://example.com/math-jss3-bece.pdf',
-      'https://example.com/bece-past-questions-math.pdf',
-    ],
-  },
-
-  // SS1 Courses
-  {
-    title: 'Physics SS1',
-    description:
-      'Introduction to physics concepts including mechanics, heat, and light for SS1 students.',
-    subject: SAMPLE_SUBJECT_IDS.physics,
-    educator: [SAMPLE_EDUCATOR_IDS[2]],
-    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss1,
-    academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
-    resources: [
-      'https://example.com/physics-ss1-mechanics.pdf',
-      'https://example.com/physics-laboratory-manual.pdf',
-    ],
-  },
-  {
-    title: 'Chemistry SS1',
-    description:
-      'Basic chemistry principles, atomic structure, and chemical bonding for SS1 students.',
-    subject: SAMPLE_SUBJECT_IDS.chemistry,
-    educator: [SAMPLE_EDUCATOR_IDS[1]],
-    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss1,
-    academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
-    resources: [
-      'https://example.com/chemistry-ss1-basics.pdf',
-      'https://example.com/chemistry-practicals.pdf',
-    ],
-  },
-  {
-    title: 'Biology SS1',
-    description:
-      'Introduction to biology covering cell structure, classification of living things, and basic ecology.',
+    title: 'Biology SS3 - First Term',
+    description: 'Ecology, genetics, and WAEC past questions review.',
     subject: SAMPLE_SUBJECT_IDS.biology,
-    educator: [SAMPLE_EDUCATOR_IDS[0]],
-    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss1,
+    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss3,
     academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
+    academicTerm: SAMPLE_ACADEMIC_TERM_ID.firstTerm,
     resources: [
-      'https://example.com/biology-ss1-cells.pdf',
-      'https://example.com/biology-diagrams.pdf',
+      'https://example.com/biology-genetics.pdf',
+      'https://example.com/waec-biology-questions.pdf',
     ],
   },
   {
-    title: 'Literature in English SS1',
-    description:
-      'Introduction to prose, poetry, and drama with focus on African and English literature.',
-    subject: SAMPLE_SUBJECT_IDS.literature,
-    educator: [SAMPLE_EDUCATOR_IDS[2]],
-    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss1,
-    academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
-    resources: [
-      'https://example.com/literature-ss1-prose.pdf',
-      'https://example.com/african-poetry-collection.pdf',
-    ],
-  },
-
-  // SS2 Courses
-  {
-    title: 'Government SS2',
-    description:
-      'Nigerian government structure, political processes, and comparative government for SS2 students.',
-    subject: SAMPLE_SUBJECT_IDS.government,
-    educator: [SAMPLE_EDUCATOR_IDS[1]],
-    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss2,
-    academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
-    resources: [
-      'https://example.com/government-ss2-nigeria.pdf',
-      'https://example.com/political-systems-guide.pdf',
-    ],
-  },
-  {
-    title: 'Economics SS2',
-    description:
-      'Intermediate economics covering market structures, national income, and economic development.',
+    title: 'Economics SS3 - First Term',
+    description: 'Micro and macroeconomics revision and WAEC syllabus topics.',
     subject: SAMPLE_SUBJECT_IDS.economics,
-    educator: [SAMPLE_EDUCATOR_IDS[0]],
-    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss2,
+    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss3,
     academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
+    academicTerm: SAMPLE_ACADEMIC_TERM_ID.firstTerm,
     resources: [
-      'https://example.com/economics-ss2-markets.pdf',
-      'https://example.com/economic-development.pdf',
+      'https://example.com/ss3-economics-revision.pdf',
+      'https://example.com/economics-exam-prep.pdf',
     ],
   },
-
-  // SS3 Courses
   {
-    title: 'Physics SS3',
-    description:
-      'Advanced physics topics and WAEC preparation covering waves, electricity, and modern physics.',
+    title: 'Physics SS3 - Second Term',
+    description: 'Wave motion, electromagnetism, and WAEC revision.',
     subject: SAMPLE_SUBJECT_IDS.physics,
-    educator: [SAMPLE_EDUCATOR_IDS[2]],
     classLevel: SAMPLE_CLASS_LEVEL_IDS.ss3,
     academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
+    academicTerm: SAMPLE_ACADEMIC_TERM_ID.secondTerm,
     resources: [
-      'https://example.com/physics-ss3-waves.pdf',
-      'https://example.com/waec-physics-past-questions.pdf',
+      'https://example.com/ss3-physics-waves.pdf',
+      'https://example.com/waec-physics-papers.pdf',
     ],
   },
   {
-    title: 'Chemistry SS3',
-    description:
-      'Advanced chemistry and WAEC preparation covering organic chemistry and quantitative analysis.',
+    title: 'Chemistry SS3 - Second Term',
+    description: 'Organic chemistry, titration, and exam review sessions.',
     subject: SAMPLE_SUBJECT_IDS.chemistry,
-    educator: [SAMPLE_EDUCATOR_IDS[1]],
     classLevel: SAMPLE_CLASS_LEVEL_IDS.ss3,
     academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
+    academicTerm: SAMPLE_ACADEMIC_TERM_ID.secondTerm,
     resources: [
-      'https://example.com/chemistry-ss3-organic.pdf',
-      'https://example.com/waec-chemistry-prep.pdf',
+      'https://example.com/ss3-chemistry-organic.pdf',
+      'https://example.com/chemistry-practicals-waec.pdf',
     ],
   },
   {
-    title: 'Commerce SS3',
+    title: 'Commerce SS3 - Second Term',
     description:
-      'Advanced commercial studies and WAEC preparation covering international trade and business management.',
+      'International trade, marketing and entrepreneurship in business.',
     subject: SAMPLE_SUBJECT_IDS.commerce,
-    educator: [SAMPLE_EDUCATOR_IDS[0]],
     classLevel: SAMPLE_CLASS_LEVEL_IDS.ss3,
     academicYear: SAMPLE_ACADEMIC_YEAR_ID,
-    academicTerm: SAMPLE_ACADEMIC_TERM_ID,
+    academicTerm: SAMPLE_ACADEMIC_TERM_ID.secondTerm,
     resources: [
-      'https://example.com/commerce-ss3-trade.pdf',
-      'https://example.com/business-management-guide.pdf',
+      'https://example.com/commerce-international-trade.pdf',
+      'https://example.com/commerce-marketing.pdf',
+    ],
+  },
+  {
+    title: 'Literature in English SS3 - Second Term',
+    description:
+      'Analysis of African prose and drama, plus WAEC-oriented practice.',
+    subject: SAMPLE_SUBJECT_IDS.literature,
+    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss3,
+    academicYear: SAMPLE_ACADEMIC_YEAR_ID,
+    academicTerm: SAMPLE_ACADEMIC_TERM_ID.secondTerm,
+    resources: [
+      'https://example.com/literature-analysis-africa.pdf',
+      'https://example.com/literature-drama-waec.pdf',
+    ],
+  },
+  {
+    title: 'Mathematics SS3 - Third Term',
+    description:
+      'Final exam review, mock prep, and WAEC-focused problem solving.',
+    subject: SAMPLE_SUBJECT_IDS.mathematics,
+    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss3,
+    academicYear: SAMPLE_ACADEMIC_YEAR_ID,
+    academicTerm: SAMPLE_ACADEMIC_TERM_ID.thirdTerm,
+    resources: [
+      'https://example.com/maths-waec-questions.pdf',
+      'https://example.com/ss3-maths-mock-revision.pdf',
+    ],
+  },
+  {
+    title: 'English Language SS3 - Third Term',
+    description:
+      'WAEC and NECO mock drills, writing exercises, and comprehension tests.',
+    subject: SAMPLE_SUBJECT_IDS.englishLanguage,
+    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss3,
+    academicYear: SAMPLE_ACADEMIC_YEAR_ID,
+    academicTerm: SAMPLE_ACADEMIC_TERM_ID.thirdTerm,
+    resources: [
+      'https://example.com/english-ss3-comprehension.pdf',
+      'https://example.com/waec-writing-essays.pdf',
+    ],
+  },
+  {
+    title: 'Biology SS3 - Third Term',
+    description:
+      'Revision of all key WAEC topics in biology and mock examination prep.',
+    subject: SAMPLE_SUBJECT_IDS.biology,
+    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss3,
+    academicYear: SAMPLE_ACADEMIC_YEAR_ID,
+    academicTerm: SAMPLE_ACADEMIC_TERM_ID.thirdTerm,
+    resources: [
+      'https://example.com/ss3-biology-waec-review.pdf',
+      'https://example.com/biology-mock-tests.pdf',
+    ],
+  },
+  {
+    title: 'Government SS3 - Third Term',
+    description:
+      'WAEC preparation focusing on Nigerian government and political theories.',
+    subject: SAMPLE_SUBJECT_IDS.government,
+    classLevel: SAMPLE_CLASS_LEVEL_IDS.ss3,
+    academicYear: SAMPLE_ACADEMIC_YEAR_ID,
+    academicTerm: SAMPLE_ACADEMIC_TERM_ID.thirdTerm,
+    resources: [
+      'https://example.com/government-ss3-waec.pdf',
+      'https://example.com/political-theories-nigeria.pdf',
     ],
   },
 ];

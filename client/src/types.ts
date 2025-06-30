@@ -58,3 +58,39 @@ export type AcademicYear = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type AcademicTerm = {
+  _id: string;
+  name: string;
+  startDate: Date;
+  endDate: Date;
+  academicYear: string;
+  createdBy: string;
+};
+
+export type ClassLevel = {
+  _id: string;
+  name: string;
+  description: string;
+  createdBy: string;
+};
+
+export type Subject = {
+  _id: string;
+  name: string;
+  description: string;
+  createdBy: string;
+};
+
+export type Course = {
+  _id: string;
+  title: string;
+  description: string;
+  subject: string;
+  educator: string[];
+  classLevel: string;
+  academicYear: string;
+  academicTerm: string;
+  resources?: string[];
+  createdBy: string;
+};

@@ -23,3 +23,11 @@ export const createAcademicTerm = catchAsync(
     });
   }
 );
+
+export const getAcademicTerms = catchAsync(
+  async (req: Request, res: Response): Promise<any> => {
+    const terms = await AcademicTerm.find();
+    if (terms.length === 0) throw createError('No Academic Term found');
+    res.status(200).json({ success: true, data: terms });
+  }
+);

@@ -5,6 +5,7 @@ import type { AcademicTermData } from '@/pages/admin/tools/CreateAcademicTerm';
 import type { ClassLevelData } from '@/pages/admin/tools/CreateClassLevel';
 import axios from 'axios';
 import type { SubjectData } from '@/pages/admin/tools/CreateSubject';
+import type { CourseData } from '@/pages/admin/tools/CreateCourse';
 
 export const fetchPendingRequests = async (params: URLSearchParams) => {
   try {
@@ -104,6 +105,18 @@ export const createAcademicTerm = async (formData: AcademicTermData) => {
   }
 };
 
+export const fetchAcademicTerms = async () => {
+  try {
+    const { data } = await api.get('/api/admin/academic-terms');
+    if (data.success) {
+      return data.data;
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const createClassLevel = async (formData: ClassLevelData) => {
   try {
     const { data } = await api.post('/api/admin/create-class-level', formData);
@@ -131,6 +144,18 @@ export const createClassLevel = async (formData: ClassLevelData) => {
   }
 };
 
+export const fetchClassLevels = async () => {
+  try {
+    const { data } = await api.get('/api/admin/class-levels');
+    if (data.success) {
+      return data.data;
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const createSubject = async (formData: SubjectData) => {
   try {
     const { data } = await api.post('/api/admin/create-subject', formData);
@@ -155,5 +180,53 @@ export const createSubject = async (formData: SubjectData) => {
     }
 
     console.log('Error message:', message);
+  }
+};
+
+export const fetchSubjects = async () => {
+  try {
+    const { data } = await api.get('/api/admin/subjects');
+    if (data.success) {
+      return data.data;
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createCourse = async (formData: CourseData) => {
+  try {
+    const { data } = await api.post('/api/admin/create-course', formData);
+    if (data.success) {
+      toast.success(data.message);
+    } else {
+      toast.error(data.message);
+      throw new Error(data.message);
+    }
+  } catch (error: unknown) {
+    let message = 'An unexpected error occurred';
+    if (axios.isAxiosError(error) && error.response?.data?.message) {
+      message = error.response.data.message;
+      toast.error(message);
+    } else if (error instanceof Error) {
+      message = error.message;
+      toast.error(message);
+    } else {
+      toast.error(message);
+    }
+    console.log('Error message:', message);
+  }
+};
+
+export const fetchCourses = async () => {
+  try {
+    const { data } = await api.get('/api/admin/courses');
+    if (data.success) {
+      return data.data;
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
   }
 };

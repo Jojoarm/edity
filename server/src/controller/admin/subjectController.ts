@@ -20,7 +20,8 @@ export const createSubject = catchAsync(
 
 export const getSubjects = catchAsync(
   async (req: Request, res: Response): Promise<any> => {
-    const subjects = await Subject.find().populate('createdBy', 'name email');
+    const subjects = await Subject.find();
+    if (subjects.length === 0) throw createError('No Subject found');
     res.status(200).json({ success: true, data: subjects });
   }
 );

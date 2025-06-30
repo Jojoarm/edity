@@ -8,6 +8,7 @@ import connectCloudinary from './config/cloudinary';
 import adminRouter from './routes/adminRoutes';
 import { errorHandler } from './middlewares/errorHandler';
 import { seedSubjects } from './seeds/SubjectSeeder';
+import { seedCourses } from './seeds/CourseSeeder';
 
 const port = process.env.PORT || 5000;
 
@@ -30,8 +31,6 @@ app.use(cookieParser());
 app.get('/', (req: Request, res: Response) => {
   res.send('Api working');
 });
-
-// seedSubjects();
 
 //routes
 app.use('/api/users', userRouter);
