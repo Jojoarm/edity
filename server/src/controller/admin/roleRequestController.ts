@@ -5,6 +5,7 @@ import RoleRequest from '../../models/RoleRequest';
 import { Types } from 'mongoose';
 import { assignRolePermissions } from '../../utils/permissions';
 import { createError } from '../../middlewares/errorHandler';
+import { sendWelcomeEmail } from '../../middlewares/email';
 
 export const getPendingRoleRequests = catchAsync(
   async (req: Request, res: Response): Promise<any> => {
@@ -114,6 +115,8 @@ export const approveRequest = catchAsync(
     user.initializeRoleData();
 
     await user.save();
+
+    await sendWelcomeEmail(user);
 
     res.status(200).json({
       success: true,

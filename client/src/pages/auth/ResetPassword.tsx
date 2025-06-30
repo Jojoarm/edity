@@ -2,11 +2,11 @@ import { useMutation } from '@tanstack/react-query';
 import { Lock } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
-// import * as apiClient from '../../api-client';
 import toast from 'react-hot-toast';
 import { useEffect } from 'react';
 import Loader from '../../components/common/Loader';
 import PasswordStrengthMeter from '../../components/common/PasswordStrengthMeter';
+import { resetPassword } from '@/api/user-api';
 
 export type ResetPasswordData = {
   password: string;
@@ -19,7 +19,6 @@ const ResetPassword = () => {
   const location = useLocation();
 
   const email = (location.state as { email?: string })?.email;
-  console.log(email);
 
   const {
     register,
@@ -29,7 +28,7 @@ const ResetPassword = () => {
   } = useForm<ResetPasswordData>();
 
   const mutation = useMutation({
-    // mutationFn: apiClient.resetPassword,
+    mutationFn: resetPassword,
     onSuccess: () => {
       navigate(location.state?.from?.pathname || '/sign-in');
     },
@@ -44,9 +43,7 @@ const ResetPassword = () => {
       return;
     }
 
-    console.log(data);
-
-    // mutation.mutate({ ...data, email });
+    mutation.mutate({ ...data, email });
   });
 
   useEffect(() => {

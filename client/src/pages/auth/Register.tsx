@@ -40,12 +40,14 @@ const Register = () => {
 
   const handleRoleSelect = (role: string) => {
     setSelectedRole(role);
+    setValue('role', role);
     setIsRoleOpen(false);
   };
 
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors },
   } = useForm<RegisterData>();
@@ -94,7 +96,7 @@ const Register = () => {
   }, [user, navigate]);
 
   return (
-    <div className="relative z-10 py-10 flex flex-col items-center justify-center h-full w-full bg-light-background-color overflow-hidden">
+    <div className="relative z-10 py-10 flex flex-col items-center justify-center h-screen w-full bg-light-background-color">
       <div className="relative flex flex-col gap-3 items-center justify-center bg-white border border-gray-200 rounded-2xl shadow-xl px-6 py-8 ">
         <p
           className="absolute z-12 top-0 right-0 m-4 rounded-2xl px-4 text-sm text-gray-500 border-gray-300 border-b cursor-pointer"

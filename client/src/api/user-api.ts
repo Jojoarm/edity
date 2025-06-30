@@ -4,6 +4,8 @@ import type { RegisterFormData } from '../pages/auth/SignUp';
 import type { SignInFormData } from '../pages/auth/SignIn';
 import type { UserType } from '../types';
 import axios from 'axios';
+import type { ForgotPasswordData } from '@/pages/auth/ForgotPassword';
+import type { ResetPasswordData } from '@/pages/auth/ResetPassword';
 // import type { RegisterData } from '../pages/auth/Register';
 
 //create User
@@ -124,5 +126,65 @@ export const logout = async () => {
     toast.success(data.message);
   } else {
     toast.error(data.message);
+  }
+};
+
+export const sendOtp = async (formData: ForgotPasswordData) => {
+  try {
+    const { data } = await api.post('/api/users/send-otp', formData);
+    if (data.success) {
+      return data;
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error: unknown) {
+    let message = 'An unexpected error occurred';
+    if (axios.isAxiosError(error) && error.response?.data?.message) {
+      message = error.response.data.message;
+    } else if (error instanceof Error) {
+      message = error.message;
+    }
+    throw new Error(message);
+  }
+};
+
+export const verifyOtp = async (code: string, email: string) => {
+  try {
+    const { data } = await api.post('/api/users/verify-otp', { code, email });
+    if (data.success) {
+      toast.success(data.message);
+    } else {
+      toast.error(data.message);
+      throw new Error(data.message);
+    }
+  } catch (error: unknown) {
+    let message = 'An unexpected error occurred';
+    if (axios.isAxiosError(error) && error.response?.data?.message) {
+      message = error.response.data.message;
+    } else if (error instanceof Error) {
+      message = error.message;
+    }
+    throw new Error(message);
+  }
+};
+
+export const resetPassword = async (formData: ResetPasswordData) => {
+  try {
+    const { data } = await api.post('/api/users/reset-password', formData);
+    if (data.success) {
+      toast.success(data.message);
+    } else {
+      toast.error(data.message);
+      throw new Error(data.message);
+    }
+  } catch (error: unknown) {
+    let message = 'An unexpected error occurred';
+    if (axios.isAxiosError(error) && error.response?.data?.message) {
+      message = error.response.data.message;
+    } else if (error instanceof Error) {
+      message = error.message;
+    }
+    toast.error(message);
+    throw new Error(message);
   }
 };

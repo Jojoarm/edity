@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
 import Loader from '../../components/common/Loader';
+import { verifyOtp } from '@/api/user-api';
 
 const TokenVerification = () => {
   const [code, setCode] = useState<string[]>(['', '', '', '', '', '']);
@@ -14,8 +15,8 @@ const TokenVerification = () => {
   const email = (location.state as { email?: string })?.email;
 
   const mutation = useMutation({
-    // mutationFn: ({ code, email }: { code: string; email: string }) =>
-    //   apiClient.verifyOtp(code, email),
+    mutationFn: ({ code, email }: { code: string; email: string }) =>
+      verifyOtp(code, email),
     onSuccess: () => {
       toast.success('OTP verified successfully');
       navigate('/reset-password', {
@@ -72,22 +73,22 @@ const TokenVerification = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // submitCode();
+    submitCode();
   };
 
-  // const submitCode = () => {
-  //   const verificationCode = code.join('');
-  //   if (!email) {
-  //     toast.error('Please try again.');
-  //     return;
-  //   }
-  //   mutation.mutate({ code: verificationCode, email });
-  // };
+  const submitCode = () => {
+    const verificationCode = code.join('');
+    if (!email) {
+      toast.error('Please try again.');
+      return;
+    }
+    mutation.mutate({ code: verificationCode, email });
+  };
 
   //auto submit when all fields are filled
   useEffect(() => {
     if (code.every((digit) => digit !== '')) {
-      // submitCode();
+      submitCode();
     }
   }, [code]);
 

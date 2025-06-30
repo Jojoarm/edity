@@ -7,6 +7,16 @@ import bcrypt from 'bcryptjs';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { v2 as cloudinary } from 'cloudinary';
 import RoleRequest from '../models/RoleRequest';
+import {
+  deleteOtp,
+  generateOtp,
+  saveOtp,
+  validateOtp,
+} from '../middlewares/otp';
+import {
+  sendOtpEmail,
+  sendPasswordResetSuccessful,
+} from '../middlewares/email';
 
 declare interface GooglePayload {
   email: string;
@@ -164,9 +174,9 @@ export const completeRegistration = catchAsync(
       gender,
       tel,
       address,
-      sponsorsName,
-      sponsorsEmail,
-      sponsorsTel,
+      // sponsorsName,
+      // sponsorsEmail,
+      // sponsorsTel,
     } = req.body;
 
     // check if user already submitted a request
@@ -205,15 +215,15 @@ export const completeRegistration = catchAsync(
       isSubmitted: true,
     });
 
-    if (role === 'student' && sponsorsName && sponsorsEmail && sponsorsTel) {
-      await User.findByIdAndUpdate(userId, {
-        sponsorsContact: {
-          name: sponsorsName,
-          email: sponsorsEmail,
-          phone: sponsorsTel,
-        },
-      });
-    }
+    // if (role === 'student' && sponsorsName && sponsorsEmail && sponsorsTel) {
+    //   await User.findByIdAndUpdate(userId, {
+    //     sponsorsContact: {
+    //       name: sponsorsName,
+    //       email: sponsorsEmail,
+    //       phone: sponsorsTel,
+    //     },
+    //   });
+    // }
 
     res.status(201).json({
       success: true,
@@ -277,31 +287,55 @@ export const getUser = catchAsync(
   }
 );
 
-export const refreshAccessToken = catchAsync(async (req, res) => {
-  const token = req.cookies['refresh_token'];
-  if (!token) throw createError('No refresh token provided', 401);
+export const sendOtp = catchAsync(
+  async (req: Request, res: Response): Promise<any> => {
+    const { email } = req.body;
+    if (!email) throw createError('Valid email is required', 400);
 
-  try {
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_REFRESH_SECRET!
-    ) as JwtPayload;
+    const user = await User.findOne({ email });
+    if (!user) throw createError('Email not registered', 400);
 
-    const newAccessToken = jwt.sign(
-      { userId: decoded.userId },
-      process.env.JWT_SECRET_KEY!,
-      { expiresIn: '15m' }
-    );
+    if (user.googleId)
+      throw createError(
+        "Users registered through google don't require password",
+        400
+      );
 
-    res.cookie('auth_token', newAccessToken, {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 15 * 60 * 1000,
-    });
+    const otp = generateOtp();
+    await saveOtp(email, otp);
+    await sendOtpEmail(user, otp);
 
-    res.status(200).json({ success: true });
-  } catch (error) {
-    throw createError('Invalid refresh token', 403);
+    res.json({ success: true, message: 'OTP sent to email' });
   }
-});
+);
+
+export const verifyOtp = catchAsync(
+  async (req: Request, res: Response): Promise<any> => {
+    const { email, code } = req.body;
+    const isValid = await validateOtp(email, code);
+    if (!isValid) throw createError('Invalid or expired OTP', 400);
+
+    await deleteOtp(email); // Cleanup after verification
+
+    res.json({ success: true, message: 'OTP verified successfully' });
+  }
+);
+
+export const resetPassword = catchAsync(
+  async (req: Request, res: Response): Promise<any> => {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) throw createError('User not found', 400);
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+    user.password = hashedPassword;
+
+    await user.save();
+
+    await sendPasswordResetSuccessful(user);
+
+    res
+      .status(200)
+      .json({ success: true, message: 'Password updated successfully' });
+  }
+);

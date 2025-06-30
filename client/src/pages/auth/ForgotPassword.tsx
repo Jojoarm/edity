@@ -2,8 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 import { ArrowLeft, Mail } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router';
-// import * as apiClient from '../../api-client';
 import toast from 'react-hot-toast';
+import { sendOtp } from '@/api/user-api';
 
 export type ForgotPasswordData = {
   email: string;
@@ -21,8 +21,9 @@ const ForgotPassword = () => {
   const email = watch('email');
 
   const mutation = useMutation({
-    // mutationFn: apiClient.sendOtp,
-    onSuccess: () => {
+    mutationFn: sendOtp,
+    onSuccess: (data) => {
+      toast.success(data.message);
       navigate('/verify-token', {
         state: { email },
       });
@@ -33,8 +34,7 @@ const ForgotPassword = () => {
   });
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
-    // mutation.mutate(data);
+    mutation.mutate(data);
   });
 
   return (
