@@ -1,6 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import CircularShape from '../CircularShape';
+import { useAppStore } from '@/contexts/useAppStore';
 
 const Info2 = () => {
+  const { user } = useAppStore();
+  const navigate = useNavigate();
   return (
     <section className="section  w-full mt-30 mb-10">
       <div className="relative w-full flex  bg-primary rounded-3xl md:min-h-[535px]">
@@ -23,15 +27,17 @@ const Info2 = () => {
               Empowering educators with data-driven insights for effective
               learning
             </p>
-            <button
-              // onClick={() => {
-              //   navigate('/sign-up');
-              //   scrollTo({ top: 0, behavior: 'smooth' });
-              // }}
-              className="bg-white hover:bg-light-background-color text-primary text-sm font-semibold px-8 py-3 cursor-pointer rounded transition-all duration-500"
-            >
-              Sign Up Now
-            </button>
+            {!user && (
+              <button
+                onClick={() => {
+                  navigate('/sign-up');
+                  scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="bg-white hover:bg-light-background-color text-primary text-sm font-semibold px-8 py-3 cursor-pointer rounded transition-all duration-500"
+              >
+                Sign Up Now
+              </button>
+            )}
           </div>
         </div>
         <div className="relative hidden md:block md:w-1/2">

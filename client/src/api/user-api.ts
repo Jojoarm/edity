@@ -6,7 +6,6 @@ import type { UserType } from '../types';
 import axios from 'axios';
 import type { ForgotPasswordData } from '@/pages/auth/ForgotPassword';
 import type { ResetPasswordData } from '@/pages/auth/ResetPassword';
-// import type { RegisterData } from '../pages/auth/Register';
 
 //create User
 export const createUser = async (formData: RegisterFormData) => {

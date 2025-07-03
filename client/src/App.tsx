@@ -25,6 +25,7 @@ import CreateCourse from './pages/admin/tools/CreateCourse';
 import ManageUsers from './pages/admin/tools/ManageUsers';
 import SystemSettings from './pages/admin/tools/SystemSettings';
 import CreateSubject from './pages/admin/tools/CreateSubject';
+import LessonPlanner from './pages/educator/tools/LessonPlanner';
 
 const App = () => {
   const { setUser, setIsLoggedIn, setAuthLoading } = useAppStore();
@@ -72,6 +73,10 @@ const App = () => {
         {/* User Routes */}
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
+          <Route
+            path="/educator/tools/lesson-planner"
+            element={<LessonPlanner />}
+          />
         </Route>
 
         {/* Admin Routes */}

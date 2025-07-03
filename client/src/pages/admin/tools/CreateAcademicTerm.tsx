@@ -65,11 +65,6 @@ const CreateAcademicTerm = () => {
   // Handle loading and error states
   if (isAcademicYearsPending) return <Loader />;
 
-  // if (academicYearsError) {
-  //   toast.error('Failed to fetch academic years');
-  //   return <div>Error loading academic years</div>;
-  // }
-
   const academicYearOptions = academicYears.map((year) => ({
     value: year._id,
     label: year.name,

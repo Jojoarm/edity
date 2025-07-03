@@ -55,7 +55,7 @@ const Input = forwardRef<InputOrTextAreaElement, InputProps>(
           ) : isTextarea ? (
             <textarea
               ref={ref as React.Ref<HTMLTextAreaElement>}
-              rows={3}
+              rows={2}
               className={`bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full py-3 resize-none ${className}`}
               {...(props as TextareaHTMLAttributes<HTMLTextAreaElement>)}
             />

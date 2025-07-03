@@ -17,6 +17,9 @@ import {
   sendOtpEmail,
   sendPasswordResetSuccessful,
 } from '../middlewares/email';
+import { generatePdfFromHtml } from '../utils/pdfGenerator';
+import { generateDocxFromHtml } from '../utils/docxGenerator';
+import { marked } from 'marked';
 
 declare interface GooglePayload {
   email: string;
@@ -337,5 +340,50 @@ export const resetPassword = catchAsync(
     res
       .status(200)
       .json({ success: true, message: 'Password updated successfully' });
+  }
+);
+
+export const generatePdf = catchAsync(
+  async (req: Request, res: Response): Promise<any> => {
+    const { htmlContent, filename } = req.body;
+
+    if (!htmlContent || typeof htmlContent !== 'string')
+      throw createError('HTML content is required.', 400);
+
+    const safeFilename =
+      filename && typeof filename === 'string'
+        ? filename.replace(/[^a-z0-9_\-\.]/gi, '_') // prevent unsafe characters
+        : 'edity.pdf';
+
+    const pdfBuffer = await generatePdfFromHtml(htmlContent, safeFilename);
+
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename="${safeFilename}"`,
+    });
+
+    res.send(pdfBuffer);
+  }
+);
+
+export const exportDocx = catchAsync(
+  async (req: Request, res: Response): Promise<any> => {
+    const { htmlContent, filename } = req.body;
+    if (!htmlContent) throw createError('htmlContent content is required', 400);
+
+    const safeFilename =
+      filename && typeof filename === 'string'
+        ? filename.replace(/[^a-z0-9_\-\.]/gi, '_')
+        : 'edity.docx';
+
+    const docxBuffer = await generateDocxFromHtml(htmlContent);
+
+    res.set({
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'Content-Disposition': `attachment; filename="${safeFilename}"`,
+    });
+
+    res.send(docxBuffer);
   }
 );

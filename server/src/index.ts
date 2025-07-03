@@ -9,6 +9,7 @@ import adminRouter from './routes/adminRoutes';
 import { errorHandler } from './middlewares/errorHandler';
 import { seedSubjects } from './seeds/SubjectSeeder';
 import { seedCourses } from './seeds/CourseSeeder';
+import educatorRouter from './routes/educatorRoutes';
 
 const port = process.env.PORT || 5000;
 
@@ -35,6 +36,7 @@ app.get('/', (req: Request, res: Response) => {
 //routes
 app.use('/api/users', userRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/educators', educatorRouter);
 
 //error handler
 app.use(errorHandler);

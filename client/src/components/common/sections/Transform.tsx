@@ -1,4 +1,9 @@
+import { useAppStore } from '@/contexts/useAppStore';
+import { useNavigate } from 'react-router-dom';
+
 const Transform = () => {
+  const { user } = useAppStore();
+  const navigate = useNavigate();
   return (
     <section className="section my-20 w-full">
       <div className="flex justify-center items-center">
@@ -56,15 +61,17 @@ const Transform = () => {
             Step into the future of education and join us in transforming
             teaching practices and uplifting student achievements.
           </p>
-          <button
-            // onClick={() => {
-            //   navigate('/sign-up');
-            //   scrollTo({ top: 0, behavior: 'smooth' });
-            // }}
-            className="bg-primary hover:bg-primary-200 w-[250px] text-white text-sm font-semibold px-8 py-3 cursor-pointer rounded transition-all duration-500"
-          >
-            Get Started Today
-          </button>
+          {!user && (
+            <button
+              onClick={() => {
+                navigate('/sign-up');
+                scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="bg-primary hover:bg-primary-200 w-[250px] text-white text-sm font-semibold px-8 py-3 cursor-pointer rounded transition-all duration-500"
+            >
+              Get Started Today
+            </button>
+          )}
         </div>
 
         <div className="hidden p-6 xl:block xl:w-[45%]">

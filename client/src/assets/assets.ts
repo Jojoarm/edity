@@ -44,7 +44,7 @@ export const navLinks: NavLink[] = [
     content: [
       {
         title: 'AI Lesson Planner',
-        path: '/ai-lesson-planner',
+        path: '/educator/tools/lesson-planner',
       },
       {
         title: 'Student Performance Analyzer',
@@ -232,6 +232,28 @@ export const adminActionTools = [
     title: 'System Settings',
     description:
       'Configure global system settings, preferences, and platform-wide configurations.',
+    icon: Settings,
+    category: 'management',
+    color: 'bg-gray-500',
+    lightColor: 'bg-gray-50',
+    borderColor: 'border-gray-200',
+    textColor: 'text-gray-600',
+    features: [
+      'Global settings',
+      'Platform config',
+      'Integrations',
+      'Security settings',
+    ],
+    path: '/admin/tools/system-settings',
+  },
+];
+
+export const educatorTools = [
+  {
+    id: 'lesson-planner',
+    title: 'Lesson Planner',
+    description:
+      'This tool can be used to create lesson plans. Simply provide a learning objective and year group, and the AI will draft the lesson plan including assessment suggestions.',
     icon: Settings,
     category: 'management',
     color: 'bg-gray-500',

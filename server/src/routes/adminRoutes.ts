@@ -1,5 +1,5 @@
 import express from 'express';
-import { isAdmin, verifyToken } from '../middlewares/auth';
+import { isAdmin, isEducator, verifyToken } from '../middlewares/auth';
 import {
   approveRequest,
   getPendingRoleRequests,
@@ -47,7 +47,7 @@ adminRouter.post(
   validateCreateAcademicYear,
   createAcademicYear
 );
-adminRouter.get('/academic-years', verifyToken, isAdmin, getAcademicYears);
+adminRouter.get('/academic-years', getAcademicYears);
 
 adminRouter.post(
   '/create-academic-term',
@@ -56,7 +56,7 @@ adminRouter.post(
   validateCreateAcademicTerm,
   createAcademicTerm
 );
-adminRouter.get('/academic-terms', verifyToken, isAdmin, getAcademicTerms);
+adminRouter.get('/academic-terms', getAcademicTerms);
 
 adminRouter.post(
   '/create-class-level',
@@ -65,7 +65,7 @@ adminRouter.post(
   validateCreateClassLevel,
   createClassLevel
 );
-adminRouter.get('/class-levels', verifyToken, isAdmin, getClassLevels);
+adminRouter.get('/class-levels', getClassLevels);
 
 adminRouter.post(
   '/create-course',
@@ -74,7 +74,7 @@ adminRouter.post(
   validateCreateCourse,
   createCourse
 );
-adminRouter.get('/courses', verifyToken, isAdmin, getCourses);
+adminRouter.get('/courses', getCourses);
 
 adminRouter.post(
   '/create-subject',
@@ -83,6 +83,6 @@ adminRouter.post(
   validateCreateSubject,
   createSubject
 );
-adminRouter.get('/subjects', verifyToken, isAdmin, getSubjects);
+adminRouter.get('/subjects', getSubjects);
 
 export default adminRouter;
