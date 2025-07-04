@@ -77,6 +77,114 @@
   }
 }
 
+/* Markdown css */
+.prose {
+  /* Overall line height */
+  line-height: 1.7 !important;
+
+  /* Paragraph spacing */
+  p {
+    margin-bottom: 1.25rem !important;
+    margin-top: 0.75rem !important;
+  }
+
+  /* Heading spacing */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 700 !important;
+  }
+
+  h1:first-child,
+  h2:first-child,
+  h3:first-child,
+  h4:first-child,
+  h5:first-child,
+  h6:first-child {
+    margin-top: 0 !important;
+  }
+  h1 {
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+    color: #1f2937 !important; /* Dark gray */
+    padding-bottom: 0.5rem !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #374151 !important; /* Medium gray */
+    border-bottom: 2px solid #6b7280 !important; /* Gray underline */
+    padding-bottom: 0.25rem !important;
+  }
+
+  h3 {
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+    color: #4b5563 !important; /* Lighter gray */
+  }
+
+  h4 {
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    color: #6b7280 !important;
+  }
+
+  h5 {
+    font-size: 1.105rem !important;
+    font-weight: 500 !important;
+    color: #6b7280 !important;
+  }
+
+  h6 {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    color: #9ca3af !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  /* List spacing */
+  ul,
+  ol {
+    margin-bottom: 1.25rem !important;
+    margin-top: 0.75rem !important;
+    padding-left: 1.5rem !important;
+  }
+
+  ul {
+    list-style-type: disc !important;
+  }
+
+  ol {
+    list-style-type: decimal !important;
+  }
+
+  li {
+    display: list-item !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* Line break spacing */
+  br {
+    margin-bottom: 0.75rem !important;
+    display: block !important;
+  }
+
+  /* Blockquote spacing */
+  blockquote {
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    padding-left: 1rem !important;
+    border-left: 4px solid #d1d5db !important;
+  }
+}
+
 /* Custom keyframes */
 @keyframes fadeIn {
   0% {

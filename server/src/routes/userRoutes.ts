@@ -5,7 +5,6 @@ import {
 } from '../middlewares/validator';
 import {
   completeRegistration,
-  exportDocx,
   generatePdf,
   getUser,
   googleAuth,
@@ -39,6 +38,5 @@ userRouter.post('/send-otp', sendOtp);
 userRouter.post('/verify-otp', verifyOtp);
 userRouter.post('/reset-password', resetPassword);
 userRouter.post('/export-pdf', generatePdf);
-userRouter.post('/export-docx', exportDocx);
 
 export default userRouter;

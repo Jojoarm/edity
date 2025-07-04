@@ -7,6 +7,7 @@ import bcrypt from 'bcryptjs';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { v2 as cloudinary } from 'cloudinary';
 import RoleRequest from '../models/RoleRequest';
+import fs from 'fs';
 import {
   deleteOtp,
   generateOtp,
@@ -18,8 +19,6 @@ import {
   sendPasswordResetSuccessful,
 } from '../middlewares/email';
 import { generatePdfFromHtml } from '../utils/pdfGenerator';
-import { generateDocxFromHtml } from '../utils/docxGenerator';
-import { marked } from 'marked';
 
 declare interface GooglePayload {
   email: string;
@@ -363,27 +362,5 @@ export const generatePdf = catchAsync(
     });
 
     res.send(pdfBuffer);
-  }
-);
-
-export const exportDocx = catchAsync(
-  async (req: Request, res: Response): Promise<any> => {
-    const { htmlContent, filename } = req.body;
-    if (!htmlContent) throw createError('htmlContent content is required', 400);
-
-    const safeFilename =
-      filename && typeof filename === 'string'
-        ? filename.replace(/[^a-z0-9_\-\.]/gi, '_')
-        : 'edity.docx';
-
-    const docxBuffer = await generateDocxFromHtml(htmlContent);
-
-    res.set({
-      'Content-Type':
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'Content-Disposition': `attachment; filename="${safeFilename}"`,
-    });
-
-    res.send(docxBuffer);
   }
 );

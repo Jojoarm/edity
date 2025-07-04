@@ -72,7 +72,7 @@ const LessonPlanner = () => {
   }));
 
   return (
-    <div className="relative section w-full h-full bg-light-background-color overflow-hidden">
+    <div className="relative section w-full h-full bg-light-background-color overflow-hidden py-10">
       <CircularShape
         xPosition="-left-40"
         yPosition="-top-40"
@@ -167,6 +167,7 @@ const LessonPlanner = () => {
 
         {lessonPlan && (
           <LessonEditor
+            key={lessonPlan}
             initialContent={lessonPlan}
             fileName="lesson-plan.pdf"
           />

@@ -18,8 +18,6 @@ import {
 import '@mdxeditor/editor/style.css';
 import { useState } from 'react';
 import DownloadPdfButton from '../common/DownloadPdfButton';
-import DownloadDocxButton from '../common/DownloadDocxButton';
-import CopyToClipboardButton from '../common/CopyToClipboardButton';
 
 interface LessonEditorProps {
   initialContent: string;
@@ -68,17 +66,12 @@ const LessonEditor: React.FC<LessonEditorProps> = ({
             thematicBreakPlugin(),
             markdownShortcutPlugin(),
           ]}
-          contentEditableClassName="prose max-w-none p-4 min-h-[400px] focus:outline-none"
+          contentEditableClassName="prose max-w-none p-4 min-h-[400px] focus:outline-none "
         />
       </div>
 
       <div className="flex justify-end mt-4 gap-4">
         <DownloadPdfButton markdown={markdown} fileName={fileName} />
-        <DownloadDocxButton
-          markdown={markdown}
-          fileName={fileName.replace('.pdf', '.docx')}
-        />
-        <CopyToClipboardButton markdown={markdown} />
         <button
           onClick={handleSave}
           className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition-colors"
