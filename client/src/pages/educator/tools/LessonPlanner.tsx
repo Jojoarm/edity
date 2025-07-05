@@ -4,7 +4,6 @@ import CircularShape from '@/components/common/CircularShape';
 import FormTitle from '@/components/common/FormTitle';
 import Input from '@/components/common/Input';
 import Loader from '@/components/common/Loader';
-import Title from '@/components/common/Title';
 import { useClassLevels } from '@/hooks/useClassLevels';
 import { useSubjects } from '@/hooks/useSubjects';
 import { useMutation } from '@tanstack/react-query';
@@ -12,8 +11,8 @@ import { Captions, Clock1, ListPlus, MessageSquare } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-// import { marked } from 'marked';
-import LessonEditor from '@/components/educator/LessonEditor';
+import ToolTitle from '@/components/common/ToolTitle';
+import Editor from '@/components/educator/Editor';
 
 export type LessonPlanData = {
   learningObjective: string;
@@ -32,6 +31,7 @@ const LessonPlanner = () => {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<LessonPlanData>({
     defaultValues: {
@@ -57,6 +57,8 @@ const LessonPlanner = () => {
   const onSubmit = handleSubmit((data) => {
     mutation.mutate(data);
   });
+
+  const topic = watch('topic');
 
   // Handle loading and error states
   if (isClassLevelPending || isSubjectsPending) return <Loader />;
@@ -88,15 +90,16 @@ const LessonPlanner = () => {
         borderClass="border-[60px]"
       />
       <div className="relative flex flex-col gap-3 w-full">
-        <Title
-          title="Lesson Planner"
-          subtitle="This tool can be used to create lesson plans. Simply provide a learning objective, subject, topic, class level and lesson duration, and the AI will draft the lesson plan including assessment suggestions."
-          align="left"
+        <ToolTitle
+          title="Lesson Plan Generator"
+          icon="fa-solid fa-person-chalkboard"
+          iconColor="text-orange-300 "
+          description="This tool can be used to create lesson plans. Simply provide a learning objective, subject, topic, class level and lesson duration, and the AI will draft the lesson plan including assessment suggestions."
         />
 
         <form
           onSubmit={onSubmit}
-          className="p-5 mb-10 w-full flex flex-col items-center justify-center shadow-xl bg-white border border-gray-300/80 rounded-2xl"
+          className="py-5 px-10 mb-10 w-full flex flex-col items-center justify-center shadow-xl bg-white border border-gray-300/80 rounded-2xl"
         >
           <FormTitle title="Generate Lesson Plan" />
 
@@ -140,7 +143,8 @@ const LessonPlanner = () => {
             <Input
               label="Duration in Minutes"
               icon={Clock1}
-              type="text"
+              type="number"
+              min={0}
               placeholder="e.g 60 minutes"
               required
               error={errors.duration?.message}
@@ -166,10 +170,10 @@ const LessonPlanner = () => {
         </form>
 
         {lessonPlan && (
-          <LessonEditor
+          <Editor
             key={lessonPlan}
             initialContent={lessonPlan}
-            fileName="lesson-plan.pdf"
+            fileName={topic}
           />
         )}
       </div>

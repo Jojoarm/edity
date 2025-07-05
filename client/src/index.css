@@ -12,6 +12,7 @@
   --color-dark-300: #101828;
   --color-dark-400: #2e2c48;
   --color-dark-500: #212121;
+  --color-dark-600: #1c2833;
   --color-gray-100: #7f7e83;
   --color-gray-200: #eaecf0;
   --color-gray-500: #667085;
@@ -217,7 +218,7 @@
 
 @layer component {
   .section {
-    @apply px-10 md:px-16 lg:px-32;
+    @apply pt-34 px-10 md:px-16 lg:px-32;
   }
   .form {
     @apply p-5 mb-10 w-full max-w-xl flex flex-col items-center justify-center shadow-xl bg-white border border-gray-300/80 rounded-2xl;

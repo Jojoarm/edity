@@ -54,7 +54,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full flex items-center justify-between bg-light-background-color py-10 px-4 md:px-16 lg:px-24 xl:px-32 z-50">
+    <nav className="absolute top-0 w-full flex items-center justify-between  py-10 px-4 md:px-16 lg:px-24 xl:px-32 z-50">
       {/* Logo */}
       <Link
         onClick={() => {

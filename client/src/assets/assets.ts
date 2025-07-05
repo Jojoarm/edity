@@ -52,7 +52,7 @@ export const navLinks: NavLink[] = [
       },
       {
         title: 'Curriculum Mapping Tool',
-        path: '/curriculum-mapping-tool',
+        path: '/educator/tools/curriculum-mapping-tool',
       },
       {
         title: 'Resource Recommendation Engine',

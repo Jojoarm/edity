@@ -315,3 +315,65 @@ export const validateCreateSubject = [
 
   handleValidationErrors,
 ];
+
+export const validateCreateLessonPlan = [
+  check('subject')
+    .notEmpty()
+    .withMessage('Subject is required')
+    .isString()
+    .withMessage('Subject must be a string'),
+
+  check('topic')
+    .notEmpty()
+    .withMessage('Topic is required')
+    .isString()
+    .withMessage('Topic must be a string'),
+
+  check('classLevel')
+    .notEmpty()
+    .withMessage('Class Level is required')
+    .isString()
+    .withMessage('Class Level must be a string'),
+
+  check('duration')
+    .notEmpty()
+    .withMessage('Duration is required')
+    .isString()
+    .withMessage('Duration must be a string'),
+
+  check('learningObjective')
+    .notEmpty()
+    .withMessage('Learing Objective is required')
+    .isString()
+    .withMessage('Learning Objective must be a string'),
+
+  handleValidationErrors,
+];
+
+export const validateCreateCurriculumMap = [
+  check('subject')
+    .notEmpty()
+    .withMessage('Subject is required')
+    .isString()
+    .withMessage('Subject must be a string'),
+
+  check('term')
+    .notEmpty()
+    .withMessage('Academic Term is required')
+    .isString()
+    .withMessage('Academic Term must be a string'),
+
+  check('classLevel')
+    .notEmpty()
+    .withMessage('Class Level is required')
+    .isString()
+    .withMessage('Class Level must be a string'),
+
+  check('topicCount')
+    .notEmpty()
+    .withMessage('Topic Count is required')
+    .isNumeric()
+    .withMessage('Topic Count must be a number'),
+
+  handleValidationErrors,
+];

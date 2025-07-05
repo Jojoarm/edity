@@ -1,19 +1,17 @@
 import { Request, Response } from 'express';
 import { catchAsync } from '../../utils/catchAsync';
 import { createError } from '../../middlewares/errorHandler';
-import { generateLessonPlanPrompt } from '../../utils/prompts';
+import { generateCurriculumMapPrompt } from '../../utils/prompts';
 import { ai } from '../../utils/utils';
 
-export const createLessonPlan = catchAsync(
+export const createCurriculumMap = catchAsync(
   async (req: Request, res: Response): Promise<any> => {
-    const { learningObjective, subject, topic, classLevel, duration } =
-      req.body;
-    const prompt = generateLessonPlanPrompt({
+    const { subject, topicCount, classLevel, term } = req.body;
+    const prompt = generateCurriculumMapPrompt({
       subject,
-      topic,
-      learningObjective,
+      topicCount,
       classLevel,
-      duration,
+      term,
     });
 
     const response = await ai.models.generateContent({
@@ -22,14 +20,14 @@ export const createLessonPlan = catchAsync(
     });
 
     if (!response)
-      throw createError('Failed to generate lesson plan from gemini');
+      throw createError('Failed to generate curriculum map from gemini');
 
-    const lessonPlan = response.text;
+    const curriculumMap = response.text;
 
     res.status(200).json({
       success: true,
-      message: 'Lesson plan created!',
-      lessonPlan,
+      message: 'Curriculum map created!',
+      curriculumMap,
     });
   }
 );
