@@ -411,3 +411,55 @@ export const validateCreateRecommendedResources = [
 
   handleValidationErrors,
 ];
+
+export const validateCreateStudentReport = [
+  check('studentName')
+    .notEmpty()
+    .withMessage('Student Name is required')
+    .isString()
+    .withMessage('Student Name must be a string'),
+
+  check('subject')
+    .notEmpty()
+    .withMessage('Subject is required')
+    .isString()
+    .withMessage('Subject must be a string'),
+
+  check('classLevel')
+    .notEmpty()
+    .withMessage('Class Level is required')
+    .isString()
+    .withMessage('Class Level must be a string'),
+
+  check('term')
+    .notEmpty()
+    .withMessage('Term is required')
+    .isString()
+    .withMessage('Term must be a string'),
+
+  check('strengths')
+    .notEmpty()
+    .withMessage('Student Strengths is required')
+    .isString()
+    .withMessage('Student Strengths must be a string'),
+
+  check('improvementAreas')
+    .notEmpty()
+    .withMessage('Improvement Areas is required')
+    .isString()
+    .withMessage('Improvement Areas must be a string'),
+
+  check('behaviorAndParticipation')
+    .notEmpty()
+    .withMessage('Behavior and Participation is required')
+    .isString()
+    .withMessage('Behavior and Participation must be a string'),
+
+  check('academicPerformanceSummary')
+    .notEmpty()
+    .withMessage('Academic Performance Summary is required')
+    .isString()
+    .withMessage('Academic Performance Summary must be a string'),
+
+  handleValidationErrors,
+];

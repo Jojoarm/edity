@@ -1,10 +1,10 @@
-export type LessonPlanPromptType = {
+export interface LessonPlanPromptType {
   subject: string;
   topic: string;
   learningObjective: string;
   classLevel: string;
   duration: string;
-};
+}
 
 export const generateLessonPlanPrompt = ({
   subject,
@@ -783,5 +783,203 @@ export const generateResourceRecommendationPrompt = ({
         - Consider data costs when recommending online resources
 
         Generate this resource recommendation list with specific, actionable suggestions that Nigerian educators can implement immediately, considering varying levels of technology access and infrastructure.
+`;
+};
+
+//reporting tool
+export interface StudentReportPromptType {
+  studentName: string;
+  subject: string;
+  term: string;
+  classLevel: string;
+  strengths: string;
+  improvementAreas: string;
+  behaviorAndParticipation: string;
+  academicPerformanceSummary: string;
+  teacherNote?: string;
+  educatorName: string;
+  educatorContact: string;
+  currentDate: string;
+}
+
+export const generateStudentReportPrompt = ({
+  studentName,
+  subject,
+  term,
+  classLevel,
+  strengths,
+  improvementAreas,
+  behaviorAndParticipation,
+  academicPerformanceSummary,
+  teacherNote,
+  educatorName,
+  educatorContact,
+  currentDate,
+}: StudentReportPromptType) => {
+  return `
+        # Expert Nigerian Student Report Generator
+
+        ## Context
+        You are an experienced Nigerian secondary school teacher and educational assessment specialist with 15+ years of experience in student evaluation and report writing. Create a comprehensive, professional student performance report that provides clear insights into learning progress and actionable recommendations for continued growth.
+
+        ## Input Parameters
+        - **Student Name**: ${studentName}
+        - **Subject**: ${subject}
+        - **Term**: ${term}
+        - **Class Level**: ${classLevel}
+        - **Strengths**: ${strengths}
+        - **Improvement Areas**: ${improvementAreas}
+        - **Behavior & Participation**: ${behaviorAndParticipation}
+        - **Academic Performance Summary**: ${academicPerformanceSummary}
+        ${teacherNote ? `- **Teacher Note**: ${teacherNote}` : ''}
+
+        ## Output Requirements
+        - Use clean, professional formatting suitable for official school records
+        - Keep total length between 800-1200 words
+        - Write in clear, constructive language that students and parents can understand
+        - Include specific examples and actionable recommendations
+        - Maintain a balanced, encouraging tone while being honest about areas for growth
+        - Reference Nigerian educational standards and contexts where relevant
+
+        ## Structure Template
+
+        # Student Performance Report
+
+        ## Student Information
+        **Student Name**: ${studentName}  
+        **Subject**: ${subject}  
+        **Class Level**: ${classLevel}  
+        **Term**: ${term}  
+        **Report Date**: ${currentDate}
+
+        ## Executive Summary
+        [2-3 sentences providing an overall assessment of the student's performance this term, highlighting key achievements and growth areas in a balanced manner]
+
+        ## Academic Performance Analysis
+
+        ### Subject-Specific Achievement
+        - **Current Performance Level**: [Based on academic performance summary]
+        - **Key Learning Milestones**: [Specific topics/skills mastered this term]
+        - **Assessment Results**: [Performance on tests, assignments, projects]
+        - **Curriculum Alignment**: [How student is progressing against ${classLevel} ${subject} curriculum expectations]
+
+        ### Demonstrated Strengths
+        [Elaborate on the provided strengths with specific examples and evidence]
+        - **Core Competencies**: [List 3-4 key strengths with examples]
+        - **Learning Style Preferences**: [How student learns best]
+        - **Notable Achievements**: [Specific accomplishments this term]
+        - **Transferable Skills**: [Skills that benefit other subjects/areas]
+
+        ### Areas for Continued Development
+        [Transform improvement areas into growth opportunities with specific strategies]
+        - **Skill Gaps Identified**: [Specific areas needing attention]
+        - **Learning Challenges**: [Obstacles to overcome]
+        - **Conceptual Understanding**: [Topics requiring reinforcement]
+        - **Study Skills Development**: [Organizational/learning strategies needed]
+
+        ## Behavioral Assessment & Classroom Engagement
+
+        ### Participation & Engagement
+        [Elaborate on behavior and participation with specific observations]
+        - **Classroom Contribution**: [Quality and frequency of participation]
+        - **Collaboration Skills**: [Working with peers]
+        - **Initiative & Leadership**: [Self-direction and helping others]
+        - **Attendance & Punctuality**: [Impact on learning]
+
+        ### Social & Emotional Development
+        - **Peer Relationships**: [Interaction with classmates]
+        - **Respect & Responsibility**: [Following classroom expectations]
+        - **Resilience & Perseverance**: [Response to challenges]
+        - **Communication Skills**: [Expression of ideas and questions]
+
+        ## Learning Progress Tracking
+
+        ### Term-over-Term Growth
+        - **Improvement Trajectory**: [Progress since last assessment]
+        - **Skill Development**: [New competencies acquired]
+        - **Confidence Building**: [Areas of increased self-assurance]
+        - **Challenge Response**: [How student handles difficult concepts]
+
+        ### Comparative Analysis
+        - **Class Performance Context**: [How student compares to class average]
+        - **Age-Appropriate Expectations**: [Meeting developmental milestones]
+        - **Individual Growth Measurement**: [Personal progress indicators]
+
+        ## Recommendations & Next Steps
+
+        ### For Student Success
+        - **Immediate Focus Areas**: [2-3 priority areas for next term]
+        - **Study Strategies**: [Specific methods to improve learning]
+        - **Skill Building Activities**: [Targeted exercises or practices]
+        - **Confidence Building**: [Ways to leverage strengths]
+
+        ### For Parent/Guardian Support
+        - **Home Learning Support**: [How families can assist]
+        - **Resource Recommendations**: [Books, apps, activities]
+        - **Communication Strategies**: [How to discuss progress with student]
+        - **Monitoring Suggestions**: [What to watch for at home]
+
+        ### For Teacher Collaboration
+        - **Instructional Adjustments**: [Teaching strategies to emphasize]
+        - **Assessment Modifications**: [Different ways to evaluate progress]
+        - **Differentiation Needs**: [Specific accommodations or extensions]
+        - **Professional Development**: [Skills teacher might develop to better support student]
+
+        ## Goal Setting for Next Term
+
+        ### Academic Objectives
+        - **Learning Targets**: [Specific, measurable goals]
+        - **Skill Development Priorities**: [Focus areas for improvement]
+        - **Assessment Benchmarks**: [Success indicators]
+        - **Timeline Expectations**: [Realistic progress milestones]
+
+        ### Personal Development Goals
+        - **Behavioral Targets**: [Areas for social-emotional growth]
+        - **Participation Goals**: [Engagement expectations]
+        - **Independence Building**: [Self-management skills]
+        - **Leadership Opportunities**: [Ways to contribute to class community]
+
+        ## Resources & Support Systems
+
+        ### School-Based Support
+        - **Additional Help Available**: [Tutoring, remediation, enrichment]
+        - **Peer Learning Opportunities**: [Study groups, mentoring]
+        - **Teacher Availability**: [Office hours, extra support times]
+        - **School Resources**: [Library, technology, materials]
+
+        ### Community & Family Engagement
+        - **Extension Activities**: [Community connections to learning]
+        - **Family Learning Projects**: [Home-school collaboration ideas]
+        - **Extracurricular Connections**: [Clubs, activities that support learning]
+        - **Local Resources**: [Community support for student interests]
+
+        ## Professional Observations
+        ${
+          teacherNote
+            ? `
+        ### Teacher Insights
+        [Expand on the provided teacher note with professional context and implications]
+        `
+            : ''
+        }
+
+        ### Future Potential
+        [Professional assessment of student's trajectory and potential]
+        - **Strengths to Build Upon**: [Natural talents and interests]
+        - **Career Interest Connections**: [How current performance relates to future paths]
+        - **Leadership Potential**: [Emerging leadership qualities]
+        - **Innovation & Creativity**: [Unique thinking patterns or approaches]
+
+        ## Conclusion & Commitment
+        [Summarize key points and express commitment to student's continued success. Include invitation for parent/guardian communication and next steps for collaboration]
+
+        ---
+
+        **Report Prepared By**: ${educatorName}
+        **Contact Information**: ${educatorContact}  
+
+        **Note**: This report reflects observations and assessments from ${term}. For questions or concerns, please contact the school to schedule a consultation.
+
+        Generate this student report with specific, evidence-based observations and actionable recommendations that support continued learning and development.
 `;
 };

@@ -60,7 +60,7 @@ export const navLinks: NavLink[] = [
       },
       {
         title: 'Reporting Tool',
-        path: '/reporting-tool',
+        path: '/educator/tools/reporting-tool',
       },
       {
         title: 'Survey Launch Tool',
@@ -269,3 +269,40 @@ export const educatorTools = [
     path: '/admin/tools/system-settings',
   },
 ];
+
+//reports
+// Test Case 1: High-Performing Student
+export const testCase1 = {
+  studentName: 'Adaora Okonkwo',
+  subject: 'Mathematics',
+  term: 'Second Term',
+  classLevel: 'SS2',
+  strengths:
+    'Excellent problem-solving skills, strong grasp of algebraic concepts, helps classmates during group work, consistently submits assignments on time',
+  improvementAreas:
+    'Needs to show more working steps in complex calculations, sometimes rushes through word problems without careful reading',
+  behaviorParticipation:
+    'Very active in class discussions, volunteers to solve problems on the board, respectful to peers and teacher, excellent attendance record',
+  academicPerformanceSummary:
+    'Scored 85% average across all assessments, excelled in algebra and geometry, struggled slightly with statistics and probability',
+  teacherNote:
+    'Adaora has natural mathematical intuition and could benefit from more challenging problems to reach her full potential',
+};
+
+// Test Case 2: Struggling Student
+export const testCase2 = {
+  studentName: 'Ibrahim Yusuf',
+  subject: 'English Language',
+  term: 'First Term',
+  classLevel: 'JSS3',
+  strengths:
+    'Creative storytelling ability, good oral communication skills, enthusiastic about literature discussions, strong vocabulary in spoken English',
+  improvementAreas:
+    'Difficulty with grammar rules, inconsistent spelling, struggles with essay organization, needs improvement in reading comprehension',
+  behaviorParticipation:
+    'Participates well in oral activities but hesitant to read aloud, sometimes distracted during writing tasks, generally well-behaved',
+  academicPerformanceSummary:
+    'Scored 45% average, performed well in oral assessments but struggled with written examinations, particularly in comprehension and essay writing',
+  teacherNote:
+    'Ibrahim shows promise in creative expression but needs intensive support with basic writing mechanics and study habits',
+};

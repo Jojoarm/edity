@@ -6,8 +6,10 @@ import {
   validateCreateCurriculumMap,
   validateCreateLessonPlan,
   validateCreateRecommendedResources,
+  validateCreateStudentReport,
 } from '../middlewares/validator';
 import { createResourceRecommendation } from '../controller/educator/resourceRecommendationController';
+import { createStudentReport } from '../controller/educator/studentReportController';
 
 const educatorRouter = express.Router();
 
@@ -33,6 +35,14 @@ educatorRouter.post(
   isEducator,
   validateCreateRecommendedResources,
   createResourceRecommendation
+);
+
+educatorRouter.post(
+  '/create-report',
+  verifyToken,
+  isEducator,
+  validateCreateStudentReport,
+  createStudentReport
 );
 
 export default educatorRouter;

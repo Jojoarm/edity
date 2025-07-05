@@ -1,10 +1,7 @@
 import { Request, Response } from 'express';
 import { catchAsync } from '../../utils/catchAsync';
 import { createError } from '../../middlewares/errorHandler';
-import {
-  generateLessonPlanPrompt,
-  generateResourceRecommendationPrompt,
-} from '../../utils/prompts';
+import { generateResourceRecommendationPrompt } from '../../utils/prompts';
 import { ai } from '../../utils/utils';
 
 export const createResourceRecommendation = catchAsync(
