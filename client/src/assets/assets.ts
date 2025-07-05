@@ -56,7 +56,7 @@ export const navLinks: NavLink[] = [
       },
       {
         title: 'Resource Recommendation Engine',
-        path: '/resource-recommendation-engine',
+        path: '/educator/tools/resource-recommendation-engine',
       },
       {
         title: 'Reporting Tool',

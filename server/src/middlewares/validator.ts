@@ -377,3 +377,37 @@ export const validateCreateCurriculumMap = [
 
   handleValidationErrors,
 ];
+
+export const validateCreateRecommendedResources = [
+  check('subject')
+    .notEmpty()
+    .withMessage('Subject is required')
+    .isString()
+    .withMessage('Subject must be a string'),
+
+  check('topic')
+    .notEmpty()
+    .withMessage('Topic is required')
+    .isString()
+    .withMessage('Topic must be a string'),
+
+  check('classLevel')
+    .notEmpty()
+    .withMessage('Class Level is required')
+    .isString()
+    .withMessage('Class Level must be a string'),
+
+  check('term')
+    .notEmpty()
+    .withMessage('Term is required')
+    .isString()
+    .withMessage('Term must be a string'),
+
+  check('learningObjective')
+    .notEmpty()
+    .withMessage('Learing Objective is required')
+    .isString()
+    .withMessage('Learning Objective must be a string'),
+
+  handleValidationErrors,
+];

@@ -525,3 +525,263 @@ export const generateCurriculumMapPrompt = ({
         Generate this curriculum map with specific, actionable content that curriculum designers and teachers can implement immediately for effective term-by-term planning.
 `;
 };
+
+// Resources Recommendation
+export interface ResourceRecommendationPromptType {
+  term: string;
+  subject: string;
+  topic: string;
+  learningObjective: string;
+  classLevel: string;
+}
+
+export const generateResourceRecommendationPrompt = ({
+  term,
+  subject,
+  topic,
+  learningObjective,
+  classLevel,
+}: ResourceRecommendationPromptType) => {
+  return `
+        # Expert Nigerian Educational Resource Recommendation Engine
+
+        ## Context
+        You are a seasoned Nigerian educational technology specialist and curriculum resource expert with 15+ years of experience in selecting and curating high-quality learning materials. Generate a comprehensive list of educational resources that Nigerian teachers can immediately use to enhance their lessons and support student learning.
+
+        ## Input Parameters
+        - **Term**: ${term}
+        - **Subject**: ${subject}
+        - **Topic**: ${topic}
+        - **Learning Objective**: ${learningObjective}
+        - **Class Level**: ${classLevel}
+
+        ## Output Requirements
+        - Use clean, simple Markdown formatting
+        - Keep total length between 1000-1500 words
+        - Focus on accessible, practical resources suitable for Nigerian classrooms
+        - Include both digital and physical resource options
+        - Provide implementation guidance for each resource type
+        - Consider varying levels of technology access
+
+        ## Structure Template
+
+        # Resource Recommendations: ${topic} - ${classLevel}
+
+        ## Resource Overview
+        **Term**: ${term}  
+        **Subject**: ${subject}  
+        **Topic**: ${topic}  
+        **Class Level**: ${classLevel}  
+        **Learning Objective**: ${learningObjective}  
+        **Resource Categories**: 6 main types with multiple options per category
+
+        ## 🔗 YouTube Videos & Online Content
+
+        ### Primary Video Resources
+        1. **[Video Title/Channel Recommendation]**
+           - Duration: [X minutes]
+           - Key concepts covered: [List 3-4 main points]
+           - Why it's effective: [Pedagogical rationale]
+           - Suggested use: [Before/during/after lesson]
+           - [Teacher note: Prepare discussion questions about...]
+
+        2. **[Video Title/Channel Recommendation]**
+           - Duration: [X minutes]
+           - Key concepts covered: [List 3-4 main points]
+           - Why it's effective: [Pedagogical rationale]
+           - Suggested use: [Before/during/after lesson]
+           - [Teacher note: Pause at key moments to...]
+
+        3. **[Video Title/Channel Recommendation]**
+           - Duration: [X minutes]
+           - Key concepts covered: [List 3-4 main points]
+           - Why it's effective: [Pedagogical rationale]
+           - Suggested use: [Before/during/after lesson]
+           - [Teacher note: Use for visual learners who...]
+
+        ### Alternative Channels/Playlists
+        - Additional recommended YouTube channels
+        - Playlist suggestions for extended learning
+        - Local Nigerian educational content creators
+        - [Teacher note: Preview content before showing to class]
+
+        ## 📘 Textbook Chapters & Reference Materials
+
+        ### Recommended Textbooks
+        1. **[Textbook Title] by [Author]**
+           - Specific chapters: [Chapter X, Y, Z]
+           - Page references: [Pages XX-XX]
+           - Key sections to focus on: [List specific topics]
+           - Reading level: [Appropriate for class level]
+           - [Teacher note: Assign as pre-reading or reference]
+
+        2. **[Alternative Textbook]**
+           - Specific chapters: [Chapter X, Y, Z]
+           - Page references: [Pages XX-XX]
+           - Comparative approach: [How it differs from main text]
+           - Supplementary value: [What additional insights it provides]
+           - [Teacher note: Use for different learning styles]
+
+        ### Reference Materials
+        - Encyclopedias and reference books
+        - Academic journals (simplified excerpts)
+        - Government publications and reports
+        - [Teacher note: Help students evaluate source credibility]
+
+        ## 📄 PDF Worksheets & Printable Resources
+
+        ### Structured Worksheets
+        1. **[Worksheet Type]: [Specific Focus]**
+           - Activity description: [What students will do]
+           - Skills developed: [List 3-4 skills]
+           - Time requirement: [X minutes]
+           - Difficulty level: [Beginner/Intermediate/Advanced]
+           - [Teacher note: Provide answer key and common mistakes]
+
+        2. **[Worksheet Type]: [Specific Focus]**
+           - Activity description: [What students will do]
+           - Skills developed: [List 3-4 skills]
+           - Time requirement: [X minutes]
+           - Differentiation options: [How to adapt for different levels]
+           - [Teacher note: Consider pair/group work options]
+
+        3. **[Assessment Worksheet]: [Topic Review]**
+           - Question types: [Multiple choice, short answer, problem-solving]
+           - Assessment focus: [What learning objectives it measures]
+           - Marking criteria: [How to evaluate responses]
+           - Follow-up activities: [For struggling students]
+           - [Teacher note: Use for formative assessment]
+
+        ### Printable Resources
+        - Graphic organizers and templates
+        - Fact sheets and summary cards
+        - Student reflection journals
+        - [Teacher note: Laminate for repeated use]
+
+        ## 🖼️ Infographics & Visual Aids
+
+        ### Subject-Specific Infographics
+        1. **[Infographic Title/Topic]**
+           - Visual elements: [Charts, diagrams, illustrations]
+           - Key information presented: [Main concepts visualized]
+           - Cognitive load: [Appropriate complexity for age group]
+           - Display options: [Poster, handout, digital presentation]
+           - [Teacher note: Use for visual learners and wall displays]
+
+        2. **[Infographic Title/Topic]**
+           - Visual elements: [Charts, diagrams, illustrations]
+           - Key information presented: [Main concepts visualized]
+           - Interactive potential: [How students can engage with it]
+           - Cross-curricular connections: [Links to other subjects]
+           - [Teacher note: Have students create their own versions]
+
+        ### Visual Learning Tools
+        - Mind maps and concept maps
+        - Timeline infographics
+        - Process diagrams and flowcharts
+        - Comparison charts and tables
+        - [Teacher note: Teach students to create these tools]
+
+        ## 🎮 Educational Games & Simulations
+
+        ### Digital Games/Simulations
+        1. **[Game/Simulation Name]**
+           - Platform: [Web-based, mobile app, desktop]
+           - Game mechanics: [How students interact]
+           - Learning outcomes: [Skills and knowledge gained]
+           - Time commitment: [Session length]
+           - Technical requirements: [Internet, devices needed]
+           - [Teacher note: Monitor progress and facilitate reflection]
+
+        2. **[Game/Simulation Name]**
+           - Platform: [Web-based, mobile app, desktop]
+           - Game mechanics: [How students interact]
+           - Assessment integration: [How to track learning]
+           - Collaborative features: [Group play options]
+           - Technical requirements: [Internet, devices needed]
+           - [Teacher note: Set clear learning objectives before play]
+
+        ### Offline Games & Activities
+        - Card games and board games
+        - Role-playing activities
+        - Simulation exercises
+        - Physical manipulation games
+        - [Teacher note: Adapt for large class sizes]
+
+        ## 📂 Open Educational Resources (OER)
+
+        ### Digital Libraries & Repositories
+        1. **[OER Platform Name]**
+           - Content types available: [Videos, texts, activities]
+           - Quality indicators: [Peer-reviewed, institutionally backed]
+           - Accessibility features: [Offline options, mobile-friendly]
+           - License information: [Usage rights and restrictions]
+           - [Teacher note: Bookmark and organize favorites]
+
+        2. **[OER Platform Name]**
+           - Content types available: [Videos, texts, activities]
+           - Nigerian relevance: [Local context and examples]
+           - Curriculum alignment: [Standards and objectives met]
+           - Update frequency: [How current the content is]
+           - [Teacher note: Contribute your own resources]
+
+        ### Specific OER Collections
+        - Subject-specific repositories
+        - Multimedia collections
+        - Assessment banks
+        - Professional development resources
+        - [Teacher note: Verify content before using]
+
+        ## Implementation Guidance
+
+        ### Technology Considerations
+        - **High-tech options**: For schools with reliable internet and devices
+        - **Low-tech alternatives**: For schools with limited technology access
+        - **Hybrid approaches**: Combining digital and physical resources
+        - **Offline solutions**: Downloadable content for later use
+        - [Teacher note: Have backup plans for technical issues]
+
+        ### Resource Selection Criteria
+        - Alignment with learning objectives
+        - Age-appropriate content and complexity
+        - Cultural relevance and sensitivity
+        - Accessibility for diverse learners
+        - Cost-effectiveness and sustainability
+        - [Teacher note: Evaluate resources regularly for effectiveness]
+
+        ### Professional Development
+        - Training opportunities for new resources
+        - Peer collaboration and sharing
+        - Student feedback integration
+        - Continuous improvement strategies
+        - [Teacher note: Keep a resource effectiveness log]
+
+        ## Customization & Adaptation
+
+        ### Differentiation Strategies
+        - Resources for different learning styles
+        - Scaffolding for struggling students
+        - Extension materials for advanced learners
+        - Multilingual support options
+        - [Teacher note: Know your students' individual needs]
+
+        ### Local Context Integration
+        - Nigerian examples and case studies
+        - Cultural references and connections
+        - Community resource partnerships
+        - Real-world application opportunities
+        - [Teacher note: Connect learning to students' lives]
+
+        ---
+
+        **Resource Implementation Notes**:
+        - Start with 2-3 resources per category to avoid overwhelm
+        - Test digital resources before classroom use
+        - Create a resource library for easy access
+        - Gather student feedback on resource effectiveness
+        - Collaborate with colleagues to share successful resources
+        - Consider data costs when recommending online resources
+
+        Generate this resource recommendation list with specific, actionable suggestions that Nigerian educators can implement immediately, considering varying levels of technology access and infrastructure.
+`;
+};

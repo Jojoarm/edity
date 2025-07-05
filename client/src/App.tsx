@@ -28,6 +28,7 @@ import CreateSubject from './pages/admin/tools/CreateSubject';
 // import LessonPlanner from './pages/educator/tools/LessonPlanner';
 import LessonPlan from './pages/educator/tools/LessonPlan';
 import CurriculumMappingTool from './pages/educator/tools/CurriculumMappingTool';
+import ResourceRecommendationTool from './pages/educator/tools/ResourceRecommendationTool';
 
 const App = () => {
   const { setUser, setIsLoggedIn, setAuthLoading } = useAppStore();
@@ -82,6 +83,10 @@ const App = () => {
           <Route
             path="/educator/tools/curriculum-mapping-tool"
             element={<CurriculumMappingTool />}
+          />
+          <Route
+            path="/educator/tools/resource-recommendation-engine"
+            element={<ResourceRecommendationTool />}
           />
         </Route>
 

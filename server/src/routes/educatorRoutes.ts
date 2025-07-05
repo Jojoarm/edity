@@ -5,7 +5,9 @@ import { createCurriculumMap } from '../controller/educator/curriculumMapControl
 import {
   validateCreateCurriculumMap,
   validateCreateLessonPlan,
+  validateCreateRecommendedResources,
 } from '../middlewares/validator';
+import { createResourceRecommendation } from '../controller/educator/resourceRecommendationController';
 
 const educatorRouter = express.Router();
 
@@ -23,6 +25,14 @@ educatorRouter.post(
   isEducator,
   validateCreateCurriculumMap,
   createCurriculumMap
+);
+
+educatorRouter.post(
+  '/create-resource-recommendation',
+  verifyToken,
+  isEducator,
+  validateCreateRecommendedResources,
+  createResourceRecommendation
 );
 
 export default educatorRouter;
