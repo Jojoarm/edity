@@ -1,5 +1,5 @@
 import toast from 'react-hot-toast';
-import api from '../lib/axios';
+import api, { handleApiError } from '../lib/axios';
 import type { RegisterFormData } from '../pages/auth/SignUp';
 import type { SignInFormData } from '../pages/auth/SignIn';
 import type { UserType } from '../types';
@@ -19,12 +19,7 @@ export const createUser = async (formData: RegisterFormData) => {
       throw new Error(data.message);
     }
   } catch (error: unknown) {
-    let message = 'An unexpected error occurred';
-    if (error instanceof Error) {
-      message = error.message;
-    }
-    toast.error(message);
-    throw new Error(message);
+    handleApiError(error);
   }
 };
 
@@ -39,12 +34,7 @@ export const userLogin = async (formData: SignInFormData) => {
       throw new Error(data.message);
     }
   } catch (error: unknown) {
-    let message = 'An unexpected error occurred';
-    if (error instanceof Error) {
-      message = error.message;
-    }
-    toast.error(message);
-    throw new Error(message);
+    handleApiError(error);
   }
 };
 
@@ -62,12 +52,7 @@ export const completeRegistration = async (formData: FormData) => {
       throw new Error(data.message);
     }
   } catch (error: unknown) {
-    let message = 'An unexpected error occurred';
-    if (error instanceof Error) {
-      message = error.message;
-    }
-    toast.error(message);
-    throw new Error(message);
+    handleApiError(error);
   }
 };
 
@@ -137,13 +122,7 @@ export const sendOtp = async (formData: ForgotPasswordData) => {
       throw new Error(data.message);
     }
   } catch (error: unknown) {
-    let message = 'An unexpected error occurred';
-    if (axios.isAxiosError(error) && error.response?.data?.message) {
-      message = error.response.data.message;
-    } else if (error instanceof Error) {
-      message = error.message;
-    }
-    throw new Error(message);
+    handleApiError(error);
   }
 };
 
@@ -157,13 +136,7 @@ export const verifyOtp = async (code: string, email: string) => {
       throw new Error(data.message);
     }
   } catch (error: unknown) {
-    let message = 'An unexpected error occurred';
-    if (axios.isAxiosError(error) && error.response?.data?.message) {
-      message = error.response.data.message;
-    } else if (error instanceof Error) {
-      message = error.message;
-    }
-    throw new Error(message);
+    handleApiError(error);
   }
 };
 
@@ -177,13 +150,32 @@ export const resetPassword = async (formData: ResetPasswordData) => {
       throw new Error(data.message);
     }
   } catch (error: unknown) {
-    let message = 'An unexpected error occurred';
-    if (axios.isAxiosError(error) && error.response?.data?.message) {
-      message = error.response.data.message;
-    } else if (error instanceof Error) {
-      message = error.message;
+    handleApiError(error);
+  }
+};
+
+//activity
+export const addActivity = async (formData: FormData) => {
+  try {
+    const { data } = await api.post('/api/activity/add-activity', formData);
+    if (data.success) {
+      toast.success(data.message);
+    } else {
+      throw new Error(data.message);
     }
-    toast.error(message);
-    throw new Error(message);
+  } catch (error: unknown) {
+    handleApiError(error);
+  }
+};
+
+export const fetchActivities = async () => {
+  try {
+    const { data } = await api.get('/api/activity/fetch-activities');
+    if (data.success) {
+      return data.data;
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
   }
 };

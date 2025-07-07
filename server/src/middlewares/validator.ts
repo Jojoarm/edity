@@ -463,3 +463,30 @@ export const validateCreateStudentReport = [
 
   handleValidationErrors,
 ];
+
+export const validateCreateActivity = [
+  check('title')
+    .trim()
+    .isLength({ min: 2, max: 100 })
+    .withMessage('Title must be between 2 and 100 characters'),
+  check('type')
+    .trim()
+    .isLength({ min: 2, max: 100 })
+    .withMessage('Type must be between 2 and 100 characters'),
+  check('provider')
+    .trim()
+    .isLength({ min: 2, max: 100 })
+    .withMessage('Type must be between 2 and 100 characters'),
+  check('date').isISO8601().withMessage('Date must be a valid date'),
+  check('status')
+    .optional({ values: 'falsy' })
+    .isIn(['completed', 'in-progress', 'registered', 'planned'])
+    .withMessage('Unhandled Status type'),
+  check('description')
+    .optional({ values: 'falsy' })
+    .trim()
+    .isLength({ min: 2, max: 500 })
+    .withMessage('Description must be between 2 and 500 characters'),
+
+  handleValidationErrors,
+];

@@ -30,6 +30,9 @@ import LessonPlan from './pages/educator/tools/LessonPlan';
 import CurriculumMappingTool from './pages/educator/tools/CurriculumMappingTool';
 import ResourceRecommendationTool from './pages/educator/tools/ResourceRecommendationTool';
 import ReportingTool from './pages/educator/tools/ReportingTool';
+import ProfessionalDevelopmentTracker from './pages/educator/ProfessionalDevelopmentTracker';
+import EducatorLayout from './layouts/EducatorLayout';
+import NewActivity from './components/common/NewActivity';
 
 const App = () => {
   const { setUser, setIsLoggedIn, setAuthLoading } = useAppStore();
@@ -77,6 +80,10 @@ const App = () => {
         {/* User Routes */}
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
+        </Route>
+
+        {/* Educator Routes */}
+        <Route element={<EducatorLayout />}>
           <Route
             path="/educator/tools/lesson-planner"
             element={<LessonPlan />}
@@ -92,6 +99,14 @@ const App = () => {
           <Route
             path="/educator/tools/reporting-tool"
             element={<ReportingTool />}
+          />
+          <Route
+            path="/educator/professional-development-tracker"
+            element={<ProfessionalDevelopmentTracker />}
+          />
+          <Route
+            path="/educator/professional-development-tracker/add-activity"
+            element={<NewActivity />}
           />
         </Route>
 

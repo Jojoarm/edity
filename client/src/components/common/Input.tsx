@@ -16,6 +16,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   isSelect?: boolean;
   isTextarea?: boolean;
+  rows?: number;
   options?: { value: string; label: string }[];
 }
 
@@ -29,6 +30,7 @@ const Input = forwardRef<InputOrTextAreaElement, InputProps>(
       isTextarea = false,
       options = [],
       className = '',
+      rows = 1,
       ...props
     },
     ref
@@ -55,7 +57,7 @@ const Input = forwardRef<InputOrTextAreaElement, InputProps>(
           ) : isTextarea ? (
             <textarea
               ref={ref as React.Ref<HTMLTextAreaElement>}
-              rows={1}
+              rows={rows}
               className={`bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full py-3 resize-none ${className}`}
               {...(props as TextareaHTMLAttributes<HTMLTextAreaElement>)}
             />

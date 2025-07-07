@@ -170,16 +170,7 @@ export const validateToken = catchAsync(
 export const completeRegistration = catchAsync(
   async (req: Request, res: Response): Promise<any> => {
     const userId = req.userId;
-    const {
-      role,
-      dob,
-      gender,
-      tel,
-      address,
-      // sponsorsName,
-      // sponsorsEmail,
-      // sponsorsTel,
-    } = req.body;
+    const { role, dob, gender, tel, address } = req.body;
 
     // check if user already submitted a request
     const existingRequest = await User.findOne({ userId, isSubmitted: true });
@@ -216,16 +207,6 @@ export const completeRegistration = catchAsync(
       address,
       isSubmitted: true,
     });
-
-    // if (role === 'student' && sponsorsName && sponsorsEmail && sponsorsTel) {
-    //   await User.findByIdAndUpdate(userId, {
-    //     sponsorsContact: {
-    //       name: sponsorsName,
-    //       email: sponsorsEmail,
-    //       phone: sponsorsTel,
-    //     },
-    //   });
-    // }
 
     res.status(201).json({
       success: true,

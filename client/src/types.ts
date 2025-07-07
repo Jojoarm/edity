@@ -94,3 +94,16 @@ export type Course = {
   resources?: string[];
   createdBy: string;
 };
+
+export type ActivityData = {
+  _id: string;
+  user: string;
+  title: string;
+  type: string;
+  provider: string;
+  hours: number;
+  date: string;
+  status: string;
+  description?: string;
+  certificate?: string;
+};

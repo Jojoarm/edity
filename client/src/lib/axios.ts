@@ -30,5 +30,6 @@ export const handleApiError = (error: unknown): void => {
   }
 
   toast.error(message);
-  console.log('Error message:', message);
+  console.log(error);
+  throw new Error(message);
 };

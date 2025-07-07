@@ -10,6 +10,7 @@ import { errorHandler } from './middlewares/errorHandler';
 import { seedSubjects } from './seeds/SubjectSeeder';
 import { seedCourses } from './seeds/CourseSeeder';
 import educatorRouter from './routes/educatorRoutes';
+import activityRouter from './routes/activityRoutes';
 
 const port = process.env.PORT || 5000;
 
@@ -37,6 +38,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api/users', userRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/educators', educatorRouter);
+app.use('/api/activity', activityRouter);
 
 //error handler
 app.use(errorHandler);

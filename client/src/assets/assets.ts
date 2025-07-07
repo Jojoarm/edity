@@ -68,7 +68,7 @@ export const navLinks: NavLink[] = [
       },
       {
         title: 'Professional Development Tracker',
-        path: '/professional-development-tracker',
+        path: '/educator/professional-development-tracker',
       },
       {
         title: 'View All Tools',
@@ -269,6 +269,67 @@ export const educatorTools = [
     path: '/admin/tools/system-settings',
   },
 ];
+
+export const educatorActivities = [
+  {
+    id: 1,
+    title: 'Modern JavaScript Frameworks',
+    type: 'Workshop',
+    provider: 'Tech Education Hub',
+    hours: 8,
+    date: '2025-06-15',
+    status: 'completed',
+  },
+  {
+    id: 2,
+    title: 'Classroom Management Strategies',
+    type: 'Course',
+    provider: 'Education Institute',
+    hours: 12,
+    date: '2025-06-20',
+    status: 'in-progress',
+  },
+  {
+    id: 3,
+    title: 'AI in Education Conference',
+    type: 'Conference',
+    provider: 'EdTech Summit',
+    hours: 16,
+    date: '2025-06-25',
+    status: 'registered',
+  },
+];
+
+export const educatorGoals = [
+  {
+    id: 1,
+    title: 'Complete 40 PD Hours',
+    current: 28,
+    target: 40,
+    deadline: '2025-12-31',
+  },
+  {
+    id: 2,
+    title: 'Technology Integration Certification',
+    current: 3,
+    target: 5,
+    deadline: '2025-08-30',
+  },
+  {
+    id: 3,
+    title: 'Leadership Development',
+    current: 1,
+    target: 3,
+    deadline: '2025-10-15',
+  },
+];
+
+export const educatorStats = {
+  totalHours: 28,
+  activitiesThisMonth: 3,
+  goalsProgress: 70,
+  certificates: 5,
+};
 
 //reports
 // Test Case 1: High-Performing Student
