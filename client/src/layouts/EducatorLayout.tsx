@@ -1,3 +1,4 @@
+import EducatorToolsBanner from '@/components/common/EducatorToolsBanner';
 import Loader from '@/components/common/Loader';
 import Navbar from '@/components/common/Navbar';
 import { useAppStore } from '@/contexts/useAppStore';
@@ -8,12 +9,17 @@ const EducatorLayout = () => {
 
   if (isAuthLoading) return <Loader />;
 
-  if (!user || user.role !== 'educator') {
+  if (
+    !user ||
+    user.role !== 'educator' ||
+    user.applicationStatus !== 'approved'
+  ) {
     return <Navigate to="/" replace />;
   }
   return (
     <>
       <Navbar />
+      <EducatorToolsBanner />
       <div className="min-h-70vh">
         <Outlet />
       </div>

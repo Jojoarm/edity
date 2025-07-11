@@ -4,7 +4,7 @@ export interface IActivity extends Document {
   title: string;
   type: string;
   provider: string;
-  hours: string;
+  hours: number;
   date: Date;
   status: string;
   description?: string;
@@ -19,7 +19,7 @@ const ActivitySchema: Schema = new Schema<IActivity>(
     title: { type: String, required: true },
     type: { type: String, required: true },
     provider: { type: String, required: true },
-    hours: { type: String, required: true },
+    hours: { type: Number, required: true },
     date: { type: Date, required: true },
     status: { type: String, required: true },
     description: { type: String },

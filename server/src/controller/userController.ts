@@ -19,6 +19,7 @@ import {
   sendPasswordResetSuccessful,
 } from '../middlewares/email';
 import { generatePdfFromHtml } from '../utils/pdfGenerator';
+import { uploadToCloudinary } from '../utils/cloudinaryUpload';
 
 declare interface GooglePayload {
   email: string;
@@ -188,15 +189,26 @@ export const completeRegistration = catchAsync(
     //update user
     let profilePictureUrl = '';
     if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path, {
+      profilePictureUrl = await uploadToCloudinary({
+        buffer: req.file.buffer,
+        originalname: req.file.originalname,
         folder: 'profile_pictures',
-        transformation: [
+        transformations: [
           { width: 300, height: 300, crop: 'fill' },
           { quality: 'auto' },
         ],
       });
-      profilePictureUrl = result.secure_url;
     }
+    // if (req.file) {
+    //   const result = await cloudinary.uploader.upload(req.file.path, {
+    //     folder: 'profile_pictures',
+    //     transformation: [
+    //       { width: 300, height: 300, crop: 'fill' },
+    //       { quality: 'auto' },
+    //     ],
+    //   });
+    //   profilePictureUrl = result.secure_url;
+    // }
 
     await User.findByIdAndUpdate(userId, {
       role,

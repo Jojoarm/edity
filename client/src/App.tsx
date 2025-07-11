@@ -32,7 +32,11 @@ import ResourceRecommendationTool from './pages/educator/tools/ResourceRecommend
 import ReportingTool from './pages/educator/tools/ReportingTool';
 import ProfessionalDevelopmentTracker from './pages/educator/ProfessionalDevelopmentTracker';
 import EducatorLayout from './layouts/EducatorLayout';
-import NewActivity from './components/common/NewActivity';
+// import NewActivity from './components/common/NewActivity';
+import ActivitiesList from './pages/educator/ActivitiesList';
+// import CreateActivity from './components/common/CreateActivity';
+import ActivityForm from './components/common/forms/ActivityForm';
+import GoalsManagement from './pages/educator/GoalsManagement';
 
 const App = () => {
   const { setUser, setIsLoggedIn, setAuthLoading } = useAppStore();
@@ -106,7 +110,19 @@ const App = () => {
           />
           <Route
             path="/educator/professional-development-tracker/add-activity"
-            element={<NewActivity />}
+            element={<ActivityForm mode="create" />}
+          />
+          <Route
+            path="/educator/professional-development-tracker/edit-activity/:id"
+            element={<ActivityForm mode="edit" />}
+          />
+          <Route
+            path="/educator/professional-development-tracker/activities"
+            element={<ActivitiesList />}
+          />
+          <Route
+            path="/educator/professional-development-tracker/goals-management"
+            element={<GoalsManagement />}
           />
         </Route>
 

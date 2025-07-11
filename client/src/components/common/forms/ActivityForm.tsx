@@ -11,14 +11,18 @@ import {
   Upload,
   Users,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import ShowSuccess from '../common/ShowSuccess';
-import Input from '../common/Input';
-import { useMutation } from '@tanstack/react-query';
-import { addActivity } from '@/api/user-api';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import ShowSuccess from '../../common/ShowSuccess';
+import Input from '../../common/Input';
+import Loader from '../../common/Loader';
+import { addActivity, updateActivity, fetchActivity } from '@/api/user-api';
+import { formatDateForInput } from '@/lib/utils';
+import { statusOptions } from '@/assets/assets';
 
-export type NewActivityData = {
+export type ActivityFormData = {
   title: string;
   type: string;
   provider: string;
@@ -29,8 +33,26 @@ export type NewActivityData = {
   certificate?: FileList;
 };
 
-const NewActivity = () => {
+interface ActivityFormProps {
+  mode?: 'create' | 'edit';
+  activityId?: string;
+  onSuccess?: () => void;
+}
+
+const ActivityForm: React.FC<ActivityFormProps> = ({
+  mode = 'create',
+  activityId,
+  onSuccess,
+}) => {
   const [showSuccess, setShowSuccess] = useState(false);
+  const navigate = useNavigate();
+  const params = useParams();
+  const queryClient = useQueryClient();
+
+  // Determine mode and ID from props or URL params
+  const isEditMode = mode === 'edit' || !!params.id;
+  const currentActivityId = activityId || params.id;
+
   const {
     register,
     handleSubmit,
@@ -38,7 +60,7 @@ const NewActivity = () => {
     reset,
     watch,
     formState: { errors },
-  } = useForm<NewActivityData>({
+  } = useForm<ActivityFormData>({
     defaultValues: {
       title: '',
       type: '',
@@ -50,6 +72,29 @@ const NewActivity = () => {
       certificate: undefined,
     },
   });
+
+  // Fetch activity data for edit mode
+  const { data: activityData, isLoading: isLoadingActivity } = useQuery({
+    queryKey: ['activity', currentActivityId],
+    queryFn: () => fetchActivity(currentActivityId!),
+    enabled: isEditMode && !!currentActivityId,
+  });
+
+  // Populate form when editing
+  useEffect(() => {
+    if (isEditMode && activityData) {
+      reset({
+        title: activityData.title,
+        type: activityData.type,
+        provider: activityData.provider,
+        hours: activityData.hours,
+        date: formatDateForInput(activityData.date),
+        status: activityData.status,
+        description: activityData.description,
+        certificate: undefined,
+      });
+    }
+  }, [activityData, isEditMode, reset]);
 
   const selectedType = watch('type');
   const uploadedCertificate = watch('certificate');
@@ -65,30 +110,36 @@ const NewActivity = () => {
     { value: 'mentoring', label: 'Mentoring', icon: Users },
   ];
 
-  const statusOptions = [
-    {
-      value: 'completed',
-      label: 'Completed',
-      color: 'bg-green-100 text-green-800',
-    },
-    {
-      value: 'in-progress',
-      label: 'In Progress',
-      color: 'bg-yellow-100 text-yellow-800',
-    },
-    {
-      value: 'registered',
-      label: 'Registered',
-      color: 'bg-blue-100 text-blue-800',
-    },
-    { value: 'planned', label: 'Planned', color: 'bg-gray-100 text-gray-800' },
-  ];
+  // const statusOptions = [
+  //   {
+  //     value: 'completed',
+  //     label: 'Completed',
+  //     color: 'bg-green-100 text-green-800',
+  //   },
+  //   {
+  //     value: 'in-progress',
+  //     label: 'In Progress',
+  //     color: 'bg-yellow-100 text-yellow-800',
+  //   },
+  //   {
+  //     value: 'registered',
+  //     label: 'Registered',
+  //     color: 'bg-blue-100 text-blue-800',
+  //   },
+  //   { value: 'planned', label: 'Planned', color: 'bg-gray-100 text-gray-800' },
+  // ];
 
   const mutation = useMutation({
-    mutationFn: addActivity,
+    mutationFn: (formData: FormData) =>
+      isEditMode
+        ? updateActivity(currentActivityId!, formData)
+        : addActivity(formData),
     onSuccess: async () => {
       setShowSuccess(true);
-      reset();
+      if (!isEditMode) {
+        reset();
+      }
+      onSuccess?.();
     },
   });
 
@@ -96,7 +147,9 @@ const NewActivity = () => {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       if (key === 'certificate' && value instanceof FileList) {
-        formData.append('certificate', value[0]);
+        if (value.length > 0) {
+          formData.append('certificate', value[0]);
+        }
       } else {
         formData.append(key, value as string);
       }
@@ -105,13 +158,33 @@ const NewActivity = () => {
     mutation.mutate(formData);
   });
 
+  const handleSuccess = async () => {
+    setShowSuccess(false);
+    if (isEditMode) {
+      navigate('/educator/professional-development-tracker/activities');
+      await queryClient.invalidateQueries({
+        queryKey: ['activities'],
+      });
+    }
+  };
+
+  if (isLoadingActivity) return <Loader />;
+
   if (showSuccess)
     return (
       <ShowSuccess
-        successMessage="Activity Added Successfully!"
-        actionMessage="Your professional development activity has been logged."
-        action="Add Another Activity"
-        setShowSuccess={setShowSuccess}
+        successMessage={
+          isEditMode
+            ? 'Activity Updated Successfully!'
+            : 'Activity Added Successfully!'
+        }
+        actionMessage={
+          isEditMode
+            ? 'Your professional development activity has been updated.'
+            : 'Your professional development activity has been logged.'
+        }
+        action={isEditMode ? 'Back to Activities' : 'Add Another Activity'}
+        setShowSuccess={handleSuccess}
       />
     );
 
@@ -121,9 +194,13 @@ const NewActivity = () => {
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <BookOpen className="w-6 h-6 text-blue-600 mr-3" />
+              {isEditMode ? (
+                <i className="fa-solid fa-pen-to-square text-primary mr-3 text-2xl"></i>
+              ) : (
+                <i className="fa-solid fa-user-graduate text-primary mr-3 text-2xl"></i>
+              )}
               <h1 className="text-xl font-bold text-gray-900">
-                Add New Activity
+                {isEditMode ? 'Edit Activity' : 'Add New Activity'}
               </h1>
             </div>
             <div className="flex items-center space-x-4">
@@ -133,6 +210,14 @@ const NewActivity = () => {
               >
                 Reset Form
               </button>
+              {isEditMode && (
+                <button
+                  onClick={() => navigate('/activities')}
+                  className="text-gray-600 hover:text-gray-900 text-sm font-medium"
+                >
+                  Cancel
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -145,7 +230,9 @@ const NewActivity = () => {
               Activity Details
             </h2>
             <p className="text-sm text-gray-600 mt-1">
-              Log your professional development activity
+              {isEditMode
+                ? 'Update your professional development activity'
+                : 'Log your professional development activity'}
             </p>
           </div>
 
@@ -287,18 +374,41 @@ const NewActivity = () => {
               <label className="text-sm font-semibold text-gray-500/80 mb-2 block">
                 Certificate/Documentation
               </label>
+
+              {/* Show existing certificate if editing */}
+              {isEditMode && activityData?.certificate && (
+                <div className="mb-4 p-3 bg-gray-50 rounded-lg border">
+                  <p className="text-sm text-gray-600">
+                    Current certificate:
+                    <a
+                      href={activityData.certificate}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 ml-1"
+                    >
+                      View Certificate
+                    </a>
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Upload a new file to replace the current certificate
+                  </p>
+                </div>
+              )}
+
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
                 <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
                 <p className="text-sm text-gray-600 mb-2">
-                  {uploadedCertificate
+                  {uploadedCertificate && uploadedCertificate.length > 0
                     ? uploadedCertificate[0]?.name
+                    : isEditMode
+                    ? 'Upload new certificate or documentation'
                     : 'Upload certificate or documentation'}
                 </p>
                 <input
                   type="file"
                   {...register('certificate', {
                     validate: (files) => {
-                      if (!files || files.length === 0) return true; // Optional upload
+                      if (!files || files.length === 0) return true;
                       const file = files[0];
                       const validTypes = [
                         'application/pdf',
@@ -328,9 +438,7 @@ const NewActivity = () => {
                 >
                   Choose File
                 </label>
-                <p className="text-xs text-gray-500 mt-2">
-                  PDF, JPG, PNG up to 5MB
-                </p>
+                <p className="text-xs text-gray-500 mt-2">JPG, PNG up to 5MB</p>
               </div>
               {errors.certificate && (
                 <span className="text-red-500 text-xs">
@@ -343,7 +451,7 @@ const NewActivity = () => {
             <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
               <button
                 type="button"
-                onClick={() => reset()}
+                onClick={() => (isEditMode ? navigate('/activities') : reset())}
                 className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
               >
                 Cancel
@@ -356,12 +464,12 @@ const NewActivity = () => {
                 {mutation.isPending ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
-                    Saving...
+                    {isEditMode ? 'Updating...' : 'Saving...'}
                   </>
                 ) : (
                   <>
                     <Save className="w-4 h-4 mr-2" />
-                    Save Activity
+                    {isEditMode ? 'Update Activity' : 'Save Activity'}
                   </>
                 )}
               </button>
@@ -373,4 +481,4 @@ const NewActivity = () => {
   );
 };
 
-export default NewActivity;
+export default ActivityForm;

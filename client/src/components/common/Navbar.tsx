@@ -70,22 +70,45 @@ const Navbar = () => {
         {navLinks.map((link, i) => (
           <div key={i}>
             {Array.isArray(link.content) ? (
-              <div className="group relative ">
-                <div className="flex items-start justify-start text-gray-700 gap-1 cursor-pointer">
+              <div
+                className="group relative"
+                // onMouseEnter={() => setOpenDropdown(link.name)}
+                // onMouseLeave={() => setOpenDropdown(null)}
+              >
+                <div
+                  onClick={() =>
+                    setOpenDropdown(
+                      openDropdown === link.name ? null : link.name
+                    )
+                  }
+                  className="flex items-start justify-start text-gray-700 gap-1 cursor-pointer"
+                >
                   <span className="">{link.name}</span>
-                  <ChevronDown className="size-7 transition-['rotate'] lg:group-hover:rotate-[180deg]" />
+                  <ChevronDown
+                    className={`size-7 transition-transform duration-200 group-hover:rotate-180 ${
+                      openDropdown === link.name ? 'rotate-180' : ''
+                    }`}
+                  />
                 </div>
                 <div className="bg-gray-700 h-0.5 w-0 group-hover:w-full transition-all duration-300" />
 
-                {/* Dropdown */}
-                <div className="absolute left-0 top-full z-50 hidden text-black w-[300px] pt-2 group-hover:block">
-                  <div className="mt-2 p-1.5 flex flex-col gap-1 bg-white shadow-lg rounded-sm border border-gray-200 ">
+                <div
+                  className={`absolute left-0 top-full z-50 w-[300px] pt-2 transition-all duration-200 ${
+                    openDropdown === link.name
+                      ? 'block opacity-100'
+                      : 'hidden opacity-0'
+                  }`}
+                >
+                  <div className="mt-2 p-1.5 flex flex-col gap-1 bg-white shadow-lg rounded-sm border border-gray-200">
                     {link.content.map((subLink, idx) => (
                       <Link
                         key={idx}
                         to={subLink.path}
-                        onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}
-                        className="block border-b border-solid border-gray-200 last:border-none px-3 hover:bg-[#1900410a] py-3 font-medium"
+                        onClick={() => {
+                          scrollTo({ top: 0, behavior: 'smooth' });
+                          setOpenDropdown(null);
+                        }}
+                        className="block border-b border-solid border-gray-200 last:border-none px-3 hover:bg-[#1900410a] py-3 font-medium text-gray-600"
                       >
                         {subLink.title}
                       </Link>
@@ -97,7 +120,7 @@ const Navbar = () => {
               <Link
                 to={link.path}
                 onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}
-                className="group flex flex-col gap-0.5 text-gray-700 "
+                className="group flex flex-col gap-0.5 text-gray-700"
               >
                 {link.name}
                 <div className="bg-gray-700 h-0.5 w-0 group-hover:w-full transition-all duration-300" />
@@ -249,7 +272,7 @@ const Navbar = () => {
                 >
                   <span>{link.name}</span>
                   <ChevronDown
-                    className={`size-5 transform transition-transform ${
+                    className={`size-6 transform transition-transform text-gray-600 ${
                       openDropdown === link.name ? 'rotate-180' : ''
                     }`}
                   />

@@ -95,6 +95,13 @@ export type Course = {
   createdBy: string;
 };
 
+export type PaginationData = {
+  totalItems: number;
+  currentPage: number;
+  totalPages: number;
+  pageSize: number;
+};
+
 export type ActivityData = {
   _id: string;
   user: string;
@@ -106,4 +113,30 @@ export type ActivityData = {
   status: string;
   description?: string;
   certificate?: string;
+};
+
+export type ActivityFetchData = {
+  success: boolean;
+  activityData: ActivityData[];
+  pagination: PaginationData;
+};
+
+export type GoalData = {
+  _id: string;
+  user: string;
+  title: string;
+  description: string;
+  type: string;
+  current: number;
+  target: number;
+  deadline: string;
+  status: string;
+  priority: string;
+  category: string;
+};
+
+export type GoalFetchData = {
+  success: boolean;
+  goalData: GoalData[];
+  pagination: PaginationData;
 };

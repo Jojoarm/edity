@@ -248,6 +248,8 @@ export const adminActionTools = [
   },
 ];
 
+// Educator Assets
+
 export const educatorTools = [
   {
     id: 'lesson-planner',
@@ -304,23 +306,39 @@ export const educatorGoals = [
   {
     id: 1,
     title: 'Complete 40 PD Hours',
+    description: 'Fulfill annual professional development requirement',
+    type: 'hours',
     current: 28,
     target: 40,
     deadline: '2025-12-31',
+    status: 'in-progress',
+    priority: 'high',
+    category: 'Required',
   },
   {
     id: 2,
-    title: 'Technology Integration Certification',
-    current: 3,
-    target: 5,
-    deadline: '2025-08-30',
+    title: 'Attend 3 Workshops',
+    description:
+      'Participate in educational workshops to enhance teaching skills',
+    type: 'count',
+    current: 2,
+    target: 3,
+    deadline: '2025-08-15',
+    status: 'in-progress',
+    priority: 'medium',
+    category: 'Skill Development',
   },
   {
     id: 3,
-    title: 'Leadership Development',
-    current: 1,
-    target: 3,
-    deadline: '2025-10-15',
+    title: 'Earn Technology Certificate',
+    description: 'Complete online course in educational technology',
+    type: 'milestone',
+    current: 0,
+    target: 1,
+    deadline: '2025-06-30',
+    status: 'not-started',
+    priority: 'low',
+    category: 'Certification',
   },
 ];
 
@@ -330,6 +348,79 @@ export const educatorStats = {
   goalsProgress: 70,
   certificates: 5,
 };
+
+export const getStatusColor = (status: string) => {
+  switch (status) {
+    case 'completed':
+      return 'bg-green-100 text-green-800';
+    case 'in-progress':
+      return 'bg-yellow-200 text-yellow-800';
+    case 'registered':
+      return 'bg-navy-50 text-navy-500';
+    case 'overdue':
+      return 'bg-red-100 text-red-800';
+    case 'planned':
+      return 'bg-violet-200 text-violet-800';
+    default:
+      return 'bg-gray-200 text-gray-800';
+  }
+};
+
+export const getPriorityColor = (priority: string) => {
+  switch (priority) {
+    case 'high':
+      return 'bg-red-200 text-red-800';
+    case 'medium':
+      return 'bg-yellow-100 text-yellow-800';
+    case 'low':
+      return 'bg-blue-100 text-blue-800';
+    default:
+      return 'bg-gray-100 text-gray-800';
+  }
+};
+
+export const activityTypes = [
+  { value: 'all', label: 'All Types' },
+  { value: 'workshop', label: 'Workshop' },
+  { value: 'course', label: 'Course' },
+  { value: 'conference', label: 'Conference' },
+  { value: 'certification', label: 'Certification' },
+  { value: 'webinar', label: 'Webinar' },
+  { value: 'training', label: 'Training' },
+];
+
+export const statusTypes = [
+  { value: 'all', label: 'All Status' },
+  { value: 'completed', label: 'Completed' },
+  { value: 'in-progress', label: 'In Progress' },
+  { value: 'registered', label: 'Registered' },
+  { value: 'planned', label: 'Planned' },
+  { value: 'overdue', label: 'Overdue' },
+];
+
+export const priorityType = [
+  { value: 'all', label: 'All Priorities' },
+  { value: 'high', label: 'High' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'low', label: 'Low' },
+];
+
+export const sortOptions = [
+  { value: 'date-desc', label: 'Latest First' },
+  { value: 'date-asc', label: 'Oldest First' },
+  { value: 'title-asc', label: 'Title A-Z' },
+  { value: 'title-desc', label: 'Title Z-A' },
+  { value: 'hours-desc', label: 'Most Hours' },
+  { value: 'hours-asc', label: 'Least Hours' },
+];
+
+export const statusOptions = [
+  { value: 'completed', label: 'Completed' },
+  { value: 'in-progress', label: 'In Progress' },
+  { value: 'registered', label: 'Registered' },
+  { value: 'planned', label: 'Planned' },
+  { value: 'overdue', label: 'Overdue' },
+];
 
 //reports
 // Test Case 1: High-Performing Student

@@ -6,6 +6,7 @@ import type { UserType } from '../types';
 import axios from 'axios';
 import type { ForgotPasswordData } from '@/pages/auth/ForgotPassword';
 import type { ResetPasswordData } from '@/pages/auth/ResetPassword';
+import type { GoalsFormData } from '@/components/common/forms/GoalsForm';
 
 //create User
 export const createUser = async (formData: RegisterFormData) => {
@@ -168,14 +169,135 @@ export const addActivity = async (formData: FormData) => {
   }
 };
 
-export const fetchActivities = async () => {
+export const fetchActivities = async (params: URLSearchParams) => {
   try {
-    const { data } = await api.get('/api/activity/fetch-activities');
+    const { data } = await api.get(`/api/activity/fetch-activities?${params}`);
     if (data.success) {
-      return data.data;
+      return data;
     }
     return null;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const fetchActivity = async (id: string) => {
+  try {
+    const { data } = await api.get(`/api/activity/fetch-activity/${id}`);
+    if (data.success) {
+      return data.activity;
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error: unknown) {
+    handleApiError(error);
+  }
+};
+
+export const updateActivity = async (id: string, formData: FormData) => {
+  try {
+    const { data } = await api.put(
+      `/api/activity/update-activity/${id}`,
+      formData
+    );
+    if (data.success) {
+      toast.success(data.message);
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error: unknown) {
+    handleApiError(error);
+  }
+};
+
+export const deleteActivity = async (id: string) => {
+  try {
+    const { data } = await api.delete(`/api/activity/delete-activity/${id}`);
+    if (data.success) {
+      toast.success(data.message);
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error: unknown) {
+    handleApiError(error);
+  }
+};
+
+export const deleteActivities = async (ids: string[]) => {
+  try {
+    const { data } = await api.post('/api/activity/bulk-delete-activities', {
+      ids,
+    });
+    if (data.success) {
+      toast.success(data.message);
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error: unknown) {
+    handleApiError(error);
+  }
+};
+
+export const addGoal = async (formData: GoalsFormData) => {
+  try {
+    const { data } = await api.post('/api/activity/add-goal', formData);
+    if (data.success) {
+      toast.success(data.message);
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error: unknown) {
+    handleApiError(error);
+  }
+};
+
+export const fetchGoals = async (params: URLSearchParams) => {
+  try {
+    const { data } = await api.get(`/api/activity/fetch-goals?${params}`);
+    if (data.success) {
+      return data;
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchGoal = async (id: string) => {
+  try {
+    const { data } = await api.get(`/api/activity/fetch-goal/${id}`);
+    if (data.success) {
+      return data.goal;
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error: unknown) {
+    handleApiError(error);
+  }
+};
+
+export const updateGoal = async (id: string, formData: GoalsFormData) => {
+  try {
+    const { data } = await api.put(`/api/activity/update-goal/${id}`, formData);
+    if (data.success) {
+      toast.success(data.message);
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error: unknown) {
+    handleApiError(error);
+  }
+};
+
+export const deleteGoal = async (id: string) => {
+  try {
+    const { data } = await api.delete(`/api/activity/delete-goal/${id}`);
+    if (data.success) {
+      toast.success(data.message);
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error: unknown) {
+    handleApiError(error);
   }
 };

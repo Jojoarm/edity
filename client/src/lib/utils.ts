@@ -14,3 +14,7 @@ export function capitalize(str: string): string {
 export const formatDate = (date: string | Date): string => {
   return dayjs(date).format('MMMM DD, YYYY');
 };
+
+export const formatDateForInput = (date: string | Date): string => {
+  return dayjs(date).format('YYYY-MM-DD');
+};

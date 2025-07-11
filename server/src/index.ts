@@ -7,8 +7,6 @@ import userRouter from './routes/userRoutes';
 import connectCloudinary from './config/cloudinary';
 import adminRouter from './routes/adminRoutes';
 import { errorHandler } from './middlewares/errorHandler';
-import { seedSubjects } from './seeds/SubjectSeeder';
-import { seedCourses } from './seeds/CourseSeeder';
 import educatorRouter from './routes/educatorRoutes';
 import activityRouter from './routes/activityRoutes';
 

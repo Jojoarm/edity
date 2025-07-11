@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { ActivityData, UserType } from '../types';
+import type { ActivityFetchData, GoalFetchData, UserType } from '../types';
 
 type AppState = {
   user: UserType | null;
@@ -9,8 +9,10 @@ type AppState = {
   isLoggedIn: boolean;
   setIsLoggedIn: (loggedIn: boolean) => void;
   currency: string;
-  activities: ActivityData[];
-  setActivities: (data: ActivityData[]) => void;
+  activities: ActivityFetchData | null;
+  setActivities: (data: ActivityFetchData | null) => void;
+  goals: GoalFetchData | null;
+  setGoals: (data: GoalFetchData | null) => void;
 };
 
 export const useAppStore = create<AppState>((set) => ({
@@ -21,6 +23,8 @@ export const useAppStore = create<AppState>((set) => ({
   isLoggedIn: false,
   setIsLoggedIn: (loggedIn) => set({ isLoggedIn: loggedIn }),
   currency: import.meta.env.VITE_CURRENCY || '$',
-  activities: [],
+  activities: null,
   setActivities: (data) => set({ activities: data }),
+  goals: null,
+  setGoals: (data) => set({ goals: data }),
 }));

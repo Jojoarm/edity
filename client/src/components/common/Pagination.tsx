@@ -43,7 +43,7 @@ const Pagination = ({
           scrollTo({ top: 0, behavior: 'smooth' });
         }}
         disabled={currentPage === 1}
-        className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-full text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-full text-gray-600 hover:bg-light-background-color disabled:opacity-40 disabled:cursor-not-allowed"
       >
         ←
       </button>
@@ -58,10 +58,10 @@ const Pagination = ({
             }
           }}
           disabled={page === '...'}
-          className={`w-9 h-9 flex items-center justify-center rounded-full border text-sm ${
+          className={`w-9 h-9 flex items-center justify-center rounded-full border text-sm cursor-pointer ${
             page === currentPage
-              ? 'bg-black text-white border-black'
-              : 'border-gray-300 text-gray-700 hover:bg-gray-100'
+              ? 'bg-primary text-white border-primary'
+              : 'border-gray-300 text-gray-700 hover:bg-light-background-color'
           } ${page === '...' ? 'cursor-default' : ''}`}
         >
           {page}
@@ -74,7 +74,7 @@ const Pagination = ({
           scrollTo({ top: 0, behavior: 'smooth' });
         }}
         disabled={currentPage === totalPages}
-        className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-full text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-full text-gray-600 hover:bg-light-background-color disabled:opacity-40 disabled:cursor-not-allowed"
       >
         →
       </button>

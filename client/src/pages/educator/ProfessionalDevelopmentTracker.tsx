@@ -1,90 +1,27 @@
-import { educatorGoals, educatorStats } from '@/assets/assets';
+import { educatorStats, getStatusColor } from '@/assets/assets';
 import Loader from '@/components/common/Loader';
 import ProgressBar from '@/components/common/ProgressBar';
 import StatsCard from '@/components/common/StatsCard';
+import ProfessionalDevelopmentHeader from '@/components/educator/ProfessionalDevelopmentHeader';
 import { useAppStore } from '@/contexts/useAppStore';
 import { useActivities } from '@/hooks/useActivities';
+import { useGoals } from '@/hooks/useGoals';
 import { capitalize, formatDate } from '@/lib/utils';
 import { Clock, PlusCircle, Target, TrendingUp } from 'lucide-react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const ProfessionalDevelopmentTracker = () => {
   const { user } = useAppStore();
   const { isActivitiesPending, activities } = useActivities();
-  const navItems = [
-    {
-      id: 1,
-      label: 'Dashboard',
-      path: '/educator/professional-development-tracker',
-    },
-    {
-      id: 2,
-      label: 'Activities',
-      path: '/educator/professional-development-tracker/activities',
-    },
-    {
-      id: 3,
-      label: 'Goals',
-      path: '/educator/professional-development-tracker/goals',
-    },
-    {
-      id: 4,
-      label: 'Profile',
-      path: '/educator/professional-development-tracker/profile',
-    },
-  ];
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return 'bg-green-100 text-green-800';
-      case 'in-progress':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'registered':
-        return 'bg-blue-100 text-blue-800';
-
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  if (isActivitiesPending) return <Loader />;
+  const { isGoalsPending, goals } = useGoals();
 
   return (
     <div className="section min-h-screen bg-light-background-color">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <i className="fa-solid fa-book-open-reader text-primary mr-3 text-2xl"></i>
-              <h1 className="hidden md:block xl:text-xl lg:text-lg font-bold text-gray-900 font-roboto">
-                Professional Development Tracker
-              </h1>
-            </div>
-            <nav className="flex flex-wrap space-x-2 md:space-x-8 text-sm md:text-base">
-              {navItems.map((item) => (
-                <NavLink
-                  to={item.path}
-                  key={item.id}
-                  className={({ isActive }: { isActive: boolean }) =>
-                    `${
-                      isActive
-                        ? 'text-primary font-medium hover:text-primary-100'
-                        : 'text-gray-600  hover:text-gray-900'
-                    } `
-                  }
-                >
-                  {item.label}
-                </NavLink>
-              ))}
-            </nav>
-          </div>
-        </div>
-      </header>
+      <ProfessionalDevelopmentHeader />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-2 font-playfair">
@@ -145,42 +82,49 @@ const ProfessionalDevelopmentTracker = () => {
                   </Link>
                 </div>
               </div>
-              <div className="divide-y divide-gray-200">
-                {activities.slice(0, 3).map((activity) => (
-                  <div
-                    key={activity._id}
-                    className="p-6 hover:bg-gray-50 transition-colors"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-medium text-gray-900 truncate">
-                          {activity.title}
-                        </h4>
-                        <p className="text-sm text-gray-500 mt-1">
-                          {activity.provider} • {capitalize(activity.type)}
-                        </p>
-                        <div className="flex items-center mt-2 text-xs text-gray-500">
-                          <Clock className="w-3 h-3 mr-1" />
-                          {activity.hours} hours • {formatDate(activity.date)}
+              {isActivitiesPending ? (
+                <Loader />
+              ) : (
+                <div className="divide-y divide-gray-200">
+                  {activities?.activityData.slice(0, 3).map((activity) => (
+                    <div
+                      key={activity._id}
+                      className="p-6 hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-sm font-medium text-gray-900 truncate">
+                            {activity.title}
+                          </h4>
+                          <p className="text-sm text-gray-500 mt-1">
+                            {activity.provider} • {capitalize(activity.type)}
+                          </p>
+                          <div className="flex items-center mt-2 text-xs text-gray-500">
+                            <Clock className="w-3 h-3 mr-1" />
+                            {activity.hours} hours • {formatDate(activity.date)}
+                          </div>
+                        </div>
+                        <div className="ml-4 flex-shrink-0">
+                          <span
+                            className={`inline-flex min-w-[100px] justify-center px-3 py-1 text-xs font-medium rounded-md text-center ${getStatusColor(
+                              activity.status
+                            )}`}
+                          >
+                            {activity.status}
+                          </span>
                         </div>
                       </div>
-                      <div className="ml-4 flex-shrink-0">
-                        <span
-                          className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(
-                            activity.status
-                          )}`}
-                        >
-                          {activity.status}
-                        </span>
-                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
               <div className="p-6 bg-gray-50 border-t border-gray-200">
-                <button className="text-primary hover:text-primary-100 text-sm font-medium">
+                <Link
+                  to="/educator/professional-development-tracker/activities"
+                  className="text-primary hover:text-primary-100 text-sm font-medium"
+                >
                   View all activities →
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -195,27 +139,39 @@ const ProfessionalDevelopmentTracker = () => {
                 </h3>
                 <Target className="w-5 h-5 text-gray-400" />
               </div>
-              <div className="space-y-4">
-                {educatorGoals.map((goal) => (
-                  <div key={goal.id}>
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="text-sm font-medium text-gray-900">
-                        {goal.title}
-                      </h4>
-                      <span className="text-xs text-gray-500">
-                        {goal.current}/{goal.target}
-                      </span>
+              {isGoalsPending ? (
+                <Loader />
+              ) : (
+                <div className="space-y-4">
+                  {goals?.goalData.slice(0, 3).map((goal) => (
+                    <div key={goal._id}>
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="text-sm font-medium text-gray-900">
+                          {goal.title}
+                        </h4>
+                        <span className="text-xs text-gray-500">
+                          {goal.current}/{goal.target}
+                        </span>
+                      </div>
+                      <ProgressBar
+                        current={goal.current}
+                        target={goal.target}
+                      />
+                      <p className="text-xs text-gray-500 mt-1 font-medium">
+                        Due: {formatDate(goal.deadline)}
+                      </p>
                     </div>
-                    <ProgressBar current={goal.current} target={goal.target} />
-                    <p className="text-xs text-gray-500 mt-1">
-                      Due: {goal.deadline}
-                    </p>
-                  </div>
-                ))}
+                  ))}
+                </div>
+              )}
+              <div className="mt-7 pt-1 text-center bg-gray-50 border-t border-gray-200">
+                <Link
+                  to="/educator/professional-development-tracker/goals-management"
+                  className="text-primary hover:text-primary-100 text-sm font-medium"
+                >
+                  Manage Goals →
+                </Link>
               </div>
-              <button className="w-full mt-4 text-blue-600 hover:text-blue-700 text-sm font-medium">
-                Manage Goals →
-              </button>
             </div>
 
             {/* Quick Actions */}
@@ -238,7 +194,12 @@ const ProfessionalDevelopmentTracker = () => {
                 <button className="w-full flex items-center justify-between p-3 text-left border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                   <div className="flex items-center">
                     <Target className="w-4 h-4 text-green-600 mr-3" />
-                    <Link className="text-sm font-medium">Set New Goal</Link>
+                    <Link
+                      to="/educator/professional-development-tracker/goals-management"
+                      className="text-sm font-medium"
+                    >
+                      Set New Goal
+                    </Link>
                   </div>
                 </button>
                 <button className="w-full flex items-center justify-between p-3 text-left border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">

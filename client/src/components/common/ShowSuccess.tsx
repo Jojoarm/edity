@@ -14,7 +14,7 @@ const ShowSuccess = ({
   setShowSuccess,
 }: Props) => {
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-black/60 z-60 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full mx-4">
         <div className="text-center">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -26,7 +26,7 @@ const ShowSuccess = ({
           <p className="text-gray-600 mb-6">{actionMessage}</p>
           <button
             onClick={() => setShowSuccess(false)}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary transition-colors cursor-pointer"
           >
             {action}
           </button>

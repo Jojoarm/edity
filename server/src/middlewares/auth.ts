@@ -23,13 +23,28 @@ export const verifyToken = catchAsync(
   }
 );
 
+const isRoleAndApproved = (
+  user: any,
+  role: 'admin' | 'educator' | 'student'
+): boolean => {
+  return (
+    user?.role === role &&
+    user?.applicationStatus === 'approved' &&
+    user?.status !== 'suspended'
+  );
+};
+
 export const isAdmin = catchAsync(
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     const userId = req.userId;
     const user = await User.findById(userId);
-    if (user?.role !== 'admin') {
-      return res.status(403).json({ message: 'Forbidden: Admins only' });
+
+    if (!isRoleAndApproved(user, 'admin')) {
+      return res
+        .status(403)
+        .json({ message: 'Forbidden: Approved Admins only' });
     }
+
     next();
   }
 );
@@ -38,9 +53,20 @@ export const isEducator = catchAsync(
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     const userId = req.userId;
     const user = await User.findById(userId);
-    if (user?.role !== 'educator') {
-      return res.status(403).json({ message: 'Forbidden: Educators only' });
+
+    console.log('👤 isEducator middleware check:', {
+      id: userId,
+      role: user?.role,
+      status: user?.status,
+      applicationStatus: user?.applicationStatus,
+    });
+
+    if (!isRoleAndApproved(user, 'educator')) {
+      return res
+        .status(403)
+        .json({ message: 'Forbidden: Approved Educators only' });
     }
+
     next();
   }
 );

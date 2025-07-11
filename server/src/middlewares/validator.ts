@@ -490,3 +490,68 @@ export const validateCreateActivity = [
 
   handleValidationErrors,
 ];
+
+export const validateCreateGoal = [
+  check('title')
+    .trim()
+    .isLength({ min: 2, max: 100 })
+    .withMessage('Title must be between 2 and 100 characters'),
+  check('type')
+    .trim()
+    .isLength({ min: 2, max: 100 })
+    .withMessage('Type must be between 2 and 100 characters'),
+  check('description')
+    .optional({ values: 'falsy' })
+    .trim()
+    .isLength({ min: 2, max: 500 })
+    .withMessage('Description must be between 2 and 500 characters'),
+  check('current')
+    .isInt({ min: 0 })
+    .withMessage('Current must be a number and at least 0')
+    .custom((value, { req }) => {
+      const target = parseInt(req.body.target);
+      const current = parseInt(value);
+
+      if (target && current > target) {
+        throw new Error('Current value cannot exceed target value');
+      }
+      return true;
+    }),
+
+  check('target')
+    .isInt({ min: 1 })
+    .withMessage('Target must be a number and at least 1')
+    .custom((value, { req }) => {
+      const current = parseInt(req.body.current);
+      const target = parseInt(value);
+
+      if (current && current > target) {
+        throw new Error(
+          'Target value must be greater than or equal to current value'
+        );
+      }
+      return true;
+    }),
+  check('deadline').isISO8601().withMessage('Deadline must be a valid date'),
+  check('status')
+    .optional({ values: 'falsy' })
+    .isIn(['completed', 'in-progress', 'registered', 'planned', 'overdue'])
+    .withMessage('Unhandled status type'),
+  check('priority')
+    .optional({ values: 'falsy' })
+    .isIn(['high', 'medium', 'low'])
+    .withMessage('Unhandled priority type'),
+  check('category')
+    .optional({ values: 'falsy' })
+    .isIn([
+      'Required',
+      'Skill Development',
+      'Certification',
+      'Leadership',
+      'Technology',
+      'Other',
+    ])
+    .withMessage('Unhandled category type'),
+
+  handleValidationErrors,
+];
