@@ -205,7 +205,12 @@ const ProfessionalDevelopmentTracker = () => {
                 <button className="w-full flex items-center justify-between p-3 text-left border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                   <div className="flex items-center">
                     <TrendingUp className="w-4 h-4 text-purple-600 mr-3" />
-                    <Link className="text-sm font-medium">View Reports</Link>
+                    <Link
+                      to="/educator/professional-development-tracker/view-reports"
+                      className="text-sm font-medium"
+                    >
+                      View Reports
+                    </Link>
                   </div>
                 </button>
               </div>

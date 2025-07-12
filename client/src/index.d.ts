@@ -6,3 +6,8 @@ declare interface NavLink {
     path: string;
   }[];
 }
+
+declare interface TrendResult {
+  trend: 'increment' | 'decrement' | 'no change';
+  percentage: number;
+}

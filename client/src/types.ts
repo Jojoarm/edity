@@ -140,3 +140,55 @@ export type GoalFetchData = {
   goalData: GoalData[];
   pagination: PaginationData;
 };
+
+export interface DateCount {
+  thisMonth: number;
+  lastMonth: number;
+  thisYear: number;
+  lastYear: number;
+  allTime: number;
+}
+
+export interface Distribution {
+  type: string;
+  count: number;
+  percentage: number;
+}
+
+export interface Achievement {
+  _id: string;
+  title: string;
+  type: string;
+  provider: string;
+  date: string;
+  certificate: string;
+}
+
+export interface MonthlyBreakdown {
+  month: string;
+  count: number;
+  hours: number;
+}
+
+export interface MonthlyActivities {
+  monthlyBreakdown: MonthlyBreakdown[];
+  averagePerMonth: number;
+}
+
+export interface DashboardData {
+  activities: DateCount;
+  goals: DateCount;
+  certificates: DateCount;
+  completedActivities: DateCount;
+  completedGoals: DateCount;
+  typeDistribution: Distribution[];
+  achievements: Achievement[];
+  averageHoursPerActivity: number;
+  activityCompletionRate: number;
+  activitiesPerMonth: MonthlyActivities;
+}
+
+export interface DashboardFetchData {
+  success: boolean;
+  dashboardData: DashboardData;
+}

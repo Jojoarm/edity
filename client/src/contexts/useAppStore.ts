@@ -1,5 +1,10 @@
 import { create } from 'zustand';
-import type { ActivityFetchData, GoalFetchData, UserType } from '../types';
+import type {
+  ActivityFetchData,
+  DashboardData,
+  GoalFetchData,
+  UserType,
+} from '../types';
 
 type AppState = {
   user: UserType | null;
@@ -13,6 +18,8 @@ type AppState = {
   setActivities: (data: ActivityFetchData | null) => void;
   goals: GoalFetchData | null;
   setGoals: (data: GoalFetchData | null) => void;
+  dashboardData: DashboardData | null;
+  setDashboardData: (data: DashboardData) => void;
 };
 
 export const useAppStore = create<AppState>((set) => ({
@@ -27,4 +34,6 @@ export const useAppStore = create<AppState>((set) => ({
   setActivities: (data) => set({ activities: data }),
   goals: null,
   setGoals: (data) => set({ goals: data }),
+  dashboardData: null,
+  setDashboardData: (data) => set({ dashboardData: data }),
 }));

@@ -301,3 +301,15 @@ export const deleteGoal = async (id: string) => {
     handleApiError(error);
   }
 };
+
+export const fetchDashBoardData = async () => {
+  try {
+    const { data } = await api.get('/api/activity/dashboard-data');
+    if (data.success) {
+      return data.dashboardData;
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
+  }
+};

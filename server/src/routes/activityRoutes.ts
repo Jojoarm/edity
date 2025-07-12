@@ -7,6 +7,7 @@ import {
 import {
   createActivity,
   createGoal,
+  dashboardData,
   deleteActivities,
   deleteActivity,
   deleteGoal,
@@ -52,5 +53,8 @@ activityRouter.put(
 activityRouter.get('/fetch-goals', verifyToken, fetchGoals);
 activityRouter.get('/fetch-goal/:id', verifyToken, fetchGoal);
 activityRouter.delete('/delete-goal/:id', verifyToken, deleteGoal);
+
+//dashboard data
+activityRouter.get('/dashboard-data', verifyToken, dashboardData);
 
 export default activityRouter;

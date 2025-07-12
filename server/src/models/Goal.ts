@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface Goal extends Document {
+export interface IGoal extends Document {
   title: string;
   description: string;
   type: string;
@@ -15,7 +15,7 @@ export interface Goal extends Document {
   updatedAt: Date;
 }
 
-const GoalSchema: Schema = new Schema<Goal>(
+const GoalSchema: Schema = new Schema<IGoal>(
   {
     title: { type: String, required: true },
     type: { type: String, required: true },
@@ -35,4 +35,4 @@ const GoalSchema: Schema = new Schema<Goal>(
   { timestamps: true }
 );
 
-export default mongoose.model<Goal>('Goal', GoalSchema);
+export default mongoose.model<IGoal>('Goal', GoalSchema);

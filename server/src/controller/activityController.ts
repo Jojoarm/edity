@@ -1,9 +1,21 @@
 import { Request, Response } from 'express';
 import { catchAsync } from '../utils/catchAsync';
-import Activity from '../models/Activity';
+import Activity, { IActivity } from '../models/Activity';
 import { createError } from '../middlewares/errorHandler';
 import { uploadToCloudinary } from '../utils/cloudinaryUpload';
-import Goal from '../models/Goal';
+import Goal, { IGoal } from '../models/Goal';
+import {
+  activitiesPerMonth,
+  activityCompletionRate,
+  averageHoursPerActivity,
+  countByStatus,
+  countCertificates,
+  countTotalDocs,
+  getActivityTypeDistribution,
+  getDateRanges,
+  recentAchievements,
+} from '../utils/utils';
+import mongoose from 'mongoose';
 
 // create activity
 export const createActivity = catchAsync(
@@ -127,7 +139,7 @@ export const fetchActivities = catchAsync(
       'hours-asc': { hours: 1 },
     };
 
-    const sortOption = sortMap[sort] || {};
+    const sortOption = sortMap[sort] || { createdAt: -1 };
 
     const total = await Activity.countDocuments(filter);
 
@@ -309,6 +321,7 @@ export const fetchGoals = catchAsync(
     const total = await Goal.countDocuments(filter);
 
     const goals = await Goal.find(filter)
+      .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
 
@@ -358,6 +371,283 @@ export const deleteGoal = catchAsync(
     res.status(200).json({
       success: true,
       message: 'Goal deleted successfully',
+    });
+  }
+);
+
+//reports
+// export const dashboardData = catchAsync(
+//   async (req: Request, res: Response): Promise<any> => {
+//     const { thisMonth, lastMonth, thisYear, allTime } = getDateRanges();
+//     const userId = req.userId;
+
+//     const filter: any = { user: userId };
+
+//     const activities = await Activity.find(filter);
+//     const goals = await Goal.find(filter);
+
+//     const calculateCompleted = (
+//       activity: IActivity[] | IGoal[],
+//       range: DateRange
+//     ): number => {
+//       return activity.filter(
+//         (b) =>
+//           b.status === 'completed' &&
+//           new Date(b.createdAt) >= range.start &&
+//           new Date(b.createdAt) <= range.end
+//       ).length;
+//     };
+
+//     const calculateCertificates = (
+//       activity: IActivity[],
+//       range: DateRange
+//     ): number => {
+//       return activity.filter(
+//         (b) =>
+//           b.certificate !== '' &&
+//           new Date(b.createdAt) >= range.start &&
+//           new Date(b.createdAt) <= range.end
+//       ).length;
+//     };
+//     // certificates achieved
+//     const certificatesThisMonth = calculateCertificates(activities, thisMonth);
+//     const certificatesLastMonth = calculateCertificates(activities, lastMonth);
+//     const certificatesThisYear = calculateCertificates(activities, thisYear);
+//     const certificatesAllTime = calculateCertificates(activities, allTime);
+
+//     //completed activities
+//     const completedActivitiesThisMonth = calculateCompleted(
+//       activities,
+//       thisMonth
+//     );
+//     const completedActivitiesLastMonth = calculateCompleted(
+//       activities,
+//       lastMonth
+//     );
+//     const completedActivitiesThisYear = calculateCompleted(
+//       activities,
+//       thisYear
+//     );
+//     const completedActivitiesAllTime = calculateCompleted(activities, allTime);
+
+//     //completed goals
+//     const completedGoalsThisMonth = calculateCompleted(goals, thisMonth);
+//     const completedGoalsLastMonth = calculateCompleted(goals, lastMonth);
+//     const completedGoalsThisYear = calculateCompleted(goals, thisYear);
+//     const completedGoalsAllTime = calculateCompleted(goals, allTime);
+
+//     //total counts
+//     const [
+//       thisMonthGoals,
+//       lastMonthGoals,
+//       thisYearGoals,
+//       allTimeGoals,
+//       thisMonthActivities,
+//       lastMonthActivities,
+//       thisYearActivities,
+//       allTimeActivities,
+//     ] = await Promise.all([
+//       Goal.countDocuments({
+//         user: userId,
+//         createdAt: { $gte: thisMonth.start, $lte: thisMonth.end },
+//       }),
+//       Goal.countDocuments({
+//         user: userId,
+//         createdAt: { $gte: lastMonth.start, $lte: lastMonth.end },
+//       }),
+//       Goal.countDocuments({
+//         user: userId,
+//         createdAt: { $gte: thisYear.start, $lte: thisYear.end },
+//       }),
+//       Goal.countDocuments({
+//         user: userId,
+//         createdAt: { $gte: allTime.start, $lte: allTime.end },
+//       }),
+//       Activity.countDocuments({
+//         user: userId,
+//         createdAt: { $gte: thisMonth.start, $lte: thisMonth.end },
+//       }),
+//       Activity.countDocuments({
+//         user: userId,
+//         createdAt: { $gte: lastMonth.start, $lte: lastMonth.end },
+//       }),
+//       Activity.countDocuments({
+//         user: userId,
+//         createdAt: { $gte: thisYear.start, $lte: thisYear.end },
+//       }),
+//       Activity.countDocuments({
+//         user: userId,
+//         createdAt: { $gte: allTime.start, $lte: allTime.end },
+//       }),
+//     ]);
+
+//     //activities completed
+
+//     res.status(200).json({
+//       success: true,
+//       dashboardData: {
+//         activities: {
+//           thisMonth: thisMonthActivities,
+//           lastMonth: lastMonthActivities,
+//           thisyear: thisYearActivities,
+//           allTime: allTimeActivities,
+//         },
+//         goals: {
+//           thisMonth: thisMonthGoals,
+//           lastMonth: lastMonthGoals,
+//           thisYear: thisYearGoals,
+//           allTime: allTimeGoals,
+//         },
+//         certificates: {
+//           thisMonth: certificatesThisMonth,
+//           lastMonth: certificatesLastMonth,
+//           thisYear: certificatesThisYear,
+//           allTime: certificatesAllTime,
+//         },
+//         completedActivities: {
+//           thisMonth: completedActivitiesThisMonth,
+//           lastMonth: completedActivitiesLastMonth,
+//           thisYear: completedActivitiesThisYear,
+//           allTime: completedActivitiesAllTime,
+//         },
+//         completedgoals: {
+//           thisMonth: completedGoalsThisMonth,
+//           lastMonth: completedGoalsLastMonth,
+//           thisYear: completedGoalsThisYear,
+//           allTime: completedGoalsAllTime,
+//         },
+//       },
+//     });
+//   }
+// );
+
+//report using mongodb aggregation pipeline
+export const dashboardData = catchAsync(
+  async (req: Request, res: Response): Promise<any> => {
+    const { thisMonth, lastMonth, thisYear, lastYear, allTime } =
+      getDateRanges();
+    const userId = new mongoose.Types.ObjectId(req.userId);
+
+    const [
+      // Total counts
+      thisMonthGoals,
+      lastMonthGoals,
+      thisYearGoals,
+      lastYearGoals,
+      allTimeGoals,
+      thisMonthActivities,
+      lastMonthActivities,
+      thisYearActivities,
+      lastYearActivities,
+      allTimeActivities,
+
+      // Completed
+      completedGoalsThisMonth,
+      completedGoalsLastMonth,
+      completedGoalsThisYear,
+      completedGoalsLastYear,
+      completedGoalsAllTime,
+      completedActivitiesThisMonth,
+      completedActivitiesLastMonth,
+      completedActivitiesThisYear,
+      completedActivitiesLastYear,
+      completedActivitiesAllTime,
+
+      // Certificates
+      certificatesThisMonth,
+      certificatesLastMonth,
+      certificatesThisYear,
+      certificatesLastYear,
+      certificatesAllTime,
+
+      //recentAchievements
+      achievements,
+    ] = await Promise.all([
+      countTotalDocs(Goal, thisMonth, userId),
+      countTotalDocs(Goal, lastMonth, userId),
+      countTotalDocs(Goal, thisYear, userId),
+      countTotalDocs(Goal, lastYear, userId),
+      countTotalDocs(Goal, allTime, userId),
+
+      countTotalDocs(Activity, thisMonth, userId),
+      countTotalDocs(Activity, lastMonth, userId),
+      countTotalDocs(Activity, thisYear, userId),
+      countTotalDocs(Activity, lastYear, userId),
+      countTotalDocs(Activity, allTime, userId),
+
+      countByStatus(Goal, 'completed', thisMonth, userId),
+      countByStatus(Goal, 'completed', lastMonth, userId),
+      countByStatus(Goal, 'completed', thisYear, userId),
+      countByStatus(Goal, 'completed', lastYear, userId),
+      countByStatus(Goal, 'completed', allTime, userId),
+
+      countByStatus(Activity, 'completed', thisMonth, userId),
+      countByStatus(Activity, 'completed', lastMonth, userId),
+      countByStatus(Activity, 'completed', thisYear, userId),
+      countByStatus(Activity, 'completed', lastYear, userId),
+      countByStatus(Activity, 'completed', allTime, userId),
+
+      countCertificates(thisMonth, userId),
+      countCertificates(lastMonth, userId),
+      countCertificates(thisYear, userId),
+      countCertificates(lastYear, userId),
+      countCertificates(allTime, userId),
+      recentAchievements(thisMonth, userId),
+    ]);
+
+    const typeDistribution = await getActivityTypeDistribution(userId);
+
+    //activity analytics
+    const [avg, rate, monthly] = await Promise.all([
+      averageHoursPerActivity(userId),
+      activityCompletionRate(userId),
+      activitiesPerMonth(userId),
+    ]);
+
+    res.status(200).json({
+      success: true,
+      dashboardData: {
+        activities: {
+          thisMonth: thisMonthActivities,
+          lastMonth: lastMonthActivities,
+          thisYear: thisYearActivities,
+          lastYear: lastYearActivities,
+          allTime: allTimeActivities,
+        },
+        goals: {
+          thisMonth: thisMonthGoals,
+          lastMonth: lastMonthGoals,
+          thisYear: thisYearGoals,
+          lastyear: lastYearGoals,
+          allTime: allTimeGoals,
+        },
+        certificates: {
+          thisMonth: certificatesThisMonth,
+          lastMonth: certificatesLastMonth,
+          thisYear: certificatesThisYear,
+          lastYear: certificatesLastYear,
+          allTime: certificatesAllTime,
+        },
+        completedActivities: {
+          thisMonth: completedActivitiesThisMonth,
+          lastMonth: completedActivitiesLastMonth,
+          thisYear: completedActivitiesThisYear,
+          lastYear: completedActivitiesLastYear,
+          allTime: completedActivitiesAllTime,
+        },
+        completedGoals: {
+          thisMonth: completedGoalsThisMonth,
+          lastMonth: completedGoalsLastMonth,
+          thisYear: completedGoalsThisYear,
+          lastYear: completedGoalsLastYear,
+          allTime: completedGoalsAllTime,
+        },
+        typeDistribution,
+        achievements,
+        averageHoursPerActivity: avg,
+        activityCompletionRate: parseFloat(rate.toFixed(2)),
+        activitiesPerMonth: monthly,
+      },
     });
   }
 );

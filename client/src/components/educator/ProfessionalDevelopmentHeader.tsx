@@ -20,7 +20,7 @@ const ProfessionalDevelopmentHeader = () => {
     {
       id: 4,
       label: 'Reports',
-      path: '/educator/professional-development-tracker/reports',
+      path: '/educator/professional-development-tracker/view-reports',
     },
     {
       id: 5,
