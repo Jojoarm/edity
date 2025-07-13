@@ -12,6 +12,7 @@ import {
   sendOtp,
   signIn,
   signUp,
+  updateUser,
   userLogout,
   validateToken,
   verifyOtp,
@@ -30,6 +31,13 @@ userRouter.post(
   verifyToken,
   upload.single('profilePicture'),
   completeRegistration
+);
+
+userRouter.post(
+  '/update-user',
+  verifyToken,
+  upload.single('profilePicture'),
+  updateUser
 );
 
 userRouter.get('/get-user', verifyToken, getUser);

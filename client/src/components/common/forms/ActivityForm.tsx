@@ -110,25 +110,6 @@ const ActivityForm: React.FC<ActivityFormProps> = ({
     { value: 'mentoring', label: 'Mentoring', icon: Users },
   ];
 
-  // const statusOptions = [
-  //   {
-  //     value: 'completed',
-  //     label: 'Completed',
-  //     color: 'bg-green-100 text-green-800',
-  //   },
-  //   {
-  //     value: 'in-progress',
-  //     label: 'In Progress',
-  //     color: 'bg-yellow-100 text-yellow-800',
-  //   },
-  //   {
-  //     value: 'registered',
-  //     label: 'Registered',
-  //     color: 'bg-blue-100 text-blue-800',
-  //   },
-  //   { value: 'planned', label: 'Planned', color: 'bg-gray-100 text-gray-800' },
-  // ];
-
   const mutation = useMutation({
     mutationFn: (formData: FormData) =>
       isEditMode
@@ -417,7 +398,7 @@ const ActivityForm: React.FC<ActivityFormProps> = ({
                       ];
 
                       if (!validTypes.includes(file.type)) {
-                        return 'Please upload a PDF, JPG, or PNG file';
+                        return 'Please upload a JPG, or PNG file';
                       }
 
                       const fileSizeInMB = file.size / (1024 * 1024);
@@ -428,7 +409,7 @@ const ActivityForm: React.FC<ActivityFormProps> = ({
                       return true;
                     },
                   })}
-                  accept=".pdf,.jpg,.jpeg,.png"
+                  accept=".jpg,.jpeg,.png"
                   className="hidden"
                   id="certificate-upload"
                 />

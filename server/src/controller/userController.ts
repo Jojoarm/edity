@@ -20,6 +20,7 @@ import {
 } from '../middlewares/email';
 import { generatePdfFromHtml } from '../utils/pdfGenerator';
 import { uploadToCloudinary } from '../utils/cloudinaryUpload';
+import { extractPublicId } from '../utils/utils';
 
 declare interface GooglePayload {
   email: string;
@@ -224,6 +225,82 @@ export const completeRegistration = catchAsync(
       success: true,
       message:
         "Role request submitted successfully. You will be notified once it's reviewed.",
+    });
+  }
+);
+
+export const updateUser = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const userId = req.userId;
+    const user = await User.findById(userId);
+    if (!user) throw createError('User not found', 404);
+
+    const updateData: Record<string, any> = {};
+    const fieldMappings: Record<string, string> = {
+      // Top-level fields
+      name: 'name',
+      gender: 'gender',
+      tel: 'tel',
+      address: 'address',
+      dob: 'dob',
+
+      // Educator fields
+      subject: 'educatorData.subjects',
+      classLevel: 'educatorData.classLevel',
+      academicYear: 'educatorData.academicYear',
+      academicTerm: 'educatorData.academicTerm',
+    };
+
+    //Process fields based on mapping
+    Object.keys(req.body).forEach((field) => {
+      if (fieldMappings[field] && req.body[field] !== undefined) {
+        const targetField = fieldMappings[field];
+
+        // Handle array fields (like subjects)
+        if (field === 'subject') {
+          const subjects =
+            typeof req.body[field] === 'string'
+              ? req.body[field]
+                  .split(',')
+                  .map((s: string) => s.trim())
+                  .filter((s: string) => s)
+              : req.body[field];
+          updateData[targetField] = subjects;
+        } else {
+          updateData[targetField] = req.body[field];
+        }
+      }
+    });
+
+    //Handle profile picture
+    if (req.file) {
+      // Delete the old one
+      if (user.profilePicture) {
+        const publicId = extractPublicId(user.profilePicture);
+        if (publicId) {
+          await cloudinary.uploader.destroy(publicId);
+        }
+      }
+
+      // Upload the new image
+      const profilePicture = await uploadToCloudinary({
+        buffer: req.file.buffer,
+        originalname: req.file.originalname,
+        folder: 'profile_pictures',
+      });
+
+      updateData.profilePicture = profilePicture;
+    }
+
+    //Update user with all new data
+    await User.findByIdAndUpdate(userId, updateData, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'User Profile Successfully Updated!',
     });
   }
 );

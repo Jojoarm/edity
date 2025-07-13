@@ -258,3 +258,20 @@ export const activitiesPerMonth = async (userId: mongoose.Types.ObjectId) => {
     averagePerMonth: parseFloat(average.toFixed(2)),
   };
 };
+
+//delete profile picture from cloudinary while updating user
+export function extractPublicId(imageUrl: string): string | null {
+  try {
+    const url = new URL(imageUrl);
+    const parts = url.pathname.split('/');
+    const filename = parts[parts.length - 1]; // e.g., profile_abc123.jpg
+    const [publicId] = filename.split('.'); // remove extension
+    const folder = parts
+      .slice(parts.indexOf('upload') + 1, parts.length - 1)
+      .join('/');
+    return folder ? `${folder}/${publicId}` : publicId;
+  } catch (error) {
+    console.error('Failed to extract public_id:', error);
+    return null;
+  }
+}

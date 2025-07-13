@@ -24,6 +24,19 @@ export const createUser = async (formData: RegisterFormData) => {
   }
 };
 
+export const updateUser = async (formData: FormData) => {
+  try {
+    const { data } = await api.post('/api/users/update-user', formData);
+    if (data.success) {
+      toast.success(data.message);
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error: unknown) {
+    handleApiError(error);
+  }
+};
+
 // user Signup
 export const userLogin = async (formData: SignInFormData) => {
   try {

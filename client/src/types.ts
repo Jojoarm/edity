@@ -39,6 +39,7 @@ export interface UserType {
   address: string;
   role: 'educator' | 'admin' | 'student' | 'stakeholder' | 'researcher';
   isSubmitted: boolean;
+  status: string;
   applicationStatus: string;
   profilePicture?: string;
   educatorData?: EducatorData;

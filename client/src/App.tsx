@@ -38,6 +38,7 @@ import ActivitiesList from './pages/educator/ActivitiesList';
 import ActivityForm from './components/common/forms/ActivityForm';
 import GoalsManagement from './pages/educator/GoalsManagement';
 import ViewReports from './pages/educator/ViewReports';
+import EducatorProfile from './pages/educator/EducatorProfile';
 
 const App = () => {
   const { setUser, setIsLoggedIn, setAuthLoading } = useAppStore();
@@ -128,6 +129,10 @@ const App = () => {
           <Route
             path="/educator/professional-development-tracker/view-reports"
             element={<ViewReports />}
+          />
+          <Route
+            path="/educator/professional-development-tracker/profile"
+            element={<EducatorProfile />}
           />
         </Route>
 
