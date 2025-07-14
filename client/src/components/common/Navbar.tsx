@@ -118,14 +118,17 @@ const Navbar = () => {
                   </div>
                 </div>
               ) : (
-                <Link
-                  to={link.path}
-                  onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}
-                  className="group flex flex-col gap-0.5 text-gray-700"
-                >
-                  {link.name}
-                  <div className="bg-gray-700 h-0.5 w-0 group-hover:w-full transition-all duration-300" />
-                </Link>
+                !Array.isArray(link.content) &&
+                link.path && (
+                  <Link
+                    to={link.path}
+                    onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}
+                    className="group flex flex-col gap-0.5 text-gray-700"
+                  >
+                    {link.name}
+                    <div className="bg-gray-700 h-0.5 w-0 group-hover:w-full transition-all duration-300" />
+                  </Link>
+                )
               )}
             </div>
           ))}
@@ -301,16 +304,17 @@ const Navbar = () => {
                   )}
                 </div>
               ) : (
-                <Link
-                  to={link.path}
-                  onClick={() => {
-                    scrollTo({ top: 0, behavior: 'smooth' });
-                    setIsMenuOpen(false);
-                  }}
-                  className="block w-full px-4 py-3 text-gray-700 border-b border-gray-200"
-                >
-                  {link.name}
-                </Link>
+                !Array.isArray(link.content) &&
+                link.path && (
+                  <Link
+                    to={link.path}
+                    onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}
+                    className="group flex flex-col gap-0.5 text-gray-700"
+                  >
+                    {link.name}
+                    <div className="bg-gray-700 h-0.5 w-0 group-hover:w-full transition-all duration-300" />
+                  </Link>
+                )
               )}
             </div>
           ))}
