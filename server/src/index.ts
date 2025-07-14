@@ -9,41 +9,47 @@ import adminRouter from './routes/adminRoutes';
 import { errorHandler } from './middlewares/errorHandler';
 import educatorRouter from './routes/educatorRoutes';
 import activityRouter from './routes/activityRoutes';
-import { seedEducatorActivities } from './seeds/ActivitySeeder';
 
 const port = process.env.PORT || 5000;
 
-//connect cloudinary
-connectCloudinary();
-connectDB();
+const startServer = async () => {
+  try {
+    // connect to third-party services first
+    await connectDB();
+    connectCloudinary();
 
-const app = express();
+    const app = express();
 
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
-  })
-);
+    app.use(
+      cors({
+        origin: process.env.FRONTEND_URL,
+        credentials: true,
+      })
+    );
 
-app.use(express.json());
-app.use(cookieParser());
+    app.use(express.json());
+    app.use(cookieParser());
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Api working');
-});
+    app.get('/', (req: Request, res: Response) => {
+      res.send('API working');
+    });
 
-//routes
-app.use('/api/users', userRouter);
-app.use('/api/admin', adminRouter);
-app.use('/api/educators', educatorRouter);
-app.use('/api/activity', activityRouter);
+    // routes
+    app.use('/api/users', userRouter);
+    app.use('/api/admin', adminRouter);
+    app.use('/api/educators', educatorRouter);
+    app.use('/api/activity', activityRouter);
 
-// seedEducatorActivities();
+    // error handler
+    app.use(errorHandler);
 
-//error handler
-app.use(errorHandler);
+    app.listen(port, () => {
+      console.log('🚀 Server running on port', port);
+    });
+  } catch (err) {
+    console.error('❌ Failed to start server:', err);
+    process.exit(1); // Exit process if DB fails to connect
+  }
+};
 
-app.listen(port, () => {
-  console.log('Server running on localhost:', port);
-});
+startServer();
