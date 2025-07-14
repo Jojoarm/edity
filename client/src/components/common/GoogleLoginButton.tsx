@@ -9,8 +9,7 @@ const GoogleLoginButton = () => {
   const { setUser, setAuthLoading } = useAppStore();
   const navigate = useNavigate();
   const location = useLocation();
-  const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   const handleCallbackResponse = async (
     response: google.accounts.id.CredentialResponse
