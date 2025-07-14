@@ -73,8 +73,8 @@ const Navbar = () => {
               {Array.isArray(link.content) ? (
                 <div
                   className="group relative"
-                  // onMouseEnter={() => setOpenDropdown(link.name)}
-                  // onMouseLeave={() => setOpenDropdown(null)}
+                  onMouseEnter={() => setOpenDropdown(link.name)}
+                  onMouseLeave={() => setOpenDropdown(null)}
                 >
                   <div
                     onClick={() =>

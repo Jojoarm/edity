@@ -3,20 +3,20 @@ import { LogOut } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Link, NavLink, useNavigate } from 'react-router';
 import { useAppStore } from '../../contexts/useAppStore';
-import { fetchUser, logout } from '../../api/user-api';
+import { logout } from '../../api/user-api';
 import { adminSidebarItems } from '../../assets/assets';
 import Icon from '../common/Icon';
 
 const Sidebar = () => {
-  const { user } = useAppStore();
+  const { user, setUser, setIsLoggedIn } = useAppStore();
   const navigate = useNavigate();
 
   //user logout
   const mutation = useMutation({
     mutationFn: logout,
     onSuccess: async () => {
-      await fetchUser();
-      toast.success('Logged Out!');
+      setUser(null);
+      setIsLoggedIn(false);
       navigate('/');
       scrollTo(0, 0);
     },

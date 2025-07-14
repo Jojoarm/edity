@@ -11,7 +11,7 @@ import {
 export const educatorNavLinks: NavLink[] = [
   { name: 'Overview', path: '/overview' },
   {
-    name: 'Educators Interface',
+    name: 'Educator Interface',
     path: '/educator/professional-development-tracker',
   },
   {

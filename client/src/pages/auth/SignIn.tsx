@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import GoogleLoginButton from '../../components/common/GoogleLoginButton';
 import { fetchUser, userLogin } from '../../api/user-api';
 import { useAppStore } from '../../contexts/useAppStore';
+import TestCredentials from '@/components/common/TextCredentials';
 
 export type SignInFormData = {
   email: string;
@@ -60,6 +61,8 @@ const SignIn = () => {
           </p>
           <div className="w-full h-px bg-gray-300/90"></div>
         </div>
+
+        <TestCredentials />
 
         <div className="flex flex-col gap-1 items-center mb-4 w-full">
           <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 rounded-xl overflow-hidden pl-6 gap-2">
