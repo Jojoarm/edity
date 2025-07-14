@@ -54,13 +54,6 @@ export const isEducator = catchAsync(
     const userId = req.userId;
     const user = await User.findById(userId);
 
-    console.log('👤 isEducator middleware check:', {
-      id: userId,
-      role: user?.role,
-      status: user?.status,
-      applicationStatus: user?.applicationStatus,
-    });
-
     if (!isRoleAndApproved(user, 'educator')) {
       return res
         .status(403)

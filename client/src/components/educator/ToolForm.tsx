@@ -5,11 +5,12 @@ import ToolTitle from '@/components/common/ToolTitle';
 import { useClassLevels } from '@/hooks/useClassLevels';
 import { useSubjects } from '@/hooks/useSubjects';
 import type { UseMutationResult } from '@tanstack/react-query';
-import { ListPlus, Loader } from 'lucide-react';
+import { ListPlus } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { FieldValues, Path, UseFormReturn } from 'react-hook-form';
 import Input from '../common/Input';
 import { useAcademicTerms } from '@/hooks/useAcademicTerms';
+import Loader from '../common/Loader';
 
 interface ToolFormProps<T extends FieldValues, R = unknown> {
   toolTitle: string;
@@ -35,6 +36,8 @@ interface ToolFormProps<T extends FieldValues, R = unknown> {
   classLevelFieldName?: Path<T>;
   academicTermFieldName?: Path<T>;
   includesAcademicTerm?: boolean;
+  includesSubjectField?: boolean;
+  includesClassLevelField?: boolean;
 }
 
 const ToolForm = <T extends FieldValues>({
@@ -53,6 +56,8 @@ const ToolForm = <T extends FieldValues>({
   classLevelFieldName = 'classLevel' as Path<T>,
   academicTermFieldName = 'term' as Path<T>,
   includesAcademicTerm = false,
+  includesSubjectField = true,
+  includesClassLevelField = true,
 }: ToolFormProps<T>) => {
   const { isClassLevelPending, classLevels } = useClassLevels();
   const { isSubjectsPending, subjects } = useSubjects();
@@ -119,29 +124,34 @@ const ToolForm = <T extends FieldValues>({
           <FormTitle title={formTitle} />
 
           <div className="w-full flex flex-col md:flex-row space-x-5">
-            <Input
-              label="Subject"
-              icon={ListPlus}
-              isSelect
-              options={subjectOptions}
-              required
-              error={errors[subjectFieldName]?.message as string}
-              {...register(subjectFieldName, {
-                required: 'Subject is required',
-              })}
-            />
+            {includesSubjectField && (
+              <Input
+                label="Subject"
+                icon={ListPlus}
+                isSelect
+                options={subjectOptions}
+                required
+                error={errors[subjectFieldName]?.message as string}
+                {...register(subjectFieldName, {
+                  required: 'Subject is required',
+                })}
+              />
+            )}
 
-            <Input
-              label="Class Level"
-              icon={ListPlus}
-              isSelect
-              options={classLevelsOptions}
-              required
-              error={errors[classLevelFieldName]?.message as string}
-              {...register(classLevelFieldName, {
-                required: 'Class level is required',
-              })}
-            />
+            {includesClassLevelField && (
+              <Input
+                label="Class Level"
+                icon={ListPlus}
+                isSelect
+                options={classLevelsOptions}
+                required
+                error={errors[classLevelFieldName]?.message as string}
+                {...register(classLevelFieldName, {
+                  required: 'Class level is required',
+                })}
+              />
+            )}
+
             {includesAcademicTerm && (
               <Input
                 label="Academic Term"

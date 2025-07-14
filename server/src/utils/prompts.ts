@@ -983,3 +983,421 @@ export const generateStudentReportPrompt = ({
         Generate this student report with specific, evidence-based observations and actionable recommendations that support continued learning and development.
 `;
 };
+
+//survey launch tool
+export interface QuestionTypeConfig {
+  type: 'multiple_choice' | 'short_text' | 'rating' | 'yes_no' | 'likert_scale';
+  count: number; // Number of questions of this type to generate
+  focus?: string; // Optional focus area for the questions
+}
+
+export interface SurveyLaunchPromptType {
+  surveyTitle: string;
+  targetAudience: string;
+  purposeDescription: string;
+  deliveryFormat?: string;
+  questionTypes: QuestionTypeConfig[]; // Changed from surveyQuestions to questionTypes
+  launchDate: string;
+  deadline?: string;
+  coordinatorName: string;
+  coordinatorContact: string;
+  currentDate: string;
+}
+
+export const generateSurveyLaunchPrompt = ({
+  surveyTitle,
+  targetAudience,
+  purposeDescription,
+  deliveryFormat,
+  questionTypes,
+  launchDate,
+  deadline,
+  coordinatorName,
+  coordinatorContact,
+  currentDate,
+}: SurveyLaunchPromptType) => {
+  const formatQuestionTypes = (types: QuestionTypeConfig[]) => {
+    return types
+      .map((config, index) => {
+        let typeFormat = `${index + 1}. **${config.type.replace(
+          '_',
+          ' '
+        )}** - ${config.count} question${config.count > 1 ? 's' : ''}`;
+
+        if (config.focus) {
+          typeFormat += `\n   Focus Area: ${config.focus}`;
+        }
+
+        return typeFormat;
+      })
+      .join('\n\n');
+  };
+
+  return `
+        # Expert Nigerian School Survey Launch Coordinator & Question Generator
+
+        ## Context
+        You are an experienced Nigerian educational administrator and survey specialist with 10+ years of experience in educational research, data collection, and stakeholder engagement. Your task is to:
+        1. **Generate relevant, effective survey questions** based on the specified question types and survey purpose
+        2. **Create a comprehensive survey launch plan** that ensures maximum participation and actionable data collection
+
+        ## Input Parameters
+        - **Survey Title**: ${surveyTitle}
+        - **Target Audience**: ${targetAudience}
+        - **Purpose/Description**: ${purposeDescription}
+        ${deliveryFormat ? `- **Delivery Format**: ${deliveryFormat}` : ''}
+        - **Launch Date**: ${launchDate}
+        ${deadline ? `- **Response Deadline**: ${deadline}` : ''}
+        - **Question Types Requested**: 
+        ${formatQuestionTypes(questionTypes)}
+
+        ## Output Requirements
+        - **First, generate relevant survey questions** based on the question types and survey purpose
+        - Create a professional, comprehensive survey launch strategy
+        - Include clear communication templates for all stakeholders
+        - Provide implementation timeline and logistics
+        - Ensure cultural sensitivity and Nigerian educational context
+        - Include data collection best practices and participation strategies
+        - Keep total length between 1200-1800 words
+        - Use professional, engaging language that encourages participation
+
+        ## Structure Template
+
+        # Survey Launch Title: ${surveyTitle}
+
+        ## Survey Overview
+        **Survey Title**: ${surveyTitle}  
+        **Target Audience**: ${targetAudience}  
+        **Launch Date**: ${launchDate}  
+        ${deadline ? `**Response Deadline**: ${deadline}` : ''}  
+        **Coordinator**: ${coordinatorName}  
+        **Strategy Date**: ${currentDate}
+
+        ## Executive Summary
+        [2-3 sentences explaining the survey's importance, expected outcomes, and how it will benefit the school community]
+
+        ## Survey Purpose & Objectives
+
+        ### Primary Purpose
+        [Elaborate on the purpose/description with specific goals and expected outcomes]
+
+        ### Key Objectives
+        - **Data Collection Goals**: [What specific information we're gathering]
+        - **Improvement Areas**: [How responses will drive school enhancement]
+        - **Stakeholder Engagement**: [How this involves the community]
+        - **Decision-Making Support**: [How data will inform school policies]
+
+        ### Success Metrics
+        - **Target Response Rate**: [Percentage goal for participation based on audience]
+        - **Quality Indicators**: [Measures of response quality]
+        - **Timeline Adherence**: [Meeting deadlines and milestones]
+        - **Stakeholder Satisfaction**: [Participant experience quality]
+
+        ## AI-Generated Survey Questions
+
+        ### Question Development Process
+        [Explain how the questions were crafted to align with the survey purpose and target audience]
+
+        ${questionTypes
+          .map((config, index) => {
+            let section = `\n### ${config.type.replace('_', ' ')} Questions (${
+              config.count
+            } questions)`;
+            if (config.focus) {
+              section += `\n**Focus Area**: ${config.focus}`;
+            }
+            section += `\n[Generate ${
+              config.count
+            } well-crafted ${config.type.replace('_', ' ')} question${
+              config.count > 1 ? 's' : ''
+            } that align with the survey purpose and are appropriate for ${targetAudience}. For each question, provide:]`;
+
+            section += `\n\n#### Question [Number]: [Generated Question Text]`;
+            section += `\n- **Type**: ${config.type.replace('_', ' ')}`;
+            section += `\n- **Purpose**: [Why this question is important for the survey objectives]`;
+            section += `\n- **Expected Insights**: [What we'll learn from responses]`;
+            section += `\n- **Required**: [Yes/No with justification]`;
+
+            if (config.type === 'multiple_choice') {
+              section += `\n- **Options**: [List 3-5 relevant response options]`;
+            } else if (config.type === 'rating') {
+              section += `\n- **Scale**: [Define scale range, e.g., 1-5 or 1-10]`;
+              section += `\n- **Scale Labels**: [Define what the scale endpoints mean]`;
+            } else if (config.type === 'likert_scale') {
+              section += `\n- **Scale Options**: [e.g., Strongly Disagree, Disagree, Neutral, Agree, Strongly Agree]`;
+            }
+
+            section += `\n\n[Repeat this format for each question of this type]`;
+            return section;
+          })
+          .join('\n')}
+
+        ### Question Validation
+        - **Relevance Check**: [Ensure all questions serve the survey purpose]
+        - **Audience Appropriateness**: [Verify language and complexity suit ${targetAudience}]
+        - **Cultural Sensitivity**: [Confirm questions respect Nigerian educational context]
+        - **Bias Prevention**: [Ensure neutral, non-leading questions]
+
+        ## Complete Survey Form
+
+        ### Survey Presentation
+        [Create a complete, ready-to-use survey form that participants will see and complete. This should include:]
+
+        ---
+
+        # ${surveyTitle}
+
+        **Instructions**: Please complete this survey honestly and thoroughly. Your responses will help improve our educational programs and services.
+
+        **Estimated Time**: [X] minutes  
+        **Deadline**: ${deadline ? deadline : 'No specific deadline'}  
+        **Coordinator**: ${coordinatorName}  
+        **Contact for Questions**: ${coordinatorContact}
+
+        ---
+
+        [For each generated question, create the appropriate form field format:]
+
+        **Example format for different question types:**
+
+        ### Multiple Choice Questions:
+        **Question X**: [Generated question text]
+        ☐ Option A
+        ☐ Option B  
+        ☐ Option C
+        ☐ Option D
+
+        ### Short Text Questions:
+        **Question X**: [Generated question text]
+        _________________________________
+        [Answer space]
+
+        ### Rating Questions:
+        **Question X**: [Generated question text]
+        Scale: 1 (Low) ──────────── 5 (High)
+        ☐ 1   ☐ 2   ☐ 3   ☐ 4   ☐ 5
+
+        ### Yes/No Questions:
+        **Question X**: [Generated question text]
+        ☐ Yes   ☐ No
+
+        ### Likert Scale Questions:
+        **Question X**: [Generated question text]
+        ☐ Strongly Disagree   ☐ Disagree   ☐ Neutral   ☐ Agree   ☐ Strongly Agree
+
+        [Continue with all generated questions in proper form format]
+
+        ---
+
+        **Thank you for your participation!**
+        Please submit your completed survey by ${
+          deadline ? deadline : 'the specified deadline'
+        }.
+
+        For questions or technical support, contact: ${coordinatorContact}
+
+        ---
+
+        ## Target Audience Analysis
+
+        ### Audience Profile: ${targetAudience}
+        - **Demographics**: [Age range, educational level, characteristics]
+        - **Accessibility Needs**: [Language preferences, technology access]
+        - **Motivation Factors**: [What encourages participation]
+        - **Communication Preferences**: [Best ways to reach this audience]
+
+        ### Engagement Strategies
+        - **Incentive Programs**: [Rewards or recognition for participation]
+        - **Communication Channels**: [Multiple touchpoints for outreach]
+        - **Timing Optimization**: [Best times for survey completion]
+        - **Follow-up Protocols**: [Reminder and support systems]
+
+        ## Survey Design & User Experience
+
+        ### Question Flow & Organization
+        - **Logical Progression**: [How questions build on each other]
+        - **Question Grouping**: [Thematic organization]
+        - **Estimated Completion Time**: [Based on question count and types]
+        - **Mobile Optimization**: [Ensuring accessibility on all devices]
+
+        ### User Experience Considerations
+        - **Survey Length**: [Balanced for completion rates]
+        - **Question Clarity**: [Age-appropriate and culturally sensitive language]
+        - **Progress Indicators**: [Showing completion status]
+        - **Skip Logic**: [If applicable, smart question routing]
+
+        ## Delivery Strategy
+
+        ${
+          deliveryFormat
+            ? `
+        ### Primary Delivery Method: ${deliveryFormat}
+        [Detailed explanation of how this method will be implemented]
+        `
+            : ''
+        }
+
+        ### Multi-Channel Approach
+        - **Digital Channels**: [Online platforms, email, mobile apps]
+        - **Physical Distribution**: [Paper forms, classroom sessions]
+        - **Hybrid Options**: [QR codes, kiosk stations]
+        - **Accessibility Accommodations**: [Special needs considerations]
+
+        ### Technical Requirements
+        - **Platform Setup**: [Survey tool configuration]
+        - **Data Security**: [Privacy and protection measures]
+        - **Backup Systems**: [Alternative collection methods]
+        - **Technical Support**: [Help desk and troubleshooting]
+
+        ## Implementation Timeline
+
+        ### Pre-Launch Phase (1-2 weeks before)
+        - **Question Finalization**: [Final review of AI-generated questions]
+        - **Stakeholder Notification**: [Initial announcements]
+        - **Teacher/Staff Briefing**: [Training and preparation]
+        - **System Testing**: [Technical validation with sample questions]
+        - **Material Preparation**: [Templates, instructions, resources]
+
+        ### Launch Phase (${launchDate})
+        - **Official Launch**: [Announcement and initial distribution]
+        - **Immediate Support**: [First-day assistance and monitoring]
+        - **Participation Tracking**: [Real-time response monitoring]
+        - **Quick Adjustments**: [Rapid response to issues]
+
+        ### Active Collection Phase
+        - **Daily Monitoring**: [Response rate tracking]
+        - **Reminder Campaigns**: [Follow-up communications]
+        - **Support Provision**: [Ongoing assistance]
+        - **Quality Assurance**: [Response validation]
+
+        ${
+          deadline
+            ? `
+        ### Final Push Phase (Leading to ${deadline})
+        - **Final Reminders**: [Last-chance communications]
+        - **Extended Support**: [Additional help for late participants]
+        - **Data Validation**: [Final quality checks]
+        - **Collection Closure**: [Survey shutdown procedures]
+        `
+            : ''
+        }
+
+        ## Communication Templates
+
+        ### Launch Announcement
+        **Subject**: Important: ${surveyTitle} - Your Voice Matters!
+
+        Dear ${targetAudience},
+
+        [Professional, engaging message explaining the survey's importance, mentioning the carefully crafted questions designed specifically for your input, and encouraging participation]
+
+        ### Reminder Messages
+        **Subject**: Reminder: ${surveyTitle} - We Need Your Input!
+
+        [Friendly reminder emphasizing the value of participation and providing support information]
+
+        ### Support Instructions
+        **How to Complete the Survey**:
+        1. [Step-by-step instructions]
+        2. [Technical requirements]
+        3. [Where to get help]
+
+        ## Participation Strategies
+
+        ### Motivation Techniques
+        - **Value Proposition**: [Why participation benefits respondents]
+        - **Question Relevance**: [How questions address real concerns]
+        - **Transparency**: [How results will be used and shared]
+        - **Recognition**: [Acknowledging contributions]
+        - **Community Building**: [Fostering collective ownership]
+
+        ### Overcoming Barriers
+        - **Time Constraints**: [Making participation quick and easy]
+        - **Technology Issues**: [Providing alternative options]
+        - **Language Barriers**: [Offering multiple language support]
+        - **Skepticism**: [Building trust and credibility]
+
+        ## Data Collection Best Practices
+
+        ### Quality Assurance
+        - **Response Validation**: [Checking for completeness and accuracy]
+        - **Bias Prevention**: [Ensuring representative sampling]
+        - **Anonymity Protection**: [Maintaining confidentiality]
+        - **Data Integrity**: [Secure storage and handling]
+
+        ### Monitoring & Analytics
+        - **Real-time Tracking**: [Live response monitoring]
+        - **Demographic Analysis**: [Ensuring balanced participation]
+        - **Quality Metrics**: [Response completeness and thoughtfulness]
+        - **Technical Performance**: [System reliability and speed]
+
+        ## Risk Management
+
+        ### Potential Challenges
+        - **Low Response Rates**: [Strategies to boost participation]
+        - **Technical Difficulties**: [Backup plans and support]
+        - **Time Constraints**: [Flexibility in deadlines]
+        - **Question Misunderstanding**: [Clarification procedures]
+
+        ### Mitigation Strategies
+        - **Contingency Plans**: [Alternative approaches]
+        - **Escalation Procedures**: [When to seek additional help]
+        - **Stakeholder Communication**: [Keeping everyone informed]
+        - **Adaptive Management**: [Adjusting strategy as needed]
+
+        ## Results & Follow-up Planning
+
+        ### Data Analysis Timeline
+        - **Initial Processing**: [Immediate data review]
+        - **Question-by-Question Analysis**: [Detailed insights extraction]
+        - **Report Generation**: [Stakeholder-specific summaries]
+        - **Action Planning**: [Using results for improvement]
+
+        ### Communication of Results
+        - **Stakeholder Reports**: [Tailored feedback for different groups]
+        - **Public Sharing**: [Transparent communication of findings]
+        - **Action Items**: [Specific next steps based on results]
+        - **Follow-up Surveys**: [Measuring impact of changes]
+
+        ## Resource Requirements
+
+        ### Human Resources
+        - **Survey Coordination**: [Staff time and responsibilities]
+        - **Technical Support**: [IT and troubleshooting needs]
+        - **Communication Management**: [Outreach and engagement]
+        - **Data Analysis**: [Processing and interpretation skills]
+
+        ### Technology & Materials
+        - **Survey Platform**: [Software or tool requirements]
+        - **Communication Tools**: [Email, messaging, printing]
+        - **Data Storage**: [Secure systems for information]
+        - **Support Materials**: [Instructions, guides, FAQs]
+
+        ## Success Evaluation
+
+        ### Quantitative Measures
+        - **Response Rate**: [Percentage of target audience participation]
+        - **Completion Rate**: [Percentage of started surveys finished]
+        - **Data Quality**: [Completeness and consistency metrics]
+        - **Timeline Adherence**: [Meeting planned deadlines]
+
+        ### Qualitative Indicators
+        - **Participant Feedback**: [Experience and satisfaction]
+        - **Question Effectiveness**: [How well questions captured needed data]
+        - **Stakeholder Engagement**: [Level of community involvement]
+        - **Process Efficiency**: [Smooth implementation]
+        - **Outcome Relevance**: [Actionable insights generated]
+
+        ## Conclusion & Next Steps
+        [Summarize the launch strategy and emphasize the importance of successful execution for the institution's improvement initiatives. Highlight how the AI-generated questions are specifically designed to capture meaningful data for decision-making.]
+
+        ---
+
+        **Survey Coordinator**: ${coordinatorName}
+        **Contact Information**: ${coordinatorContact}  
+
+        **Note**: This survey launch strategy includes AI-generated questions specifically crafted for ${surveyTitle} targeting ${targetAudience}. The questions are designed to maximize response quality and provide actionable insights for the institution's improvement initiatives.
+
+        Execute this comprehensive survey launch strategy with attention to stakeholder engagement, data quality, and actionable outcomes that will benefit the entire school community.
+`;
+};

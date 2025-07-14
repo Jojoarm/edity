@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { ChevronDown, LayoutDashboard, LogOut, Settings } from 'lucide-react';
-import { navLinks } from '../../assets/assets';
+import { educatorNavLinks } from '../../assets/assets';
 import { useAppStore } from '../../contexts/useAppStore';
 import { useMutation } from '@tanstack/react-query';
 import { logout } from '../../api/user-api';
@@ -67,67 +67,68 @@ const Navbar = () => {
 
       {/* Desktop NavLinks */}
       <div className="hidden md:flex items-center justify-start gap-8">
-        {navLinks.map((link, i) => (
-          <div key={i}>
-            {Array.isArray(link.content) ? (
-              <div
-                className="group relative"
-                // onMouseEnter={() => setOpenDropdown(link.name)}
-                // onMouseLeave={() => setOpenDropdown(null)}
-              >
+        {user?.role === 'educator' &&
+          educatorNavLinks.map((link, i) => (
+            <div key={i}>
+              {Array.isArray(link.content) ? (
                 <div
-                  onClick={() =>
-                    setOpenDropdown(
-                      openDropdown === link.name ? null : link.name
-                    )
-                  }
-                  className="flex items-start justify-start text-gray-700 gap-1 cursor-pointer"
+                  className="group relative"
+                  // onMouseEnter={() => setOpenDropdown(link.name)}
+                  // onMouseLeave={() => setOpenDropdown(null)}
                 >
-                  <span className="">{link.name}</span>
-                  <ChevronDown
-                    className={`size-7 transition-transform duration-200 group-hover:rotate-180 ${
-                      openDropdown === link.name ? 'rotate-180' : ''
-                    }`}
-                  />
-                </div>
-                <div className="bg-gray-700 h-0.5 w-0 group-hover:w-full transition-all duration-300" />
+                  <div
+                    onClick={() =>
+                      setOpenDropdown(
+                        openDropdown === link.name ? null : link.name
+                      )
+                    }
+                    className="flex items-start justify-start text-gray-700 gap-1 cursor-pointer"
+                  >
+                    <span className="">{link.name}</span>
+                    <ChevronDown
+                      className={`size-7 transition-transform duration-200 group-hover:rotate-180 ${
+                        openDropdown === link.name ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </div>
+                  <div className="bg-gray-700 h-0.5 w-0 group-hover:w-full transition-all duration-300" />
 
-                <div
-                  className={`absolute left-0 top-full z-50 w-[300px] pt-2 transition-all duration-200 ${
-                    openDropdown === link.name
-                      ? 'block opacity-100'
-                      : 'hidden opacity-0'
-                  }`}
-                >
-                  <div className="mt-2 p-1.5 flex flex-col gap-1 bg-white shadow-lg rounded-sm border border-gray-200">
-                    {link.content.map((subLink, idx) => (
-                      <Link
-                        key={idx}
-                        to={subLink.path}
-                        onClick={() => {
-                          scrollTo({ top: 0, behavior: 'smooth' });
-                          setOpenDropdown(null);
-                        }}
-                        className="block border-b border-solid border-gray-200 last:border-none px-3 hover:bg-[#1900410a] py-3 font-medium text-gray-600"
-                      >
-                        {subLink.title}
-                      </Link>
-                    ))}
+                  <div
+                    className={`absolute left-0 top-full z-50 w-[300px] pt-2 transition-all duration-200 ${
+                      openDropdown === link.name
+                        ? 'block opacity-100'
+                        : 'hidden opacity-0'
+                    }`}
+                  >
+                    <div className="mt-2 p-1.5 flex flex-col gap-1 bg-white shadow-lg rounded-sm border border-gray-200">
+                      {link.content.map((subLink, idx) => (
+                        <Link
+                          key={idx}
+                          to={subLink.path}
+                          onClick={() => {
+                            scrollTo({ top: 0, behavior: 'smooth' });
+                            setOpenDropdown(null);
+                          }}
+                          className="block border-b border-solid border-gray-200 last:border-none px-3 hover:bg-[#1900410a] py-3 font-medium text-gray-600"
+                        >
+                          {subLink.title}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <Link
-                to={link.path}
-                onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}
-                className="group flex flex-col gap-0.5 text-gray-700"
-              >
-                {link.name}
-                <div className="bg-gray-700 h-0.5 w-0 group-hover:w-full transition-all duration-300" />
-              </Link>
-            )}
-          </div>
-        ))}
+              ) : (
+                <Link
+                  to={link.path}
+                  onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="group flex flex-col gap-0.5 text-gray-700"
+                >
+                  {link.name}
+                  <div className="bg-gray-700 h-0.5 w-0 group-hover:w-full transition-all duration-300" />
+                </Link>
+              )}
+            </div>
+          ))}
       </div>
 
       {/* Login / User Menu */}
@@ -258,60 +259,61 @@ const Navbar = () => {
         </button>
 
         {/* NavLinks */}
-        {navLinks.map((link, i) => (
-          <div key={i} className="w-full">
-            {Array.isArray(link.content) ? (
-              <div className="w-full">
-                <button
-                  className="flex items-center w-full text-left px-4 py-3 text-gray-700 border-b border-gray-200"
-                  onClick={() =>
-                    setOpenDropdown(
-                      openDropdown === link.name ? null : link.name
-                    )
-                  }
-                >
-                  <span>{link.name}</span>
-                  <ChevronDown
-                    className={`size-6 transform transition-transform text-gray-600 ${
-                      openDropdown === link.name ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
+        {user?.role === 'educator' &&
+          educatorNavLinks.map((link, i) => (
+            <div key={i} className="w-full">
+              {Array.isArray(link.content) ? (
+                <div className="w-full">
+                  <button
+                    className="flex items-center w-full text-left px-4 py-3 text-gray-700 border-b border-gray-200"
+                    onClick={() =>
+                      setOpenDropdown(
+                        openDropdown === link.name ? null : link.name
+                      )
+                    }
+                  >
+                    <span>{link.name}</span>
+                    <ChevronDown
+                      className={`size-6 transform transition-transform text-gray-600 ${
+                        openDropdown === link.name ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
 
-                {/* Dropdown content */}
-                {openDropdown === link.name && (
-                  <div className="bg-white w-full">
-                    {link.content.map((subLink, idx) => (
-                      <Link
-                        key={idx}
-                        to={subLink.path}
-                        onClick={() => {
-                          scrollTo({ top: 0, behavior: 'smooth' });
-                          setIsMenuOpen(false); // Close menu
-                          setOpenDropdown(null); // Close dropdown
-                        }}
-                        className="block px-6 py-2 text-gray-600 hover:bg-gray-100 border-b border-gray-200"
-                      >
-                        {subLink.title}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Link
-                to={link.path}
-                onClick={() => {
-                  scrollTo({ top: 0, behavior: 'smooth' });
-                  setIsMenuOpen(false);
-                }}
-                className="block w-full px-4 py-3 text-gray-700 border-b border-gray-200"
-              >
-                {link.name}
-              </Link>
-            )}
-          </div>
-        ))}
+                  {/* Dropdown content */}
+                  {openDropdown === link.name && (
+                    <div className="bg-white w-full">
+                      {link.content.map((subLink, idx) => (
+                        <Link
+                          key={idx}
+                          to={subLink.path}
+                          onClick={() => {
+                            scrollTo({ top: 0, behavior: 'smooth' });
+                            setIsMenuOpen(false); // Close menu
+                            setOpenDropdown(null); // Close dropdown
+                          }}
+                          className="block px-6 py-2 text-gray-600 hover:bg-gray-100 border-b border-gray-200"
+                        >
+                          {subLink.title}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  to={link.path}
+                  onClick={() => {
+                    scrollTo({ top: 0, behavior: 'smooth' });
+                    setIsMenuOpen(false);
+                  }}
+                  className="block w-full px-4 py-3 text-gray-700 border-b border-gray-200"
+                >
+                  {link.name}
+                </Link>
+              )}
+            </div>
+          ))}
 
         {!user && (
           <button

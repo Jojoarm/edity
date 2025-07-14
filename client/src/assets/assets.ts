@@ -8,36 +8,11 @@ import {
   Users,
 } from 'lucide-react';
 
-export const navLinks: NavLink[] = [
+export const educatorNavLinks: NavLink[] = [
   { name: 'Overview', path: '/overview' },
   {
-    name: 'Users',
-    content: [
-      {
-        title: 'School Management',
-        path: '/school-management',
-      },
-      {
-        title: 'Educators Interface',
-        path: '/educators-interface',
-      },
-      {
-        title: 'Stakeholders Interface',
-        path: '/stakeholders-interface',
-      },
-      {
-        title: 'Learners Dashboard',
-        path: '/learners-dashboard',
-      },
-      {
-        title: 'Admin Dashboard',
-        path: '/admin-dashboard',
-      },
-      {
-        title: 'Researchers Interface',
-        path: '/researchers-interface',
-      },
-    ],
+    name: 'Educators Interface',
+    path: '/educator/professional-development-tracker',
   },
   {
     name: 'Tools',
@@ -64,11 +39,7 @@ export const navLinks: NavLink[] = [
       },
       {
         title: 'Survey Launch Tool',
-        path: '/survey-launch-tool',
-      },
-      {
-        title: 'Professional Development Tracker',
-        path: '/educator/professional-development-tracker',
+        path: '/educator/tools/survey-launch-tool',
       },
       {
         title: 'View All Tools',

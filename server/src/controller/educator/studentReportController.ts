@@ -23,7 +23,7 @@ export const createStudentReport = catchAsync(
     const educatorId = req.userId;
 
     const educator = await User.findById(educatorId);
-    if (!educator) throw createError('No Educator data found', 400);
+    if (!educator) throw createError('No Educator data found', 404);
 
     const educatorName = educator.name;
     const educatorContact = educator.email;

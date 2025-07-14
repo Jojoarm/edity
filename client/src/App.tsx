@@ -25,20 +25,18 @@ import CreateCourse from './pages/admin/tools/CreateCourse';
 import ManageUsers from './pages/admin/tools/ManageUsers';
 import SystemSettings from './pages/admin/tools/SystemSettings';
 import CreateSubject from './pages/admin/tools/CreateSubject';
-// import LessonPlanner from './pages/educator/tools/LessonPlanner';
 import LessonPlan from './pages/educator/tools/LessonPlan';
 import CurriculumMappingTool from './pages/educator/tools/CurriculumMappingTool';
 import ResourceRecommendationTool from './pages/educator/tools/ResourceRecommendationTool';
 import ReportingTool from './pages/educator/tools/ReportingTool';
 import ProfessionalDevelopmentTracker from './pages/educator/ProfessionalDevelopmentTracker';
 import EducatorLayout from './layouts/EducatorLayout';
-// import NewActivity from './components/common/NewActivity';
 import ActivitiesList from './pages/educator/ActivitiesList';
-// import CreateActivity from './components/common/CreateActivity';
 import ActivityForm from './components/common/forms/ActivityForm';
 import GoalsManagement from './pages/educator/GoalsManagement';
 import ViewReports from './pages/educator/ViewReports';
 import EducatorProfile from './pages/educator/EducatorProfile';
+import SurveyLaunchTool from './pages/educator/tools/SurveyLaunchTool';
 
 const App = () => {
   const { setUser, setIsLoggedIn, setAuthLoading } = useAppStore();
@@ -105,6 +103,10 @@ const App = () => {
           <Route
             path="/educator/tools/reporting-tool"
             element={<ReportingTool />}
+          />
+          <Route
+            path="/educator/tools/survey-launch-tool"
+            element={<SurveyLaunchTool />}
           />
           <Route
             path="/educator/professional-development-tracker"

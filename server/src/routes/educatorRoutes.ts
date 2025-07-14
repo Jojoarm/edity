@@ -7,9 +7,11 @@ import {
   validateCreateLessonPlan,
   validateCreateRecommendedResources,
   validateCreateStudentReport,
+  validateCreateSurvey,
 } from '../middlewares/validator';
 import { createResourceRecommendation } from '../controller/educator/resourceRecommendationController';
 import { createStudentReport } from '../controller/educator/studentReportController';
+import { createSurvey } from '../controller/educator/surveyLaunchController';
 
 const educatorRouter = express.Router();
 
@@ -43,6 +45,14 @@ educatorRouter.post(
   isEducator,
   validateCreateStudentReport,
   createStudentReport
+);
+
+educatorRouter.post(
+  '/create-survey',
+  verifyToken,
+  isEducator,
+  validateCreateSurvey,
+  createSurvey
 );
 
 export default educatorRouter;

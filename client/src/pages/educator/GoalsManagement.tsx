@@ -167,7 +167,7 @@ const GoalsManagement = () => {
   };
 
   return (
-    <div className="section min-h-screen bg-gray-50">
+    <div className="section min-h-screen bg-light-background-color">
       {/* Header */}
       <ProfessionalDevelopmentHeader />
 

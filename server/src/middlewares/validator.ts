@@ -555,3 +555,62 @@ export const validateCreateGoal = [
 
   handleValidationErrors,
 ];
+
+export const validateCreateSurvey = [
+  check('surveyTitle')
+    .notEmpty()
+    .withMessage('Survey title is required')
+    .isString()
+    .withMessage('Survey title must be a string'),
+
+  check('targetAudience')
+    .notEmpty()
+    .withMessage('Target audience is required')
+    .isString()
+    .withMessage('Target audience must be a string'),
+
+  check('purposeDescription')
+    .notEmpty()
+    .withMessage('Purpose description is required')
+    .isString()
+    .withMessage('Purpose description must be a string'),
+
+  check('deliveryFormat')
+    .optional()
+    .isString()
+    .withMessage('Delivery format must be a string'),
+
+  check('launchDate')
+    .notEmpty()
+    .withMessage('Launch date is required')
+    .isISO8601()
+    .withMessage('Launch date must be a valid ISO 8601 date'),
+
+  check('deadline')
+    .optional()
+    .isISO8601()
+    .withMessage('Deadline must be a valid ISO 8601 date'),
+
+  check('questionTypes')
+    .isArray({ min: 1 })
+    .withMessage('At least one question type configuration is required'),
+
+  body('questionTypes.*.type')
+    .notEmpty()
+    .withMessage('Question type is required')
+    .isIn(['multiple_choice', 'short_text', 'rating', 'yes_no', 'likert_scale'])
+    .withMessage('Invalid question type'),
+
+  body('questionTypes.*.count')
+    .notEmpty()
+    .withMessage('Question count is required')
+    .isInt({ min: 1 })
+    .withMessage('Count must be a positive integer'),
+
+  body('questionTypes.*.focus')
+    .optional()
+    .isString()
+    .withMessage('Focus must be a string'),
+
+  handleValidationErrors,
+];
