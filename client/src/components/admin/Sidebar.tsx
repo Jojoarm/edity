@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 import { LogOut } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { Link, NavLink, useNavigate } from 'react-router';
 import { useAppStore } from '../../contexts/useAppStore';
 import { logout } from '../../api/user-api';
 import { adminSidebarItems } from '../../assets/assets';
 import Icon from '../common/Icon';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
   const { user, setUser, setIsLoggedIn } = useAppStore();

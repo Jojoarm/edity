@@ -19,7 +19,7 @@ export const createUser = async (formData: RegisterFormData) => {
       toast.error(data.message);
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -32,7 +32,7 @@ export const updateUser = async (formData: FormData) => {
     } else {
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -47,7 +47,7 @@ export const userLogin = async (formData: SignInFormData) => {
       toast.error(data.message);
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -65,7 +65,7 @@ export const completeRegistration = async (formData: FormData) => {
       toast.error(data.message);
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -84,7 +84,7 @@ export const fetchUser = async (
       return userData;
     }
     return null;
-  } catch (error: unknown) {
+  } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status !== 401) {
         console.error('Unexpected fetchUser error:', error);
@@ -135,7 +135,7 @@ export const sendOtp = async (formData: ForgotPasswordData) => {
     } else {
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -149,7 +149,7 @@ export const verifyOtp = async (code: string, email: string) => {
       toast.error(data.message);
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -163,7 +163,7 @@ export const resetPassword = async (formData: ResetPasswordData) => {
       toast.error(data.message);
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -177,7 +177,7 @@ export const addActivity = async (formData: FormData) => {
     } else {
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -202,7 +202,7 @@ export const fetchActivity = async (id: string) => {
     } else {
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -218,7 +218,7 @@ export const updateActivity = async (id: string, formData: FormData) => {
     } else {
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -231,7 +231,7 @@ export const deleteActivity = async (id: string) => {
     } else {
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -246,7 +246,7 @@ export const deleteActivities = async (ids: string[]) => {
     } else {
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -259,7 +259,7 @@ export const addGoal = async (formData: GoalsFormData) => {
     } else {
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -284,7 +284,7 @@ export const fetchGoal = async (id: string) => {
     } else {
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -297,7 +297,7 @@ export const updateGoal = async (id: string, formData: GoalsFormData) => {
     } else {
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };
@@ -310,7 +310,7 @@ export const deleteGoal = async (id: string) => {
     } else {
       throw new Error(data.message);
     }
-  } catch (error: unknown) {
+  } catch (error) {
     handleApiError(error);
   }
 };

@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
 import { useAppStore } from '../../contexts/useAppStore';
 import { fetchUser } from '../../api/user-api';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const GoogleLoginButton = () => {
   const { setUser, setAuthLoading } = useAppStore();

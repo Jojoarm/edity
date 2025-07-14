@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
 import { ChevronDown, LayoutDashboard, LogOut, Settings } from 'lucide-react';
 import { educatorNavLinks } from '../../assets/assets';
 import { useAppStore } from '../../contexts/useAppStore';
 import { useMutation } from '@tanstack/react-query';
 import { logout } from '../../api/user-api';
 import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const { user, setUser, setIsLoggedIn } = useAppStore();
