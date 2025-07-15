@@ -13,6 +13,7 @@ export const createUser = async (formData: RegisterFormData) => {
   try {
     const { data } = await api.post('/api/users/sign-up', formData);
     if (data.success) {
+      localStorage.setItem('auth_token', data.token);
       toast.success(data.message);
       return data.newUser;
     } else {

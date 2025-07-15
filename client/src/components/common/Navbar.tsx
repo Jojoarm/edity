@@ -264,7 +264,7 @@ const Navbar = () => {
         {/* NavLinks */}
         {user?.role === 'educator' &&
           educatorNavLinks.map((link, i) => (
-            <div key={i} className="w-full">
+            <div key={i} className="w-full px-6">
               {Array.isArray(link.content) ? (
                 <div className="w-full">
                   <button

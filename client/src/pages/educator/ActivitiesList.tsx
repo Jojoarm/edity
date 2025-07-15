@@ -183,7 +183,7 @@ const ActivitiesList = () => {
                 Set, track, and achieve your professional activities.
               </p>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-col md:flex-row items-start md:items-center space-x-4">
               <ExportToCSV
                 data={filteredActivities || []}
                 headers={[

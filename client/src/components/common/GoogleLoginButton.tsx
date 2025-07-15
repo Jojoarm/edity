@@ -26,6 +26,7 @@ const GoogleLoginButton = () => {
       );
 
       if (res.data.success) {
+        localStorage.setItem('auth_token', res.data.token);
         await fetchUser(setUser, setAuthLoading);
 
         // Differentiate between login and signup

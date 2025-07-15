@@ -101,14 +101,6 @@ export const signIn = catchAsync(
       maxAge: 86400000,
     });
 
-    console.log('NODE_ENV:', process.env.NODE_ENV);
-    console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
-    console.log('Request Origin:', req.headers.origin);
-    console.log('Cookie settings:', {
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    });
-
     res.status(201).json({
       success: true,
       token: token,
@@ -209,16 +201,6 @@ export const completeRegistration = catchAsync(
         ],
       });
     }
-    // if (req.file) {
-    //   const result = await cloudinary.uploader.upload(req.file.path, {
-    //     folder: 'profile_pictures',
-    //     transformation: [
-    //       { width: 300, height: 300, crop: 'fill' },
-    //       { quality: 'auto' },
-    //     ],
-    //   });
-    //   profilePictureUrl = result.secure_url;
-    // }
 
     await User.findByIdAndUpdate(userId, {
       role,
@@ -347,13 +329,7 @@ export const userLogout = catchAsync(
       expires: new Date(0),
       path: '/',
     });
-    res.cookie('refresh_token', '', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production' ? true : false,
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-      expires: new Date(0),
-      path: '/',
-    });
+
     res.status(200).json({ success: true, message: 'Logged out successfully' });
   }
 );
