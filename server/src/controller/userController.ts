@@ -100,6 +100,15 @@ export const signIn = catchAsync(
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 86400000,
     });
+
+    console.log('NODE_ENV:', process.env.NODE_ENV);
+    console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
+    console.log('Request Origin:', req.headers.origin);
+    console.log('Cookie settings:', {
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    });
+
     res.status(201).json({
       success: true,
       token: token,
