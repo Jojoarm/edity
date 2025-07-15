@@ -123,6 +123,7 @@ export const validateToken = async (
 export const logout = async () => {
   const { data } = await api.post('/api/users/logout');
   if (data.success) {
+    localStorage.removeItem('auth_token');
     toast.success(data.message);
   } else {
     toast.error(data.message);
