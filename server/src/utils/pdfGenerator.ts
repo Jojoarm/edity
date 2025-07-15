@@ -1,13 +1,9 @@
-import chromium from 'chrome-aws-lambda';
-import puppeteer from 'puppeteer-core';
-import { executablePath as localExecutablePath } from 'puppeteer';
+import puppeteer from 'puppeteer';
 
 export const generatePdfFromHtml = async (
   htmlContent: string,
   safeFilename: string
 ): Promise<Buffer> => {
-  const isProd = process.env.NODE_ENV === 'production';
-
   const html = `
     <html>
       <head>
@@ -21,52 +17,65 @@ export const generatePdfFromHtml = async (
             color: #222;
             font-size: 14px;
           }
-          h1, h2, h3, h4, h5, h6 {
-            margin-top: 1.5rem !important;
-            margin-bottom: 0.5rem !important;
-            font-weight: 700 !important;
-          }
-          h1:first-child,
-          h2:first-child,
-          h3:first-child,
-          h4:first-child,
-          h5:first-child,
-          h6:first-child {
-            margin-top: 0 !important;
-          }
-          h1 {
+           h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                margin-top: 1.5rem !important;
+                margin-bottom: 0.5rem !important;
+                font-weight: 700 !important;
+            }
+   
+            h1:first-child,
+            h2:first-child,
+            h3:first-child,
+            h4:first-child,
+            h5:first-child,
+            h6:first-child {
+                margin-top: 0 !important;
+            }
+        h1 {
             font-size: 1.8rem !important;
             font-weight: 800 !important;
-            color: #1f2937 !important;
-            text-align: center !important;
-          }
-          h2 {
+            color: #1f2937 !important; /* Dark gray */
+            text-align: center !important
+            
+        }
+
+        h2 {
             font-size: 1.5rem !important;
             font-weight: 700 !important;
-            color: #374151 !important;
-          }
-          h3 {
+            color: #374151 !important; /* Medium gray */
+        }
+
+        h3 {
             font-size: 1.3rem !important;
             font-weight: 600 !important;
-            color: #4b5563 !important;
-          }
-          h4 {
+            color: #4b5563 !important; /* Lighter gray */
+        }
+
+        h4 {
             font-size: 1.125rem !important;
             font-weight: 600 !important;
             color: #6b7280 !important;
-          }
-          h5 {
+        }
+
+        h5 {
             font-size: 1.105rem !important;
             font-weight: 500 !important;
             color: #6b7280 !important;
-          }
-          h6 {
+        }
+
+        h6 {
             font-size: 1rem !important;
             font-weight: 500 !important;
             color: #9ca3af !important;
             text-transform: uppercase !important;
             letter-spacing: 0.05em !important;
-          }
+        }
+
           ul, ol {
             margin: 12px 0 12px 24px;
           }
@@ -82,6 +91,7 @@ export const generatePdfFromHtml = async (
           .page-break {
             page-break-before: always;
           }
+          /* Add styles for code blocks and inline code */
           pre {
             background-color: #f4f4f4;
             padding: 12px;
@@ -94,6 +104,7 @@ export const generatePdfFromHtml = async (
             border-radius: 3px;
             font-family: 'Courier New', monospace;
           }
+          /* Add styles for tables */
           table {
             border-collapse: collapse;
             width: 100%;
@@ -107,6 +118,7 @@ export const generatePdfFromHtml = async (
           th {
             background-color: #f2f2f2;
           }
+          /* Add styles for blockquotes */
           blockquote {
             border-left: 4px solid #ccc;
             margin-left: 0;
@@ -121,25 +133,74 @@ export const generatePdfFromHtml = async (
     </html>
   `;
 
-  const browser = await puppeteer.launch({
-    args: isProd ? chromium.args : [],
-    executablePath: isProd
-      ? await chromium.executablePath
-      : localExecutablePath(),
-    headless: isProd ? chromium.headless : true,
-    defaultViewport: isProd ? chromium.defaultViewport : null,
-  });
+  let browser;
+  let page;
 
-  const page = await browser.newPage();
-  await page.setContent(html, { waitUntil: 'networkidle0' });
+  try {
+    // Configuration for local development and deployment
+    browser = await puppeteer.launch({
+      headless: true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--disable-gpu',
+        '--no-first-run',
+        '--no-zygote',
+        '--disable-background-timer-throttling',
+        '--disable-backgrounding-occluded-windows',
+        '--disable-renderer-backgrounding',
+        '--disable-features=TranslateUI',
+        '--disable-ipc-flooding-protection',
+        // Only use single-process in production/serverless environments
+        ...(process.env.NODE_ENV === 'production' ? ['--single-process'] : []),
+      ],
+      // Use default executable path for local development
+      executablePath:
+        process.env.NODE_ENV === 'production'
+          ? undefined
+          : puppeteer.executablePath(),
+      timeout: 30000, // 30 second timeout
+    });
 
-  const pdfBuffer = await page.pdf({
-    format: 'A4',
-    printBackground: true,
-    margin: { top: '1cm', bottom: '1cm', left: '1cm', right: '1cm' },
-  });
+    page = await browser.newPage();
 
-  await browser.close();
+    // Set a larger timeout for page operations
+    page.setDefaultTimeout(30000);
 
-  return Buffer.from(pdfBuffer);
+    await page.setContent(html, {
+      waitUntil: 'networkidle0',
+      timeout: 30000,
+    });
+
+    const pdfBuffer = await page.pdf({
+      format: 'A4',
+      printBackground: true,
+      margin: { top: '1cm', bottom: '1cm', left: '1cm', right: '1cm' },
+      displayHeaderFooter: false,
+      preferCSSPageSize: false,
+      timeout: 30000, // 30 second timeout for PDF generation
+    });
+
+    return Buffer.from(pdfBuffer);
+  } catch (error) {
+    console.error('PDF generation error:', error);
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error occurred';
+    throw new Error(`PDF generation failed: ${errorMessage}`);
+  } finally {
+    // Ensure cleanup happens even if there's an error
+    try {
+      if (page) {
+        await page.close();
+      }
+      if (browser) {
+        await browser.close();
+      }
+    } catch (cleanupError) {
+      console.error('Error during cleanup:', cleanupError);
+      // Don't throw here to avoid masking the original error
+    }
+  }
 };
