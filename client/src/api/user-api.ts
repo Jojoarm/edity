@@ -126,7 +126,7 @@ export const logout = async () => {
     localStorage.removeItem('auth_token');
     toast.success(data.message);
   } else {
-    toast.error(data.message);
+    console.log(data.message);
   }
 };
 
