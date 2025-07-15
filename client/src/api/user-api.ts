@@ -42,6 +42,7 @@ export const userLogin = async (formData: SignInFormData) => {
   try {
     const { data } = await api.post('/api/users/login', formData);
     if (data.success) {
+      localStorage.setItem('auth_token', data.token);
       toast.success(data.message);
     } else {
       toast.error(data.message);

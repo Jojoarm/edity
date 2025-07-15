@@ -14,7 +14,22 @@ declare global {
 
 export const verifyToken = catchAsync(
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-    const token = req.cookies['auth_token'];
+    // Check multiple sources for token
+    let token = req.cookies['auth_token'];
+
+    // If no cookie, check Authorization header
+    if (!token) {
+      const authHeader = req.headers.authorization;
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        token = authHeader.substring(7);
+      }
+    }
+
+    console.log('Token from cookie:', req.cookies['auth_token']);
+    console.log('Token from header:', req.headers.authorization);
+    console.log('All cookies:', req.cookies);
+    console.log('Request headers:', req.headers);
+
     if (!token) throw createError('No auth token', 401);
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string);
