@@ -13,7 +13,7 @@ import {
   Trash2,
   Users,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
@@ -34,6 +34,7 @@ export type SurveyLaunchData = {
 };
 
 const SurveyLaunchTool = () => {
+  const editorRef = useRef<HTMLDivElement>(null);
   const [surveyLaunch, setSurveyLaunch] = useState<string>('');
 
   const form = useForm<SurveyLaunchData>({
@@ -71,6 +72,9 @@ const SurveyLaunchTool = () => {
     onSuccess: (data) => {
       setSurveyLaunch(data.survey);
       reset();
+      setTimeout(() => {
+        editorRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     },
     onError: (error: Error) => {
       toast.error(error.message || 'Failed to create survey launch strategy');
@@ -120,8 +124,8 @@ const SurveyLaunchTool = () => {
   return (
     <ToolForm
       toolTitle="Survey Launch Tool"
-      toolIcon="fa-solid fa-poll-h"
-      toolIconColor="text-blue-300"
+      toolIcon="fa-solid fa-poll"
+      toolIconColor="text-emerald-500"
       toolDescription="This survey launch tool empowers educators to create comprehensive survey strategies for collecting valuable feedback from students, parents, and staff. Generate professional launch plans with targeted questions, delivery strategies, and engagement tactics to maximize participation and gather actionable insights for school improvement."
       formTitle="Launch Survey Strategy"
       includesSubjectField={false}
@@ -132,11 +136,13 @@ const SurveyLaunchTool = () => {
       result={surveyLaunch}
       resultComponent={
         surveyLaunch && (
-          <Editor
-            key={surveyLaunch}
-            initialContent={surveyLaunch}
-            fileName="survey-launch-strategy.pdf"
-          />
+          <div ref={editorRef} className="bg-light-background-color">
+            <Editor
+              key={surveyLaunch}
+              initialContent={surveyLaunch}
+              fileName="survey-launch-strategy.pdf"
+            />
+          </div>
         )
       }
     >

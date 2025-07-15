@@ -218,6 +218,108 @@
   animation: scaleIn 0.3s ease-out;
 }
 
+/* work in progress classes */
+.container {
+  text-align: center;
+  max-width: 600px;
+  padding: 2rem;
+  position: relative;
+}
+.progress-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 25px;
+  padding: 2rem;
+  margin: 2rem 0;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+.working-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.progress-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.progress-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.progress-bar-container {
+  background: #cfe2ef;
+  border-radius: 20px;
+  padding: 2px;
+  margin: 2rem 0;
+}
+
+.progress-bar {
+  height: 10px;
+  background: linear-gradient(90deg, #026aa2, #2090cc);
+  border-radius: 16px;
+  width: 75%;
+  animation: pulse 3s infinite;
+  /* box-shadow: 0 0 20px rgba(45, 90, 65, 0.5); */
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 10px rgba(26, 40, 89, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(26, 40, 89, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(26, 40, 89, 0.5);
+  }
+}
+
+.progress-text {
+  margin-top: 1rem;
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* glassMorphism card */
+.feature-card {
+  background: rgba(255, 255, 255, 0.4);
+  padding: 1.5rem;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.feature-card:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
 @layer component {
   .section {
     @apply pt-34 px-10 md:px-16 lg:px-32;

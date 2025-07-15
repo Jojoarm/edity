@@ -23,7 +23,7 @@ export const educatorNavLinks: NavLink[] = [
       },
       {
         title: 'Student Performance Analyzer',
-        path: '/student-performaance-analzyer',
+        path: '/educator/tools/student-performaance-analzyer',
       },
       {
         title: 'Curriculum Mapping Tool',
@@ -43,7 +43,7 @@ export const educatorNavLinks: NavLink[] = [
       },
       {
         title: 'View All Tools',
-        path: '/view-all-tools',
+        path: '/educator/tools/view-all-tools',
       },
     ],
   },
@@ -226,20 +226,91 @@ export const educatorTools = [
     id: 'lesson-planner',
     title: 'Lesson Planner',
     description:
-      'This tool can be used to create lesson plans. Simply provide a learning objective and year group, and the AI will draft the lesson plan including assessment suggestions.',
-    icon: Settings,
-    category: 'management',
-    color: 'bg-gray-500',
-    lightColor: 'bg-gray-50',
-    borderColor: 'border-gray-200',
-    textColor: 'text-gray-600',
-    features: [
-      'Global settings',
-      'Platform config',
-      'Integrations',
-      'Security settings',
-    ],
-    path: '/admin/tools/system-settings',
+      'This tool helps you craft comprehensive lesson plans. Simply provide a learning objective and year group, and the AI will generate a plan including objectives, activities, and assessments.',
+    icon: 'fa-solid fa-person-chalkboard',
+    textColor: 'text-orange-300',
+    bgFill: 'text-orange-50',
+    path: '/educator/tools/lesson-planner',
+  },
+  {
+    id: 'curriculum-mapping-tool',
+    title: 'Curriculum Mapping',
+    description:
+      'Map out curriculum goals across subjects and terms. Define learning outcomes, align standards, and track progress visually.',
+    icon: 'fa-solid fa-map',
+    textColor: 'text-blue-300',
+    bgFill: 'text-blue-50',
+    path: '/educator/tools/curriculum-mapping-tool',
+  },
+  {
+    id: 'resource-recommendation-engine',
+    title: 'Resource Recommender',
+    description:
+      'Get AI-curated learning materials based on topics, class level, and learning objectives. Save hours searching for quality content.',
+    icon: 'fa-solid fa-book-open-reader',
+    textColor: 'text-teal-300',
+    bgFill: 'text-teal-50',
+    path: '/educator/tools/resource-recommendation-engine',
+  },
+  {
+    id: 'student-performance-analyzer',
+    title: 'Performance Analyzer',
+    description:
+      'Analyze student performance across assessments. Visualize strengths, identify gaps, and generate improvement suggestions.',
+    icon: 'fa-solid fa-chart-line',
+    textColor: 'text-purple-300',
+    bgFill: 'text-purple-50',
+    path: '/educator/tools/student-performaance-analzyer',
+  },
+  {
+    id: 'reporting-tool',
+    title: 'Reporting Assistant',
+    description:
+      'Create professional student reports with AI assistance. Input performance data, and get editable narrative feedback.',
+    icon: 'fa-solid fa-file-lines',
+    textColor: 'text-pink-300',
+    bgFill: 'text-pink-50',
+    path: '/educator/tools/reporting-tool',
+  },
+  {
+    id: 'survey-launch-tool',
+    title: 'Survey Launch Tool',
+    description:
+      'Quickly design and launch surveys to students, teachers, or parents. Choose question types and generate forms instantly.',
+    icon: 'fa-solid fa-poll',
+    textColor: 'text-emerald-300',
+    bgFill: 'text-emerald-50',
+    path: '/educator/tools/survey-launch-tool',
+  },
+  {
+    id: 'quick-knowledge-retrieval-quiz',
+    title: 'Quick Quiz Generator',
+    description:
+      'Generate retrieval practice quizzes for any topic. Reinforce key knowledge and boost memory retention effortlessly.',
+    icon: 'fa-solid fa-clipboard-question',
+    textColor: 'text-indigo-300',
+    bgFill: 'text-indigo-50',
+    path: '/educator/tools/quick-knowledge-retrieval-quiz',
+  },
+  {
+    id: 'class-spark',
+    title: 'Class Spark (Activity Ideas)',
+    description:
+      'Spark classroom creativity with engaging activity ideas tailored to your lesson objectives and subject focus.',
+    icon: 'fa-solid fa-lightbulb',
+    textColor: 'text-yellow-300',
+    bgFill: 'text-yellow-50',
+    path: '/educator/tools/class-spark',
+  },
+  {
+    id: 'clarity-core',
+    title: 'Clarity Core (Concept Explainer)',
+    description:
+      'Break down tough concepts into digestible explanations. Great for differentiated instruction and revision support.',
+    icon: 'fa-solid fa-brain',
+    textColor: 'text-rose-300',
+    bgFill: 'text-rose-50',
+    path: '/educator/tools/clarity-core',
   },
 ];
 

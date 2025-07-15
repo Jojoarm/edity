@@ -91,7 +91,7 @@ const ToolForm = <T extends FieldValues>({
   return (
     <div
       className={
-        'relative section w-full h-full bg-light-background-color overflow-hidden py-10'
+        'relative section w-full h-full min-h-screen bg-light-background-color overflow-hidden py-10'
       }
     >
       <CircularShape
@@ -119,14 +119,14 @@ const ToolForm = <T extends FieldValues>({
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="py-5 px-10 mb-10 w-full flex flex-col items-center justify-center shadow-xl bg-white border border-gray-300/80 rounded-2xl"
+          className="py-5 px-10 mb-10 w-full flex flex-col items-center justify-center shadow-xl bg-navy-50 border border-gray-300/80 rounded-2xl"
         >
           <FormTitle title={formTitle} />
 
           <div className="w-full flex flex-col md:flex-row space-x-5">
             {includesSubjectField && (
               <Input
-                label="Subject"
+                label="Subject *"
                 icon={ListPlus}
                 isSelect
                 options={subjectOptions}
@@ -140,7 +140,7 @@ const ToolForm = <T extends FieldValues>({
 
             {includesClassLevelField && (
               <Input
-                label="Class Level"
+                label="Class Level *"
                 icon={ListPlus}
                 isSelect
                 options={classLevelsOptions}
@@ -154,7 +154,7 @@ const ToolForm = <T extends FieldValues>({
 
             {includesAcademicTerm && (
               <Input
-                label="Academic Term"
+                label="Academic Term *"
                 icon={ListPlus}
                 isSelect
                 options={termOptions}

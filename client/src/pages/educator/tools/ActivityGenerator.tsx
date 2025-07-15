@@ -1,30 +1,31 @@
-import { createResourceRecommendation } from '@/api/educator-api';
+import { createActivityIdea } from '@/api/educator-api';
 import Input from '@/components/common/Input';
 import Editor from '@/components/educator/Editor';
 import ToolForm from '@/components/educator/ToolForm';
 import { useMutation } from '@tanstack/react-query';
-import { Captions, MessageSquare } from 'lucide-react';
+import { Captions, FileText, MessageSquare } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-export type ResourceRecommendationData = {
+export type ActivityIdeaData = {
   learningObjective: string;
   subject: string;
-  topic: string;
-  term: string;
+  topicOrTheme: string;
   classLevel: string;
+  numberOfIdeas?: number;
 };
-const ResourceRecommendationTool = () => {
+
+const ActivityGenerator = () => {
   const editorRef = useRef<HTMLDivElement>(null);
-  const [recommendedResources, setRecommendedResources] = useState<string>('');
-  const form = useForm<ResourceRecommendationData>({
+  const [activityIdea, setActivityIdea] = useState('');
+  const form = useForm<ActivityIdeaData>({
     defaultValues: {
       learningObjective: '',
       subject: '',
-      topic: '',
-      term: '',
+      topicOrTheme: '',
       classLevel: '',
+      numberOfIdeas: 4,
     },
   });
 
@@ -35,42 +36,43 @@ const ResourceRecommendationTool = () => {
   } = form;
 
   const mutation = useMutation({
-    mutationFn: createResourceRecommendation,
+    mutationFn: createActivityIdea,
     onSuccess: (data) => {
-      setRecommendedResources(data.recommendedResources);
+      setActivityIdea(data.activityIdea);
       reset();
+
+      // Scroll to the editor after state is set
       setTimeout(() => {
         editorRef.current?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Failed to generate resources');
+      toast.error(error.message || 'Failed to generate activities idea');
     },
   });
 
-  const onSubmit = (data: ResourceRecommendationData) => {
+  const onSubmit = (data: ActivityIdeaData) => {
     mutation.mutate(data);
   };
 
   return (
     <ToolForm
-      toolTitle="Resource Recommendation Engine"
-      toolIcon="fa-solid fa-book-open-reader"
-      toolIconColor="text-teal-500"
-      toolDescription="Instantly get smart, high quality resource recommendations based on your lesson goals. Just tell the tool what you’re teaching and get curated content that fits your class level, topic, and learning outcomes."
-      formTitle="Generate Recommended Resources"
+      toolTitle="ClassSpark ⚡️"
+      toolIcon="fa-solid fa-lightbulb"
+      toolIconColor="text-yellow-400"
+      toolDescription="This tool helps educators quickly generate creative, subject-specific activity ideas for any topic or learning objective. Just provide the subject, class level, and topic, and AI will suggest engaging and effective classroom activities tailored to your needs."
+      formTitle="Generate Activity Ideas"
       form={form}
-      includesAcademicTerm
       mutation={mutation}
       onSubmit={onSubmit}
-      result={recommendedResources}
+      result={activityIdea}
       resultComponent={
-        recommendedResources && (
+        activityIdea && (
           <div ref={editorRef} className="bg-light-background-color">
             <Editor
-              key={recommendedResources}
-              initialContent={recommendedResources}
-              fileName="recommended-resources.pdf"
+              key={activityIdea}
+              initialContent={activityIdea}
+              fileName="activity-idea.pdf"
             />
           </div>
         )
@@ -78,14 +80,14 @@ const ResourceRecommendationTool = () => {
     >
       <div className="w-full flex flex-col md:flex-row space-x-5">
         <Input
-          label="Topic"
+          label="Topic/Theme"
           icon={Captions}
           type="text"
           placeholder="e.g Algebra"
           required
-          error={errors.topic?.message}
-          {...register('topic', {
-            required: 'Topic is required',
+          error={errors.topicOrTheme?.message}
+          {...register('topicOrTheme', {
+            required: 'Topic/Theme is required',
           })}
         />
 
@@ -100,9 +102,17 @@ const ResourceRecommendationTool = () => {
             required: 'Learning Objective is required',
           })}
         />
+
+        <Input
+          label="No of Activities"
+          icon={FileText}
+          type="number"
+          error={errors.numberOfIdeas?.message}
+          {...register('numberOfIdeas')}
+        />
       </div>
     </ToolForm>
   );
 };
 
-export default ResourceRecommendationTool;
+export default ActivityGenerator;

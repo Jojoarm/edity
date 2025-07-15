@@ -4,7 +4,7 @@ import Editor from '@/components/educator/Editor';
 import ToolForm from '@/components/educator/ToolForm';
 import { useMutation } from '@tanstack/react-query';
 import { FileDigit } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
@@ -15,6 +15,7 @@ export type CurriculumMapData = {
   classLevel: string;
 };
 const CurriculumMappingTool = () => {
+  const editorRef = useRef<HTMLDivElement>(null);
   const [curriculumMap, setCurriculumMap] = useState<string>('');
   const form = useForm<CurriculumMapData>({
     defaultValues: {
@@ -35,6 +36,9 @@ const CurriculumMappingTool = () => {
     onSuccess: (data) => {
       setCurriculumMap(data.curriculumMap);
       reset();
+      setTimeout(() => {
+        editorRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     },
     onError: (error: Error) => {
       toast.error(error.message || 'Failed to curriculum map');
@@ -49,7 +53,7 @@ const CurriculumMappingTool = () => {
     <ToolForm
       toolTitle="Curriculum Mapping Tool"
       toolIcon="fa-solid fa-map"
-      toolIconColor="text-orange-300"
+      toolIconColor="text-primary"
       toolDescription="This tool empowers educators to design and map curricula term-by-term, subject-by-subject, and class-by-class with precision and clarity. It provides a dynamic interface for planning what to teach, when to teach it, and how each learning objective aligns across the academic journey, driving smarter, more connected instruction."
       formTitle="Generate Curriculum"
       form={form}
@@ -59,11 +63,13 @@ const CurriculumMappingTool = () => {
       result={curriculumMap}
       resultComponent={
         curriculumMap && (
-          <Editor
-            key={curriculumMap}
-            initialContent={curriculumMap}
-            fileName="curriculum-map.pdf"
-          />
+          <div ref={editorRef} className="bg-light-background-color">
+            <Editor
+              key={curriculumMap}
+              initialContent={curriculumMap}
+              fileName="curriculum-map.pdf"
+            />
+          </div>
         )
       }
     >

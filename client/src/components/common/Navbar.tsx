@@ -246,7 +246,7 @@ const Navbar = () => {
 
       {/* Mobile Menu Content */}
       <div
-        className={`fixed top-0 left-0 z-50 w-full h-screen bg-white text-base flex flex-col md:hidden items-center justify-center gap-2 font-medium text-gray-800 transition-all duration-500 ${
+        className={`fixed top-0 left-0 z-50 w-full h-screen bg-light-background-color text-base flex flex-col md:hidden items-center justify-center gap-2 font-medium text-gray-800 transition-all duration-500 ${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -264,11 +264,14 @@ const Navbar = () => {
         {/* NavLinks */}
         {user?.role === 'educator' &&
           educatorNavLinks.map((link, i) => (
-            <div key={i} className="w-full px-6">
+            <div
+              key={i}
+              className="w-full flex items-center justify-center px-6"
+            >
               {Array.isArray(link.content) ? (
-                <div className="w-full">
+                <div className="">
                   <button
-                    className="flex items-center w-full text-left px-4 py-3 text-gray-700 border-b border-gray-200"
+                    className="w-full flex items-center justify-center px-4 text-gray-700"
                     onClick={() =>
                       setOpenDropdown(
                         openDropdown === link.name ? null : link.name
@@ -277,7 +280,7 @@ const Navbar = () => {
                   >
                     <span>{link.name}</span>
                     <ChevronDown
-                      className={`size-6 transform transition-transform text-gray-600 ${
+                      className={`size-6 transform transition-transform text-gray-600  ${
                         openDropdown === link.name ? 'rotate-180' : ''
                       }`}
                     />
@@ -285,7 +288,7 @@ const Navbar = () => {
 
                   {/* Dropdown content */}
                   {openDropdown === link.name && (
-                    <div className="bg-white w-full">
+                    <div className="bg-light-background-color flex flex-col items-center">
                       {link.content.map((subLink, idx) => (
                         <Link
                           key={idx}

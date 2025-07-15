@@ -614,3 +614,107 @@ export const validateCreateSurvey = [
 
   handleValidationErrors,
 ];
+
+export const validateCreateRetrievalQuiz = [
+  check('subject')
+    .notEmpty()
+    .withMessage('Subject is required')
+    .isString()
+    .withMessage('Subject must be a string'),
+
+  check('topicOrLessonTitle')
+    .notEmpty()
+    .withMessage('Topic/Lesson Title is required')
+    .isString()
+    .withMessage('Topic/Lesson Title must be a string'),
+
+  check('classLevel')
+    .notEmpty()
+    .withMessage('Class Level is required')
+    .isString()
+    .withMessage('Class Level must be a string'),
+
+  check('numberOfQuestions')
+    .optional()
+    .isNumeric()
+    .withMessage('Number of questions must be a number'),
+
+  check('difficultyLevel')
+    .optional({ values: 'falsy' })
+    .isIn(['Easy', 'Medium', 'Hard', 'Mixed'])
+    .withMessage('Unhandled difficulty level'),
+
+  handleValidationErrors,
+];
+
+export const validateCreatActivityIdea = [
+  check('subject')
+    .notEmpty()
+    .withMessage('Subject is required')
+    .isString()
+    .withMessage('Subject must be a string'),
+
+  check('topicOrTheme')
+    .notEmpty()
+    .withMessage('Topic/Theme Title is required')
+    .isString()
+    .withMessage('Topic/Theme Title must be a string'),
+
+  check('classLevel')
+    .notEmpty()
+    .withMessage('Class Level is required')
+    .isString()
+    .withMessage('Class Level must be a string'),
+
+  check('numberOfIdeas')
+    .optional()
+    .isNumeric()
+    .withMessage('Number of Ideas must be a number'),
+
+  check('learningObjective')
+    .notEmpty()
+    .withMessage('Learing Objective is required')
+    .isString()
+    .withMessage('Learning Objective must be a string'),
+
+  handleValidationErrors,
+];
+
+export const validateCreateExplanation = [
+  check('subject')
+    .notEmpty()
+    .withMessage('Subject is required')
+    .isString()
+    .withMessage('Subject must be a string'),
+
+  check('topic')
+    .notEmpty()
+    .withMessage('Topic Title is required')
+    .isString()
+    .withMessage('Topic Title must be a string'),
+
+  check('classLevel')
+    .notEmpty()
+    .withMessage('Class Level is required')
+    .isString()
+    .withMessage('Class Level must be a string'),
+
+  check('difficulty')
+    .optional({ values: 'falsy' })
+    .isIn(['Beginner', 'Intermediate', 'Advanced'])
+    .withMessage('Unhandled difficulty level'),
+
+  check('preferredStyle')
+    .optional({ values: 'falsy' })
+    .isIn([
+      'analogies',
+      'examples',
+      'step-by-step',
+      'visual',
+      'storytelling',
+      'mixed',
+    ])
+    .withMessage('Unhandled preferred style'),
+
+  handleValidationErrors,
+];

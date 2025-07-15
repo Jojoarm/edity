@@ -1401,3 +1401,1117 @@ export const generateSurveyLaunchPrompt = ({
         Execute this comprehensive survey launch strategy with attention to stakeholder engagement, data quality, and actionable outcomes that will benefit the entire school community.
 `;
 };
+
+//knowledge retrieval quiz tool
+export interface KnowledgeRetrievalQuizPromptType {
+  subject: string;
+  classLevel: string;
+  topicOrLessonTitle: string;
+  numberOfQuestions?: number;
+  difficultyLevel?: 'Easy' | 'Medium' | 'Hard' | 'Mixed';
+}
+
+export const generateKnowledgeRetrievalQuizPrompt = ({
+  subject,
+  classLevel,
+  topicOrLessonTitle,
+  numberOfQuestions = 10,
+  difficultyLevel = 'Medium',
+}: KnowledgeRetrievalQuizPromptType) => {
+  return `
+        # Expert Nigerian Educational Quiz Generation Engine
+
+        ## Context
+        You are a seasoned Nigerian educational assessment specialist and curriculum expert with 15+ years of experience in creating effective, pedagogically sound quizzes that enhance knowledge retrieval and support student learning. Generate a comprehensive quiz that Nigerian teachers can immediately use to assess student understanding and reinforce learning outcomes.
+
+        ## Input Parameters
+        - **Subject**: ${subject}
+        - **Class Level**: ${classLevel}
+        - **Topic/Lesson Title**: ${topicOrLessonTitle}
+        - **Number of Questions**: ${numberOfQuestions}
+        - **Difficulty Level**: ${difficultyLevel}
+
+        ## Output Requirements
+        - Use clean, simple Markdown formatting
+        - Create questions that test knowledge retrieval and comprehension
+        - Include diverse question types for comprehensive assessment
+        - Provide detailed answer keys with explanations
+        - Consider Nigerian educational context and curriculum standards
+        - Ensure questions are age-appropriate and culturally relevant
+
+        ## Structure Template
+
+        # Knowledge Retrieval Quiz: ${topicOrLessonTitle} - ${classLevel}
+
+        ## Quiz Overview
+        **Subject**: ${subject}  
+        **Class Level**: ${classLevel}  
+        **Topic**: ${topicOrLessonTitle}  
+        **Total Questions**: ${numberOfQuestions}  
+        **Difficulty Level**: ${difficultyLevel}  
+        **Time Allocation**: [X minutes]  
+        **Assessment Type**: Knowledge Retrieval & Comprehension
+
+        ## 📋 Quiz Instructions
+
+        ### For Teachers
+        - **Preparation time**: 5 minutes to review questions and setup
+        - **Administration time**: [X minutes] for completion
+        - **Scoring method**: [Points allocation system]
+        - **Pass mark**: [X%] (adjust based on class performance)
+        - **Follow-up**: Review incorrect answers with explanations
+
+        ### For Students
+        - Read each question carefully before answering
+        - Choose the best answer for multiple choice questions
+        - Provide clear, complete answers for written responses
+        - Manage your time effectively across all questions
+        - Review your answers before submission
+
+        ## 📝 Quiz Questions
+
+        ### Section A: Multiple Choice Questions (${Math.ceil(
+          numberOfQuestions * 0.4
+        )} questions)
+        *Choose the correct answer from the options provided*
+
+        **Question 1**
+        [Question text related to ${topicOrLessonTitle}]
+        
+        a) [Option A]
+        b) [Option B]
+        c) [Option C]
+        d) [Option D]
+
+        **Question 2**
+        [Question text with Nigerian context/examples]
+        
+        a) [Option A]
+        b) [Option B]
+        c) [Option C]
+        d) [Option D]
+
+        **Question 3**
+        [Question text testing key concept understanding]
+        
+        a) [Option A]
+        b) [Option B]
+        c) [Option C]
+        d) [Option D]
+
+        [Continue pattern for remaining MCQ questions]
+
+        ### Section B: Short Answer Questions (${Math.ceil(
+          numberOfQuestions * 0.3
+        )} questions)
+        *Provide brief, clear answers (2-3 sentences each)*
+
+        **Question [X]**
+        [Question requiring explanation of key concept]
+        
+        **Answer space**: ________________________
+
+        **Question [X+1]**
+        [Question with practical application focus]
+        
+        **Answer space**: ________________________
+
+        **Question [X+2]**
+        [Question connecting to Nigerian context]
+        
+        **Answer space**: ________________________
+
+        [Continue pattern for remaining short answer questions]
+
+        ### Section C: True/False Questions (${Math.ceil(
+          numberOfQuestions * 0.2
+        )} questions)
+        *Mark T for True or F for False*
+
+        **Question [X]**
+        [Statement about ${topicOrLessonTitle}] **( )**
+
+        **Question [X+1]**
+        [Statement with common misconception] **( )**
+
+        **Question [X+2]**
+        [Statement requiring careful analysis] **( )**
+
+        [Continue pattern for remaining T/F questions]
+
+        ### Section D: Application/Analysis Questions (${Math.ceil(
+          numberOfQuestions * 0.1
+        )} questions)
+        *Demonstrate understanding through practical application*
+
+        **Question [X]**
+        [Scenario-based question requiring application of knowledge]
+        
+        **Answer space**: 
+        ________________________________
+        ________________________________
+        ________________________________
+
+        [Continue pattern if multiple application questions]
+
+        ## 📊 Answer Key & Explanations
+
+        ### Section A: Multiple Choice Answers
+
+        **Question 1**: [Correct answer letter]
+        - **Explanation**: [Clear explanation of why this is correct]
+        - **Common mistakes**: [Why other options are incorrect]
+        - **Learning objective addressed**: [Which objective this tests]
+
+        **Question 2**: [Correct answer letter]
+        - **Explanation**: [Clear explanation of why this is correct]
+        - **Common mistakes**: [Why other options are incorrect]
+        - **Learning objective addressed**: [Which objective this tests]
+
+        [Continue pattern for all MCQ questions]
+
+        ### Section B: Short Answer Model Responses
+
+        **Question [X]**: 
+        - **Model answer**: [Comprehensive expected response]
+        - **Key points to award marks**: [Bullet points of essential elements]
+        - **Partial credit guidelines**: [How to award partial marks]
+        - **Common student errors**: [Typical mistakes to watch for]
+
+        [Continue pattern for all short answer questions]
+
+        ### Section C: True/False Answers
+
+        **Question [X]**: [True/False]
+        - **Explanation**: [Why this statement is true/false]
+        - **Related concept**: [Key concept being tested]
+
+        [Continue pattern for all T/F questions]
+
+        ### Section D: Application Question Rubric
+
+        **Question [X]**: 
+        - **Excellent (4 points)**: [Criteria for top performance]
+        - **Good (3 points)**: [Criteria for above average]
+        - **Satisfactory (2 points)**: [Criteria for average]
+        - **Needs improvement (1 point)**: [Criteria for below average]
+        - **Sample response**: [Example of excellent answer]
+
+        ## 🎯 Assessment Guidelines
+
+        ### Scoring System
+        - **Total points**: [X points]
+        - **Section A**: [X points] (1 point per question)
+        - **Section B**: [X points] (2 points per question)
+        - **Section C**: [X points] (1 point per question)
+        - **Section D**: [X points] (4 points per question)
+
+        ### Grade Boundaries
+        - **A (90-100%)**: Exceptional understanding
+        - **B (80-89%)**: Very good understanding
+        - **C (70-79%)**: Good understanding
+        - **D (60-69%)**: Satisfactory understanding
+        - **F (Below 60%)**: Needs additional support
+
+        ### Differentiation Strategies
+        - **For struggling students**: Focus on Sections A and C first
+        - **For advanced students**: Emphasize Sections B and D
+        - **For ELL students**: Provide vocabulary support
+        - **For different learning styles**: Use visual aids during review
+
+        ## 🔄 Post-Quiz Activities
+
+        ### Immediate Follow-up
+        1. **Quick review**: Go through answers immediately after completion
+        2. **Peer discussion**: Students discuss challenging questions in pairs
+        3. **Error analysis**: Identify common mistakes for whole-class review
+        4. **Misconception addressing**: Clarify any widespread misunderstandings
+
+        ### Extended Learning
+        1. **Remediation plan**: For students scoring below 60%
+        2. **Extension activities**: For students scoring above 90%
+        3. **Homework assignment**: Practice questions on weak areas
+        4. **Study group formation**: Peer tutoring partnerships
+
+        ## 🎓 Professional Development Notes
+
+        ### For Teachers
+        - **Question analysis**: Track which questions students find most difficult
+        - **Curriculum alignment**: Ensure questions match learning objectives
+        - **Item difficulty**: Adjust future questions based on performance
+        - **Cultural sensitivity**: Verify all examples are appropriate and inclusive
+
+        ### Assessment Best Practices
+        - **Timing**: Allow sufficient time without rushing
+        - **Environment**: Ensure quiet, comfortable testing conditions
+        - **Feedback**: Provide constructive feedback on performance
+        - **Record keeping**: Maintain performance data for progress tracking
+
+        ## 📈 Performance Analytics
+
+        ### Class Performance Indicators
+        - **Average score**: [To be calculated]
+        - **Question difficulty ranking**: [Based on student performance]
+        - **Learning objective mastery**: [Percentage achieving each objective]
+        - **Areas for reteaching**: [Topics requiring additional instruction]
+
+        ### Individual Student Analysis
+        - **Strength areas**: [Based on question performance]
+        - **Improvement areas**: [Based on missed questions]
+        - **Learning style preferences**: [Inferred from question type performance]
+        - **Recommended interventions**: [Specific support strategies]
+
+        ---
+
+        **Implementation Notes**:
+        - Preview all questions before administration
+        - Prepare alternative assessment for absent students
+        - Have extra pencils and paper ready
+        - Consider read-aloud options for struggling readers
+        - Plan for different completion times
+        - Keep answer sheets secure and confidential
+
+        Generate this knowledge retrieval quiz with specific, grade-appropriate questions that Nigerian educators can use immediately to assess student understanding and support learning in their classrooms.
+`;
+};
+
+//activity idea generator
+export interface ActivityIdeaGeneratorPromptType {
+  subject: string;
+  classLevel: string;
+  topicOrTheme: string;
+  learningObjective?: string;
+  numberOfIdeas?: number;
+}
+
+export const generateActivityIdeaGeneratorPrompt = ({
+  subject,
+  classLevel,
+  topicOrTheme,
+  learningObjective = 'To enhance understanding and engagement with the topic',
+  numberOfIdeas = 4,
+}: ActivityIdeaGeneratorPromptType) => {
+  return `
+        # Expert Nigerian Educational Activity Idea Generator
+
+        ## Context
+        You are a seasoned Nigerian educational activities specialist and curriculum innovation expert with 15+ years of experience in designing engaging, practical learning activities that maximize student participation and knowledge retention. Generate creative, culturally relevant, and immediately implementable activity ideas that Nigerian teachers can use to transform their lessons and enhance student learning outcomes.
+
+        ## Input Parameters
+        - **Subject**: ${subject}
+        - **Class Level**: ${classLevel}
+        - **Topic/Theme**: ${topicOrTheme}
+        - **Learning Objective**: ${learningObjective}
+        - **Number of Ideas**: ${numberOfIdeas}
+
+        ## Output Requirements
+        - Use clean, simple Markdown formatting
+        - Create diverse activity types for different learning styles
+        - Provide step-by-step implementation guidance
+        - Include material lists considering Nigerian classroom contexts
+        - Offer differentiation strategies for mixed-ability classes
+        - Consider varying levels of technology access and infrastructure
+
+        ## Structure Template
+
+        # Activity Ideas: ${topicOrTheme} - ${classLevel}
+
+        ## Activity Overview
+        **Subject**: ${subject}  
+        **Class Level**: ${classLevel}  
+        **Topic/Theme**: ${topicOrTheme}  
+        **Learning Objective**: ${learningObjective}  
+        **Number of Activities**: ${numberOfIdeas}  
+        **Activity Types**: Diverse approaches for comprehensive engagement
+
+        ## 🎯 Activity Collection
+
+        ### Activity 1: [Creative Activity Name]
+        **Type**: [Individual/Pair/Group] | **Duration**: [X minutes] | **Difficulty**: [Easy/Medium/Hard]
+
+        #### 📝 Activity Description
+        [Engaging description of what students will do, written in clear, actionable language]
+
+        #### 🎓 Learning Outcomes
+        Students will be able to:
+        - [Specific skill/knowledge outcome 1]
+        - [Specific skill/knowledge outcome 2]
+        - [Specific skill/knowledge outcome 3]
+        - [Connection to broader curriculum goals]
+
+        #### 🛠️ Materials Needed
+        **Essential Items**:
+        - [List of required materials accessible in Nigerian classrooms]
+        - [Alternative materials if primary ones unavailable]
+        - [Technology requirements (if any)]
+
+        **Optional Enhancements**:
+        - [Additional materials for extended activities]
+        - [Digital tools for tech-enabled classrooms]
+
+        #### 📋 Step-by-Step Implementation
+
+        **Preparation (5 minutes)**:
+        1. [Teacher preparation step]
+        2. [Material setup instructions]
+        3. [Classroom arrangement guidance]
+
+        **Introduction (5 minutes)**:
+        1. [Hook/attention grabber]
+        2. [Learning objective explanation]
+        3. [Activity instructions delivery]
+
+        **Main Activity (X minutes)**:
+        1. [Detailed step 1 with teacher actions]
+        2. [Detailed step 2 with student actions]
+        3. [Detailed step 3 with monitoring guidance]
+        4. [Additional steps as needed]
+
+        **Wrap-up (5 minutes)**:
+        1. [Reflection questions]
+        2. [Key takeaways summary]
+        3. [Connection to next lesson]
+
+        #### 🔄 Differentiation Strategies
+        **For Struggling Students**:
+        - [Specific adaptations and supports]
+        - [Simplified instructions or materials]
+        - [Peer support strategies]
+
+        **For Advanced Students**:
+        - [Extension activities and challenges]
+        - [Leadership opportunities]
+        - [Independent exploration options]
+
+        **For English Language Learners**:
+        - [Visual aids and demonstrations]
+        - [Bilingual support strategies]
+        - [Culturally relevant examples]
+
+        #### 📊 Assessment Integration
+        **Formative Assessment**:
+        - [Ongoing observation checkpoints]
+        - [Quick comprehension checks]
+        - [Peer feedback opportunities]
+
+        **Summative Options**:
+        - [End-of-activity evaluation methods]
+        - [Portfolio contribution possibilities]
+        - [Rubric-based assessments]
+
+        #### 🌍 Nigerian Context Integration
+        - [Local examples and cultural references]
+        - [Community connections and applications]
+        - [Real-world relevance for Nigerian students]
+
+        #### 💡 Teacher Tips
+        - [Common challenges and solutions]
+        - [Time management strategies]
+        - [Engagement maintenance techniques]
+        - [Safety considerations (if applicable)]
+
+        ---
+
+        ### Activity 2: [Interactive Activity Name]
+        **Type**: [Individual/Pair/Group] | **Duration**: [X minutes] | **Difficulty**: [Easy/Medium/Hard]
+
+        #### 📝 Activity Description
+        [Engaging description focusing on interactive elements and student participation]
+
+        #### 🎓 Learning Outcomes
+        Students will be able to:
+        - [Specific skill/knowledge outcome 1]
+        - [Specific skill/knowledge outcome 2]
+        - [Specific skill/knowledge outcome 3]
+        - [Collaborative/social learning outcome]
+
+        #### 🛠️ Materials Needed
+        **Essential Items**:
+        - [List of required materials with Nigerian availability in mind]
+        - [Low-cost/no-cost alternatives]
+        - [Recyclable/reusable materials]
+
+        **Optional Enhancements**:
+        - [Technology integration options]
+        - [Multimedia resources]
+
+        #### 📋 Step-by-Step Implementation
+
+        **Preparation (X minutes)**:
+        1. [Setup instructions]
+        2. [Student grouping strategies]
+        3. [Material distribution plan]
+
+        **Introduction (X minutes)**:
+        1. [Activation strategy]
+        2. [Rule establishment]
+        3. [Demonstration/modeling]
+
+        **Main Activity (X minutes)**:
+        1. [Phase 1 with clear transitions]
+        2. [Phase 2 with monitoring points]
+        3. [Phase 3 with facilitation tips]
+        4. [Closure and sharing]
+
+        **Wrap-up (X minutes)**:
+        1. [Reflection activities]
+        2. [Learning consolidation]
+        3. [Preview of next steps]
+
+        #### 🔄 Differentiation Strategies
+        **For Struggling Students**:
+        - [Targeted support mechanisms]
+        - [Modified participation options]
+        - [Additional scaffolding]
+
+        **For Advanced Students**:
+        - [Complex challenge variations]
+        - [Mentoring opportunities]
+        - [Cross-curricular connections]
+
+        **For Different Learning Styles**:
+        - [Visual learner adaptations]
+        - [Auditory learner accommodations]
+        - [Kinesthetic learner modifications]
+
+        #### 📊 Assessment Integration
+        **Formative Assessment**:
+        - [Real-time feedback mechanisms]
+        - [Peer evaluation components]
+        - [Self-reflection opportunities]
+
+        **Summative Options**:
+        - [Product-based assessments]
+        - [Performance evaluations]
+        - [Portfolio inclusions]
+
+        #### 🌍 Nigerian Context Integration
+        - [Local industry connections]
+        - [Cultural celebration ties]
+        - [Community problem-solving applications]
+
+        #### 💡 Teacher Tips
+        - [Classroom management strategies]
+        - [Resource conservation tips]
+        - [Student motivation techniques]
+        - [Adaptation for large classes]
+
+        ---
+
+        ### Activity 3: [Hands-On Activity Name]
+        **Type**: [Individual/Pair/Group] | **Duration**: [X minutes] | **Difficulty**: [Easy/Medium/Hard]
+
+        [Follow same detailed structure as Activities 1 and 2]
+
+        ---
+
+        ### Activity 4: [Technology-Enhanced Activity Name]
+        **Type**: [Individual/Pair/Group] | **Duration**: [X minutes] | **Difficulty**: [Easy/Medium/Hard]
+
+        [Follow same detailed structure, with emphasis on technology integration and low-tech alternatives]
+
+        ---
+
+        [Continue pattern for remaining activities based on numberOfIdeas]
+
+        ## 🔧 Implementation Support
+
+        ### Technology Considerations
+        **High-Tech Classrooms**:
+        - [Digital tool integration strategies]
+        - [Online collaboration options]
+        - [Multimedia enhancement possibilities]
+
+        **Low-Tech Classrooms**:
+        - [Paper-based alternatives]
+        - [Analog material utilization]
+        - [Manual process adaptations]
+
+        **Mixed-Tech Environments**:
+        - [Hybrid approach strategies]
+        - [Rotation system implementations]
+        - [Equity considerations]
+
+        ### Classroom Management
+        **Large Class Strategies**:
+        - [Group management techniques]
+        - [Resource distribution systems]
+        - [Noise control methods]
+
+        **Small Class Adaptations**:
+        - [Intimate setting utilization]
+        - [Individual attention opportunities]
+        - [Peer collaboration maximization]
+
+        **Mixed-Ability Classes**:
+        - [Tiered activity approaches]
+        - [Flexible grouping strategies]
+        - [Multiple success pathways]
+
+        ### Resource Management
+        **Cost-Effective Solutions**:
+        - [Budget-friendly material alternatives]
+        - [Reusable resource creation]
+        - [Community resource partnerships]
+
+        **Sustainability Practices**:
+        - [Eco-friendly material choices]
+        - [Long-term resource planning]
+        - [Student responsibility integration]
+
+        ## 📈 Activity Effectiveness Tracking
+
+        ### Success Indicators
+        **Student Engagement Metrics**:
+        - [Participation level observations]
+        - [Enthusiasm and interest signs]
+        - [Voluntary contribution frequency]
+
+        **Learning Outcome Achievement**:
+        - [Objective mastery evidence]
+        - [Skill demonstration quality]
+        - [Knowledge retention indicators]
+
+        **Practical Implementation**:
+        - [Setup time efficiency]
+        - [Material usage effectiveness]
+        - [Transition smoothness]
+
+        ### Continuous Improvement
+        **Student Feedback Integration**:
+        - [Activity preference surveys]
+        - [Difficulty level assessments]
+        - [Suggestion collection methods]
+
+        **Teacher Reflection Points**:
+        - [What worked well analysis]
+        - [Challenge identification]
+        - [Modification opportunities]
+
+        **Colleague Collaboration**:
+        - [Peer observation benefits]
+        - [Shared resource development]
+        - [Best practice exchanges]
+
+        ## 🎨 Creative Variations
+
+        ### Seasonal Adaptations
+        - [Holiday and festival integrations]
+        - [Weather-appropriate modifications]
+        - [Cultural celebration connections]
+
+        ### Cross-Curricular Extensions
+        - [Subject integration opportunities]
+        - [Skill transfer applications]
+        - [Holistic learning approaches]
+
+        ### Community Connections
+        - [Local expert involvement]
+        - [Field trip preparation activities]
+        - [Real-world application projects]
+
+        ## 🎓 Professional Development
+
+        ### Activity Design Principles
+        - [Engagement theory applications]
+        - [Learning style accommodations]
+        - [Assessment integration strategies]
+
+        ### Adaptation Skills
+        - [Flexibility development]
+        - [Resource optimization]
+        - [Innovation encouragement]
+
+        ### Reflection Practices
+        - [Activity effectiveness evaluation]
+        - [Student impact assessment]
+        - [Professional growth planning]
+
+        ---
+
+        **Implementation Reminders**:
+        - Test activities in small groups first
+        - Prepare backup plans for each activity
+        - Consider time zones and cultural sensitivities
+        - Keep student safety as top priority
+        - Document successful adaptations for future use
+        - Collaborate with colleagues for resource sharing
+
+        Generate ${numberOfIdeas} creative, practical, and immediately implementable activity ideas that Nigerian educators can use to enhance student engagement and learning in their ${subject} classes, with full consideration for local contexts, resources, and cultural relevance.
+`;
+};
+
+//concept explainer
+export interface ConceptExplainerPromptType {
+  subject: string;
+  classLevel: string;
+  topic: string;
+  difficulty?: 'Beginner' | 'Intermediate' | 'Advanced';
+  preferredStyle?:
+    | 'analogies'
+    | 'examples'
+    | 'step-by-step'
+    | 'visual'
+    | 'storytelling'
+    | 'mixed';
+}
+
+export const generateConceptExplainerPrompt = ({
+  subject,
+  classLevel,
+  topic,
+  difficulty = 'Intermediate',
+  preferredStyle = 'mixed',
+}: ConceptExplainerPromptType) => {
+  return `
+        # Expert Nigerian Educational Concept Explainer Engine
+
+        ## Context
+        You are a master Nigerian educator and concept communication specialist with 15+ years of experience in breaking down complex ideas into clear, understandable explanations. You excel at making difficult concepts accessible to students while maintaining academic rigor and cultural relevance. Generate comprehensive concept explanations that Nigerian teachers can use immediately to enhance student understanding and engagement.
+
+        ## Input Parameters
+        - **Subject**: ${subject}
+        - **Class Level**: ${classLevel}
+        - **Topic**: ${topic}
+        - **Difficulty Level**: ${difficulty}
+        - **Preferred Style**: ${preferredStyle}
+
+        ## Output Requirements
+        - Use clean, simple Markdown formatting
+        - Maintain age-appropriate language and complexity
+        - Include culturally relevant examples and analogies
+        - Provide multiple explanation approaches for different learning styles
+        - Consider varying levels of prior knowledge and experience
+        - Ensure immediate practical application for Nigerian educators
+
+        ## Structure Template
+
+        # Concept Explanation: ${topic} - ${classLevel}
+
+        ## Explanation Overview
+        **Subject**: ${subject}  
+        **Class Level**: ${classLevel}  
+        **Topic**: ${topic}  
+        **Difficulty Level**: ${difficulty}  
+        **Explanation Style**: ${preferredStyle}  
+        **Target Understanding**: Clear comprehension with practical application
+
+        ## 🎯 Learning Objectives
+        By the end of this explanation, students will be able to:
+        - [Primary learning objective - what students will understand]
+        - [Secondary objective - how they will apply the knowledge]
+        - [Tertiary objective - connections they will make]
+        - [Assessment objective - how they will demonstrate understanding]
+
+        ## 📚 Foundational Knowledge Check
+        **Before we begin, students should understand**:
+        - [Prerequisite concept 1 with quick definition]
+        - [Prerequisite concept 2 with quick definition]
+        - [Prerequisite concept 3 with quick definition]
+        - [Key vocabulary terms they need to know]
+
+        **Quick Pre-Assessment Questions**:
+        1. [Simple question to gauge prior knowledge]
+        2. [Question to identify misconceptions]
+        3. [Question to assess readiness level]
+
+        ## 🌟 Main Concept Explanation
+
+        ### Core Definition
+        **${topic}** is [clear, concise definition in student-friendly language]
+
+        **Key Points to Remember**:
+        - [Essential point 1]
+        - [Essential point 2]
+        - [Essential point 3]
+        - [Essential point 4]
+
+        ### ${
+          preferredStyle === 'analogies'
+            ? '🔗 Analogy-Based Explanation'
+            : preferredStyle === 'examples'
+            ? '📝 Example-Based Explanation'
+            : preferredStyle === 'step-by-step'
+            ? '👣 Step-by-Step Explanation'
+            : preferredStyle === 'visual'
+            ? '🎨 Visual Explanation'
+            : preferredStyle === 'storytelling'
+            ? '📖 Story-Based Explanation'
+            : '🎭 Multi-Style Explanation'
+        }
+
+        ${
+          preferredStyle === 'analogies' || preferredStyle === 'mixed'
+            ? `
+        #### 🔗 Understanding Through Analogies
+        
+        **Primary Analogy**: [Nigerian cultural reference or familiar concept]
+        Think of ${topic} like [detailed analogy explanation using familiar Nigerian context - markets, family structures, local practices, etc.]
+        
+        **Connection Points**:
+        - [Analogy element 1] relates to [concept element 1] because [explanation]
+        - [Analogy element 2] relates to [concept element 2] because [explanation]
+        - [Analogy element 3] relates to [concept element 3] because [explanation]
+        
+        **Alternative Analogies**:
+        - [Secondary analogy for different student backgrounds]
+        - [Tertiary analogy for kinesthetic learners]
+        - [Sports/game analogy for engagement]
+        `
+            : ''
+        }
+
+        ${
+          preferredStyle === 'examples' || preferredStyle === 'mixed'
+            ? `
+        #### 📝 Real-World Examples
+        
+        **Primary Example**: [Detailed Nigerian-context example]
+        In Nigeria, we can see ${topic} in action when [specific, relatable example with step-by-step breakdown]
+        
+        **Example Breakdown**:
+        1. [First part of example with concept connection]
+        2. [Second part of example with concept connection]
+        3. [Third part of example with concept connection]
+        4. [Conclusion showing concept in action]
+        
+        **Additional Examples**:
+        - **Local Context**: [Community/regional example]
+        - **Historical Context**: [Nigerian historical reference]
+        - **Contemporary Context**: [Current events or modern applications]
+        - **Personal Context**: [Student life application]
+        `
+            : ''
+        }
+
+        ${
+          preferredStyle === 'step-by-step' || preferredStyle === 'mixed'
+            ? `
+        #### 👣 Step-by-Step Breakdown
+        
+        **Step 1: [Foundation Step]**
+        - What happens: [Clear description]
+        - Why it matters: [Importance explanation]
+        - Student action: [What students should do/think]
+        - Example: [Quick illustration]
+        
+        **Step 2: [Building Step]**
+        - What happens: [Clear description]
+        - Why it matters: [Importance explanation]
+        - Student action: [What students should do/think]
+        - Example: [Quick illustration]
+        
+        **Step 3: [Development Step]**
+        - What happens: [Clear description]
+        - Why it matters: [Importance explanation]
+        - Student action: [What students should do/think]
+        - Example: [Quick illustration]
+        
+        **Step 4: [Application Step]**
+        - What happens: [Clear description]
+        - Why it matters: [Importance explanation]
+        - Student action: [What students should do/think]
+        - Example: [Quick illustration]
+        
+        **Step 5: [Mastery Step]**
+        - What happens: [Clear description]
+        - Why it matters: [Importance explanation]
+        - Student action: [What students should do/think]
+        - Example: [Quick illustration]
+        `
+            : ''
+        }
+
+        ${
+          preferredStyle === 'visual' || preferredStyle === 'mixed'
+            ? `
+        #### 🎨 Visual Representation Guide
+        
+        **Mental Picture Creation**:
+        Imagine ${topic} as [detailed visual description that students can picture in their minds]
+        
+        **Visual Elements**:
+        - [Visual component 1]: Represents [concept element]
+        - [Visual component 2]: Represents [concept element]
+        - [Visual component 3]: Represents [concept element]
+        - [Visual component 4]: Shows the relationship between [elements]
+        
+        **Drawing Activity**:
+        Students can draw ${topic} by:
+        1. [Drawing instruction 1]
+        2. [Drawing instruction 2]
+        3. [Drawing instruction 3]
+        4. [Labeling instructions]
+        
+        **Visual Mnemonics**:
+        - [Memory aid 1 with visual component]
+        - [Memory aid 2 with visual component]
+        - [Memory aid 3 with visual component]
+        `
+            : ''
+        }
+
+        ${
+          preferredStyle === 'storytelling' || preferredStyle === 'mixed'
+            ? `
+        #### 📖 Story-Based Understanding
+        
+        **The Story of ${topic}**:
+        [Engaging narrative that explains the concept through storytelling, using Nigerian cultural context, folklore elements, or modern scenarios]
+        
+        **Story Characters**:
+        - [Character 1]: Represents [concept element]
+        - [Character 2]: Represents [concept element]
+        - [Character 3]: Represents [concept element]
+        
+        **Story Plot Points**:
+        1. [Beginning]: [How the concept starts/is introduced]
+        2. [Conflict]: [Challenge or problem related to the concept]
+        3. [Development]: [How the concept unfolds/develops]
+        4. [Resolution]: [How the concept concludes/is applied]
+        
+        **Moral/Lesson**: [Key takeaway that reinforces the concept]
+        `
+            : ''
+        }
+
+        ## 🔍 Deep Dive Analysis
+
+        ### Why This Concept Matters
+        **Academic Importance**:
+        - [Connection to curriculum standards]
+        - [Foundation for advanced topics]
+        - [Cross-curricular applications]
+
+        **Real-World Relevance**:
+        - [Career applications in Nigeria]
+        - [Daily life applications]
+        - [Societal impact and importance]
+
+        **Critical Thinking Connections**:
+        - [How this concept relates to other ideas]
+        - [Questions students should ask]
+        - [Debates or discussions it generates]
+
+        ### Common Misconceptions
+        **Misconception 1**: [Incorrect understanding students often have]
+        - **Why it's wrong**: [Clear explanation]
+        - **Correct understanding**: [Accurate explanation]
+        - **How to remember**: [Memory aid or trick]
+
+        **Misconception 2**: [Another common error]
+        - **Why it's wrong**: [Clear explanation]
+        - **Correct understanding**: [Accurate explanation]
+        - **How to remember**: [Memory aid or trick]
+
+        **Misconception 3**: [Third common mistake]
+        - **Why it's wrong**: [Clear explanation]
+        - **Correct understanding**: [Accurate explanation]
+        - **How to remember**: [Memory aid or trick]
+
+        ## 🎯 Differentiated Explanations
+
+        ### For Struggling Students
+        **Simplified Explanation**:
+        [Reduced complexity version focusing on core essentials]
+
+        **Additional Support**:
+        - [Extra practice opportunities]
+        - [Peer support strategies]
+        - [Alternative learning approaches]
+        - [Confidence-building activities]
+
+        ### For Advanced Students
+        **Extended Explanation**:
+        [More complex connections and applications]
+
+        **Challenge Opportunities**:
+        - [Advanced questions to explore]
+        - [Research projects or extensions]
+        - [Leadership roles in peer teaching]
+        - [Cross-curricular connections]
+
+        ### For Different Learning Styles
+        **Visual Learners**:
+        - [Diagrams and visual representations]
+        - [Color coding and organization]
+        - [Spatial relationships]
+
+        **Auditory Learners**:
+        - [Verbal explanations and discussions]
+        - [Songs, rhymes, or chants]
+        - [Audio recordings and presentations]
+
+        **Kinesthetic Learners**:
+        - [Hands-on activities and manipulatives]
+        - [Movement-based learning]
+        - [Physical demonstrations]
+
+        ## 🔄 Practical Applications
+
+        ### Immediate Applications
+        **In This Subject**:
+        - [How concept applies to current curriculum]
+        - [Upcoming topics that build on this]
+        - [Assessment applications]
+
+        **In Other Subjects**:
+        - [Cross-curricular connections]
+        - [Interdisciplinary applications]
+        - [Skill transfer opportunities]
+
+        ### Long-term Applications
+        **Future Academic Work**:
+        - [Advanced courses that use this concept]
+        - [Research opportunities]
+        - [Higher education connections]
+
+        **Career Applications**:
+        - [Relevant Nigerian career paths]
+        - [Professional skills development]
+        - [Entrepreneurship opportunities]
+
+        **Life Applications**:
+        - [Personal decision making]
+        - [Community involvement]
+        - [Civic responsibility]
+
+        ## 📊 Comprehension Checks
+
+        ### Quick Understanding Checks
+        **During Explanation**:
+        1. [Simple question to check basic understanding]
+        2. [Question to identify confusion points]
+        3. [Question to gauge depth of understanding]
+
+        **Post-Explanation**:
+        1. [Summary question requiring explanation]
+        2. [Application question using new context]
+        3. [Connection question linking to prior knowledge]
+
+        ### Self-Assessment Questions
+        **Students can ask themselves**:
+        - Can I explain this concept to a friend?
+        - Can I give my own example?
+        - Do I understand why this is important?
+        - Can I connect this to something I already know?
+
+        ## 🎓 Teaching Implementation Guide
+
+        ### Lesson Structure Suggestions
+        **Introduction (10 minutes)**:
+        - [Hook activity or question]
+        - [Prior knowledge activation]
+        - [Learning objective sharing]
+
+        **Main Explanation (20-30 minutes)**:
+        - [Core concept delivery]
+        - [Chosen explanation style implementation]
+        - [Student interaction points]
+
+        **Practice and Application (15 minutes)**:
+        - [Immediate practice opportunities]
+        - [Guided application activities]
+        - [Peer discussion time]
+
+        **Wrap-up (5 minutes)**:
+        - [Summary of key points]
+        - [Preview of next steps]
+        - [Final comprehension check]
+
+        ### Materials and Resources
+        **Essential Materials**:
+        - [Basic classroom supplies needed]
+        - [Visual aids or props]
+        - [Worksheets or handouts]
+
+        **Technology Integration**:
+        - [Digital tools for enhancement]
+        - [Online resources for extension]
+        - [Multimedia applications]
+
+        **Alternative Resources**:
+        - [Low-tech alternatives]
+        - [Community resources]
+        - [Student-created materials]
+
+        ## 🌍 Cultural Sensitivity and Relevance
+
+        ### Nigerian Context Integration
+        **Cultural Examples**:
+        - [Traditional practices that illustrate the concept]
+        - [Modern Nigerian applications]
+        - [Regional variations and considerations]
+
+        **Language Considerations**:
+        - [Local language connections]
+        - [Technical vocabulary explanations]
+        - [Communication style preferences]
+
+        **Inclusive Practices**:
+        - [Diverse perspective inclusion]
+        - [Gender-sensitive examples]
+        - [Socioeconomic considerations]
+
+        ## 🔄 Assessment and Reflection
+
+        ### Formative Assessment Ideas
+        **Exit Tickets**:
+        - [Quick understanding check questions]
+        - [Misconception identification]
+        - [Application challenges]
+
+        **Peer Assessment**:
+        - [Partner explanation activities]
+        - [Peer teaching opportunities]
+        - [Collaborative understanding building]
+
+        ### Summative Assessment Options
+        **Traditional Assessments**:
+        - [Quiz question suggestions]
+        - [Test item examples]
+        - [Rubric considerations]
+
+        **Alternative Assessments**:
+        - [Project-based applications]
+        - [Portfolio inclusions]
+        - [Performance demonstrations]
+
+        ## 💡 Extension and Enrichment
+
+        ### Further Exploration
+        **Research Topics**:
+        - [Related concepts to investigate]
+        - [Historical development of the concept]
+        - [Current applications and innovations]
+
+        **Creative Projects**:
+        - [Art integration opportunities]
+        - [Writing applications]
+        - [Presentation challenges]
+
+        ### Community Connections
+        **Local Experts**:
+        - [Community members who use this concept]
+        - [Professional guest speakers]
+        - [Field trip opportunities]
+
+        **Service Learning**:
+        - [Community application projects]
+        - [Social impact initiatives]
+        - [Civic engagement opportunities]
+
+        ---
+
+        **Implementation Success Tips**:
+        - Practice the explanation yourself before delivery
+        - Prepare for common student questions
+        - Have multiple examples ready
+        - Check for understanding frequently
+        - Encourage student questions and discussions
+        - Connect to students' personal experiences
+        - Use wait time effectively after questions
+
+        Generate a comprehensive, culturally relevant explanation of ${topic} that Nigerian ${classLevel} students can understand and apply, using ${preferredStyle} approach at a ${difficulty} level, with full consideration for diverse learning needs and local educational contexts.
+`;
+};

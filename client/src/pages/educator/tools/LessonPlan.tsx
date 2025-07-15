@@ -2,7 +2,7 @@ import { createLessonPlan } from '@/api/educator-api';
 import Input from '@/components/common/Input';
 import { useMutation } from '@tanstack/react-query';
 import { Captions, Clock1, MessageSquare } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import Editor from '@/components/educator/Editor';
@@ -17,6 +17,8 @@ export type LessonPlanData = {
 };
 
 const LessonPlan = () => {
+  const editorRef = useRef<HTMLDivElement>(null);
+
   const [lessonPlan, setLessonPlan] = useState<string>('');
 
   const form = useForm<LessonPlanData>({
@@ -40,6 +42,9 @@ const LessonPlan = () => {
     onSuccess: (data) => {
       setLessonPlan(data.lessonPlan);
       reset();
+      setTimeout(() => {
+        editorRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     },
     onError: (error: Error) => {
       toast.error(error.message || 'Failed to create lesson plan');
@@ -63,11 +68,13 @@ const LessonPlan = () => {
       result={lessonPlan}
       resultComponent={
         lessonPlan && (
-          <Editor
-            key={lessonPlan}
-            initialContent={lessonPlan}
-            fileName="lesson-plan.pdf"
-          />
+          <div ref={editorRef} className="bg-light-background-color">
+            <Editor
+              key={lessonPlan}
+              initialContent={lessonPlan}
+              fileName="lesson-plan.pdf"
+            />
+          </div>
         )
       }
     >

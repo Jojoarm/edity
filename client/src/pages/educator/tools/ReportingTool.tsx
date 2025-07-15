@@ -11,7 +11,7 @@ import {
   Shield,
   User,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
@@ -28,6 +28,7 @@ export type ReportingToolData = {
 };
 
 const ReportingTool = () => {
+  const editorRef = useRef<HTMLDivElement>(null);
   const [report, setReport] = useState<string>('');
   const form = useForm<ReportingToolData>({
     defaultValues: {
@@ -54,9 +55,12 @@ const ReportingTool = () => {
     onSuccess: (data) => {
       setReport(data.report);
       reset();
+      setTimeout(() => {
+        editorRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Failed to create lesson plan');
+      toast.error(error.message || 'Failed to generate report');
     },
   });
 
@@ -68,7 +72,7 @@ const ReportingTool = () => {
     <ToolForm
       toolTitle="Reporting Tool"
       toolIcon="fa-solid fa-file-invoice"
-      toolIconColor="text-orange-300"
+      toolIconColor="text-pink-300"
       toolDescription="This reporting tool empowers educators to effortlessly generate detailed performance and learning progress reports for individual students. By inputting key insights such as class, subject, behavioral notes, and student strengths or challenges, teachers receive AI generated, well structured, and fully editable reports, streamlining documentation and driving data informed instruction."
       formTitle="Generate Report"
       form={form}
@@ -78,7 +82,13 @@ const ReportingTool = () => {
       result={report}
       resultComponent={
         report && (
-          <Editor key={report} initialContent={report} fileName="report.pdf" />
+          <div ref={editorRef} className="bg-light-background-color">
+            <Editor
+              key={report}
+              initialContent={report}
+              fileName="report.pdf"
+            />
+          </div>
         )
       }
     >
@@ -99,7 +109,7 @@ const ReportingTool = () => {
           label="Academic Performance Summary"
           icon={GraduationCap}
           isTextarea
-          placeholder="Teacher notes about tests, homework, etc."
+          placeholder="Teacher notes"
           required
           error={errors.academicPerformanceSummary?.message}
           {...register('academicPerformanceSummary', {
@@ -113,7 +123,7 @@ const ReportingTool = () => {
           label="Behavior & Participation"
           icon={Atom}
           isTextarea
-          placeholder="Eg very attentive, sometimes distracted"
+          placeholder="Eg very attentive, distracted"
           required
           error={errors.behaviorAndParticipation?.message}
           {...register('behaviorAndParticipation', {
@@ -152,7 +162,7 @@ const ReportingTool = () => {
             label="Teacher Notes"
             icon={NotebookPen}
             isTextarea
-            placeholder="Personalized observations (optional)"
+            placeholder="Personalized observations"
             error={errors.teacherNote?.message}
             {...register('teacherNote')}
           />

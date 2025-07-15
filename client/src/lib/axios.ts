@@ -1,5 +1,4 @@
 import axios from 'axios';
-import toast from 'react-hot-toast';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -36,8 +35,6 @@ export const handleApiError = (error: unknown): void => {
   } else if (error instanceof Error) {
     message = error.message;
   }
-
-  toast.error(message);
   console.log(error);
   throw new Error(message);
 };

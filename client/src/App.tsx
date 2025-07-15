@@ -25,10 +25,6 @@ import CreateCourse from './pages/admin/tools/CreateCourse';
 import ManageUsers from './pages/admin/tools/ManageUsers';
 import SystemSettings from './pages/admin/tools/SystemSettings';
 import CreateSubject from './pages/admin/tools/CreateSubject';
-import LessonPlan from './pages/educator/tools/LessonPlan';
-import CurriculumMappingTool from './pages/educator/tools/CurriculumMappingTool';
-import ResourceRecommendationTool from './pages/educator/tools/ResourceRecommendationTool';
-import ReportingTool from './pages/educator/tools/ReportingTool';
 import ProfessionalDevelopmentTracker from './pages/educator/ProfessionalDevelopmentTracker';
 import EducatorLayout from './layouts/EducatorLayout';
 import ActivitiesList from './pages/educator/ActivitiesList';
@@ -36,7 +32,8 @@ import ActivityForm from './components/common/forms/ActivityForm';
 import GoalsManagement from './pages/educator/GoalsManagement';
 import ViewReports from './pages/educator/ViewReports';
 import EducatorProfile from './pages/educator/EducatorProfile';
-import SurveyLaunchTool from './pages/educator/tools/SurveyLaunchTool';
+import AllTools from './pages/educator/AllTools';
+import { educatorToolConfig } from './assets/educatorToolConfig';
 
 const App = () => {
   const { setUser, setIsLoggedIn, setAuthLoading } = useAppStore();
@@ -88,26 +85,11 @@ const App = () => {
 
         {/* Educator Routes */}
         <Route element={<EducatorLayout />}>
-          <Route
-            path="/educator/tools/lesson-planner"
-            element={<LessonPlan />}
-          />
-          <Route
-            path="/educator/tools/curriculum-mapping-tool"
-            element={<CurriculumMappingTool />}
-          />
-          <Route
-            path="/educator/tools/resource-recommendation-engine"
-            element={<ResourceRecommendationTool />}
-          />
-          <Route
-            path="/educator/tools/reporting-tool"
-            element={<ReportingTool />}
-          />
-          <Route
-            path="/educator/tools/survey-launch-tool"
-            element={<SurveyLaunchTool />}
-          />
+          <Route path="/educator/tools/view-all-tools" element={<AllTools />} />
+          {educatorToolConfig.map(({ path, component: Component }) => (
+            <Route key={path} path={path} element={<Component />} />
+          ))}
+
           <Route
             path="/educator/professional-development-tracker"
             element={<ProfessionalDevelopmentTracker />}
