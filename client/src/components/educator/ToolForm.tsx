@@ -6,15 +6,16 @@ import { useClassLevels } from '@/hooks/useClassLevels';
 import { useSubjects } from '@/hooks/useSubjects';
 import type { UseMutationResult } from '@tanstack/react-query';
 import { ListPlus } from 'lucide-react';
-import { useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { FieldValues, Path, UseFormReturn } from 'react-hook-form';
 import Input from '../common/Input';
 import { useAcademicTerms } from '@/hooks/useAcademicTerms';
-import Loader from '../common/Loader';
 //gsap
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import AiLoading from '../common/AiLoading';
+import Loader from '../common/Loader';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -68,6 +69,19 @@ const ToolForm = <T extends FieldValues>({
   const { isClassLevelPending, classLevels } = useClassLevels();
   const { isSubjectsPending, subjects } = useSubjects();
   const { isAcademicTermsPending, academicTerms } = useAcademicTerms();
+  const [showLoading, setShowLoading] = useState(false);
+
+  useEffect(() => {
+    if (mutation.isPending) {
+      setShowLoading(true);
+    } else {
+      const timeout = setTimeout(() => {
+        setShowLoading(false);
+      }, 600);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [mutation.isPending]);
 
   const formRef = useRef<HTMLFormElement | null>(null);
   const formReady =
@@ -86,10 +100,6 @@ const ToolForm = <T extends FieldValues>({
     },
     { dependencies: [formReady] }
   );
-
-  // Handle loading and error states
-  if (isClassLevelPending || isSubjectsPending || isAcademicTermsPending)
-    return <Loader />;
 
   const classLevelsOptions = classLevels.map((classLevel) => ({
     value: classLevel.name,
@@ -141,62 +151,66 @@ const ToolForm = <T extends FieldValues>({
           description={toolDescription}
         />
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          ref={formRef}
-          key={formReady ? 'ready' : 'loading'}
-          className=" py-5 px-10 mb-10 w-full flex flex-col items-center justify-center shadow-xl bg-navy-50 border border-gray-300/80 rounded-2xl"
-        >
-          <FormTitle title={formTitle} />
+        {!formReady ? (
+          <Loader />
+        ) : (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            ref={formRef}
+            key={formReady ? 'ready' : 'loading'}
+            className=" py-5 px-10 mb-10 w-full flex flex-col items-center justify-center shadow-xl bg-navy-50 border border-gray-300/80 rounded-2xl"
+          >
+            <FormTitle title={formTitle} />
 
-          <div className="w-full flex flex-col md:flex-row space-x-5">
-            {includesSubjectField && (
-              <Input
-                label="Subject *"
-                icon={ListPlus}
-                isSelect
-                options={subjectOptions}
-                required
-                error={errors[subjectFieldName]?.message as string}
-                {...register(subjectFieldName, {
-                  required: 'Subject is required',
-                })}
-              />
-            )}
+            <div className="w-full flex flex-col md:flex-row space-x-5">
+              {includesSubjectField && (
+                <Input
+                  label="Subject *"
+                  icon={ListPlus}
+                  isSelect
+                  options={subjectOptions}
+                  required
+                  error={errors[subjectFieldName]?.message as string}
+                  {...register(subjectFieldName, {
+                    required: 'Subject is required',
+                  })}
+                />
+              )}
 
-            {includesClassLevelField && (
-              <Input
-                label="Class Level *"
-                icon={ListPlus}
-                isSelect
-                options={classLevelsOptions}
-                required
-                error={errors[classLevelFieldName]?.message as string}
-                {...register(classLevelFieldName, {
-                  required: 'Class level is required',
-                })}
-              />
-            )}
+              {includesClassLevelField && (
+                <Input
+                  label="Class Level *"
+                  icon={ListPlus}
+                  isSelect
+                  options={classLevelsOptions}
+                  required
+                  error={errors[classLevelFieldName]?.message as string}
+                  {...register(classLevelFieldName, {
+                    required: 'Class level is required',
+                  })}
+                />
+              )}
 
-            {includesAcademicTerm && (
-              <Input
-                label="Academic Term *"
-                icon={ListPlus}
-                isSelect
-                options={termOptions}
-                required
-                error={errors[academicTermFieldName]?.message as string}
-                {...register(academicTermFieldName, {
-                  required: 'Academic Term is required',
-                })}
-              />
-            )}
-          </div>
+              {includesAcademicTerm && (
+                <Input
+                  label="Academic Term *"
+                  icon={ListPlus}
+                  isSelect
+                  options={termOptions}
+                  required
+                  error={errors[academicTermFieldName]?.message as string}
+                  {...register(academicTermFieldName, {
+                    required: 'Academic Term is required',
+                  })}
+                />
+              )}
+            </div>
 
-          {children}
-          <Button isPending={mutation.isPending} />
-        </form>
-
+            {children}
+            <Button isPending={mutation.isPending} />
+          </form>
+        )}
+        {showLoading && <AiLoading isPending={mutation.isPending} />}
         {result && resultComponent}
       </div>
     </div>
