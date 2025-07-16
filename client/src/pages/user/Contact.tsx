@@ -1,6 +1,6 @@
 import { useRef, useState, type ChangeEvent, type FormEvent } from 'react';
 import emailjs from '@emailjs/browser';
-import { Mail, MapPin, PhoneCall } from 'lucide-react';
+import { CheckCircle, Mail, MapPin, PhoneCall } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const Contact = () => {
@@ -43,7 +43,67 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="section flex-center my-20">
+    <section className="section bg-white w-full h-full flex-center py-10">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-dark-background-color text-white">
+        <div className="absolute inset-0 bg-black opacity-10"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              Get in Touch with
+              <span className="block text-primary">Edity</span>
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto">
+              Ready to transform education? Let's discuss how we can help you
+              enhance learning experiences.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 text-sm">
+              <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full">
+                <CheckCircle className="w-4 h-4" />
+                <span>24/7 Support</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full">
+                <CheckCircle className="w-4 h-4" />
+                <span>Expert Team</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full">
+                <CheckCircle className="w-4 h-4" />
+                <span>Quick Response</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Section */}
+      <div className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i className="fa-solid fa-graduation-cap text-white text-3xl font-thin"></i>
+              </div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-2">10K+</h3>
+              <p className="text-gray-600">Happy Educators</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i className="fa-solid fa-trophy text-3xl text-white font-thin"></i>
+              </div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-2">95%</h3>
+              <p className="text-gray-600">Success Rate</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i className="fa-solid fa-headset text-3xl text-white font-thin"></i>
+              </div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-2">24/7</h3>
+              <p className="text-gray-600">Support Available</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="w-full h-full md:px-10 px-5 bg-[#ffffff] p-6 rounded-3xl shadow-[0_0_25px_rgba(0,0,0,0.1)]">
         <div className="grid grid-cols-1 xl:grid-cols-12 justify-center items-center gap-10 mt-16">
           <div className="xl:col-span-5 min-h-96">

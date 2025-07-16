@@ -34,6 +34,8 @@ import ViewReports from './pages/educator/ViewReports';
 import EducatorProfile from './pages/educator/EducatorProfile';
 import AllTools from './pages/educator/AllTools';
 import { educatorToolConfig } from './assets/educatorToolConfig';
+import Contact from './pages/user/Contact';
+import Overview from './pages/user/Overview';
 
 const App = () => {
   const { setUser, setIsLoggedIn, setAuthLoading } = useAppStore();
@@ -81,6 +83,8 @@ const App = () => {
         {/* User Routes */}
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/contact-us" element={<Contact />} />
+          <Route path="/overview" element={<Overview />} />
         </Route>
 
         {/* Educator Routes */}

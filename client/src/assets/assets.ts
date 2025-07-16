@@ -47,7 +47,7 @@ export const educatorNavLinks: NavLink[] = [
       },
     ],
   },
-  { name: 'Contact Us', path: '#contact' },
+  { name: 'Contact Us', path: '/contact-us' },
 ];
 
 export const adminSidebarItems = [

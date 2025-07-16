@@ -1,6 +1,4 @@
-import Footer from '../../components/common/Footer';
 import About from '../../components/common/sections/About';
-import Contact from '../../components/common/sections/Contact';
 import Hero from '../../components/common/sections/Hero';
 import Info from '../../components/common/sections/Info';
 import Info2 from '../../components/common/sections/Info2';
@@ -18,8 +16,6 @@ const Home = () => {
       <About />
       <Testimonials />
       <Transform />
-      <Contact />
-      <Footer />
     </div>
   );
 };

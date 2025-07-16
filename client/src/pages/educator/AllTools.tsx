@@ -4,6 +4,11 @@ import CircularShape from '@/components/common/CircularShape';
 import ToolTitle from '@/components/common/ToolTitle';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const AllTools = () => {
   const navigate = useNavigate();
@@ -16,6 +21,46 @@ const AllTools = () => {
   const filteredTools = educatorToolConfig.filter((tool) =>
     tool.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  useGSAP(() => {
+    const featureCards = gsap.utils.toArray('.feature-card') as HTMLElement[];
+
+    featureCards.forEach((card) => {
+      gsap.from(card, {
+        xPercent: 0,
+        opacity: 0,
+        duration: 2,
+        stagger: { from: 'center', each: 0.5 },
+        ease: 'power2.inOut',
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 80%',
+        },
+      });
+
+      const icon = card.querySelector('.icon');
+
+      if (icon) {
+        gsap.to(icon, {
+          rotation: 360,
+          opacity: 1,
+          duration: 2,
+          ease: 'sine.out',
+          scrollTrigger: {
+            trigger: icon,
+            start: 'top 90%',
+            toggleActions: 'play none none none', // play only once
+          },
+        });
+      }
+    });
+
+    gsap.from('.input-field', {
+      opacity: 0,
+      duration: 3,
+      ease: 'sine.out',
+    });
+  });
 
   return (
     <div className="relative section w-full h-full min-h-screen bg-light-background-color overflow-hidden pb-10">
@@ -40,7 +85,7 @@ const AllTools = () => {
         />
 
         {/* Search Input */}
-        <div className="w-full max-w-xl mx-auto">
+        <div className="input-field w-full max-w-xl mx-auto">
           <input
             type="text"
             placeholder="Search for a tool..."

@@ -6,11 +6,17 @@ import { useClassLevels } from '@/hooks/useClassLevels';
 import { useSubjects } from '@/hooks/useSubjects';
 import type { UseMutationResult } from '@tanstack/react-query';
 import { ListPlus } from 'lucide-react';
-import type { ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
 import type { FieldValues, Path, UseFormReturn } from 'react-hook-form';
 import Input from '../common/Input';
 import { useAcademicTerms } from '@/hooks/useAcademicTerms';
 import Loader from '../common/Loader';
+//gsap
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface ToolFormProps<T extends FieldValues, R = unknown> {
   toolTitle: string;
@@ -62,6 +68,24 @@ const ToolForm = <T extends FieldValues>({
   const { isClassLevelPending, classLevels } = useClassLevels();
   const { isSubjectsPending, subjects } = useSubjects();
   const { isAcademicTermsPending, academicTerms } = useAcademicTerms();
+
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const formReady =
+    !isClassLevelPending && !isSubjectsPending && !isAcademicTermsPending;
+
+  useGSAP(
+    () => {
+      if (formRef.current) {
+        gsap.from(formRef.current, {
+          yPercent: 100,
+          opacity: 0,
+          duration: 2,
+          ease: 'power2.inOut',
+        });
+      }
+    },
+    { dependencies: [formReady] }
+  );
 
   // Handle loading and error states
   if (isClassLevelPending || isSubjectsPending || isAcademicTermsPending)
@@ -119,7 +143,9 @@ const ToolForm = <T extends FieldValues>({
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="py-5 px-10 mb-10 w-full flex flex-col items-center justify-center shadow-xl bg-navy-50 border border-gray-300/80 rounded-2xl"
+          ref={formRef}
+          key={formReady ? 'ready' : 'loading'}
+          className=" py-5 px-10 mb-10 w-full flex flex-col items-center justify-center shadow-xl bg-navy-50 border border-gray-300/80 rounded-2xl"
         >
           <FormTitle title={formTitle} />
 

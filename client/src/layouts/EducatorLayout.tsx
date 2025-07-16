@@ -1,6 +1,7 @@
 import EducatorToolsBanner from '@/components/common/EducatorToolsBanner';
 import Loader from '@/components/common/Loader';
 import Navbar from '@/components/common/Navbar';
+import ScrollToTopButton from '@/components/common/ScrollToTopButton';
 import { useAppStore } from '@/contexts/useAppStore';
 import { Navigate, Outlet } from 'react-router-dom';
 
@@ -23,6 +24,7 @@ const EducatorLayout = () => {
       <div className="min-h-70vh">
         <Outlet />
       </div>
+      <ScrollToTopButton />
     </>
   );
 };
