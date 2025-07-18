@@ -1,7 +1,3 @@
-// import gsap from 'gsap';
-// import { useGSAP } from '@gsap/react';
-// import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
 type AiToolCardProps = {
   icon: string;
   bgFill: string;
@@ -19,17 +15,6 @@ const AiToolCard = ({
   description,
   onClick,
 }: AiToolCardProps) => {
-  //   const tl = gsap.timeline({ repeat: -2, repeatDelay: 1, yoyo: true });
-  //   gsap.to('.icon', {
-  //     duration: 1,
-  //     rotation: 360,
-  //     opacity: 1,
-  //     delay: 0.5,
-  //     stagger: 0.4,
-  //     ease: 'sine.out',
-  //     force3D: true,
-  //   });
-
   return (
     <div className="feature-card group cursor-pointer" onClick={onClick}>
       <div

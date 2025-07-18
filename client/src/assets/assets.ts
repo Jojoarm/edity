@@ -8,6 +8,33 @@ import {
   Users,
 } from 'lucide-react';
 
+export const overviewIssues = [
+  {
+    icon: 'fa-solid fa-fire',
+    title: 'Burnout Culture',
+    issue:
+      'Teachers are mostly stretched thin handling grading, planning, managing paperwork often without rest or recognition.',
+    comment:
+      'I’m at school until 6 PM almost every day. Weekends are no different — they’re for catching up on lesson plans, grading, and reporting. Even then, I still feel like I’m chasing a moving target. It’s not just tiring, it’s unsustainable.',
+  },
+  {
+    icon: 'fa-solid fa-chart-line',
+    title: 'Testing Pressure',
+    issue:
+      'Too much focus on test scores, too little time to actually teach or meet learners where they are.',
+    comment:
+      'Every week we’re told to focus on data, data, and more data. There’s hardly any time to adapt lessons or support students who are struggling. I became a teacher to help learners grow — not to constantly feed an exam machine.',
+  },
+  {
+    icon: 'fa-solid fa-clock',
+    title: 'No Time to Plan',
+    issue:
+      'Large class sizes, endless meetings, and little prep time leave teachers unsupported and overwhelmed.',
+    comment:
+      'With over 30 students per class and hardly 30 minutes of prep time (often hijacked by meetings), I find myself planning late at night. New teachers like me are thrown in without proper onboarding, and it feels like we’re expected to figure it out alone.',
+  },
+];
+
 export const educatorNavLinks: NavLink[] = [
   { name: 'Overview', path: '/overview' },
   {
@@ -311,6 +338,41 @@ export const educatorTools = [
     textColor: 'text-rose-300',
     bgFill: 'text-rose-50',
     path: '/educator/tools/clarity-core',
+  },
+];
+
+export const howItWorksSteps = [
+  {
+    step: 1,
+    title: 'Select Your Desired Tool',
+    description:
+      'Choose from a range of educator-focused tools including lesson plans, activity generators, assessments, and more; each designed to support diverse teaching strategies.',
+    iconClass: 'fa-solid fa-hand-pointer',
+    imageSrc: '/assets/images/steps1.png',
+  },
+  {
+    step: 2,
+    title: 'Follow Input Guidelines',
+    description:
+      'Carefully read the examples in each input field to guide your entries. Being specific, especially with learning objectives helps generate high-quality, contextual content.',
+    iconClass: 'fa-solid fa-book-open-reader',
+    imageSrc: '/assets/images/steps2.png',
+  },
+  {
+    step: 3,
+    title: 'Let AI Do the Work',
+    description:
+      'Once you’ve filled in your details, sit back while Edity’s AI processes your input and generates relevant, classroom-ready content in seconds.',
+    iconClass: 'fa-solid fa-robot',
+    imageSrc: '/assets/images/steps3.png',
+  },
+  {
+    step: 4,
+    title: 'Review, Refine, and Export',
+    description:
+      "Preview the AI generated content, make necessary edits, and export it in formats that suit your classroom; whether it's PDF, or copy-paste ready.",
+    iconClass: 'fa-solid fa-file-export',
+    imageSrc: '/assets/images/steps4.png',
   },
 ];
 

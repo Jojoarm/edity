@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import CircularShape from '../CircularShape';
+import DottedShape from '../DottedShape';
 
 const Hero = () => {
   return (
@@ -47,7 +48,7 @@ const Hero = () => {
 
         <div className="relative mt-12 hidden w-full h-full overflow-visible lg:block lg:w-[45%] lg:p-6">
           <div className="absolute bottom-0 left-0 w-0 h-0 border-[100px] border-transparent border-l-primary border-b-primary" />
-          <div className="absolute top-16 -right-9 h-[145px] w-[190px] bg-[radial-gradient(#cacccc_2px,transparent_3px)] bg-[length:16px_16px]" />
+          <DottedShape />
           <img
             src="/assets/images/card-img1.png"
             alt="Metaverse VR virtual meeting conference, business office digital world technology MR mixed reality presentation Global business finance GDP graph chart report stock exchange market trading investment data analytics"
