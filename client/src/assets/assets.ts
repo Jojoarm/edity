@@ -376,6 +376,57 @@ export const howItWorksSteps = [
   },
 ];
 
+export const testimonials = [
+  {
+    message:
+      'Before Edity, I struggled to create structured lesson plans. Now, it’s fast, fun, and tailored for my students.',
+    name: 'Obazee E.',
+    role: 'Primary School Teacher',
+    location: 'Abuja',
+    image: '/assets/images/client1.png',
+  },
+  {
+    message:
+      'Thanks to Edity, I now have access to ready made classroom tools that match the Nigerian curriculum.',
+    name: 'Mr. Adewale',
+    role: 'Junior Secondary Teacher',
+    location: 'Lagos',
+    image: '/assets/images/client2.png',
+  },
+  {
+    message:
+      'Edity has helped me track my professional growth and improve how I deliver my lessons.',
+    name: 'Mr Okafor',
+    role: 'Educator & Trainer',
+    location: 'Enugu',
+    image: '/assets/images/client3.png',
+  },
+  {
+    message:
+      'With Edity, I feel more confident presenting in class. The tools are easy to use and very teacher-friendly.',
+    name: 'Tunde',
+    role: 'Corps Member Teacher',
+    location: 'Ibadan',
+    image: '/assets/images/client4.png',
+  },
+  {
+    message:
+      'The concept explainer tool on Edity helped me simplify even the most complex topics for my students.',
+    name: 'Mr. Farida',
+    role: 'Senior School Educator',
+    location: 'Kano',
+    image: '/assets/images/client5.png',
+  },
+  {
+    message:
+      'I used to fear mathematics. But now, I love teaching it all thanks to Edity’s engaging tools.',
+    name: 'Sally',
+    role: 'Student Counselor',
+    location: 'Benin',
+    image: '/assets/images/client6.png',
+  },
+];
+
 export const educatorActivities = [
   {
     id: 1,

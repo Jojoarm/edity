@@ -4,131 +4,172 @@ import gsap from 'gsap';
 
 const Progress = () => {
   const circleRef = useRef<SVGCircleElement | null>(null);
-  const timeRef = useRef<HTMLParagraphElement | null>(null);
+  const textRef = useRef<HTMLParagraphElement | null>(null);
   const circumference = 2 * Math.PI * 80;
 
-  // Create an object to hold the animated value
-  const hoursData = useRef({ value: 0 });
+  const textProgress = useRef({ value: 0 });
 
   useGSAP(() => {
-    if (!circleRef.current || !timeRef.current) return;
+    if (!circleRef.current || !textRef.current) return;
 
+    // Force hardware acceleration for better performance
+    gsap.set([circleRef.current, textRef.current], {
+      force3D: true,
+      backfaceVisibility: 'hidden',
+    });
+
+    // Initialize circle
     gsap.set(circleRef.current, {
       strokeDasharray: circumference,
       strokeDashoffset: circumference, // Start fully hidden
     });
 
-    const tl = gsap.timeline({
+    // Initialize text
+    gsap.set(textRef.current, { textContent: '0.0 hours' });
+
+    // Create master timeline
+    const masterTl = gsap.timeline({
       repeat: -1,
-      defaults: { ease: 'power1.inOut' },
+      defaults: {
+        ease: 'power1.out',
+        force3D: true,
+      },
     });
 
-    // First entrance animation for circle
-    tl.to(
-      circleRef.current,
-      {
-        strokeDashoffset: circumference * 0.08,
-        duration: 4,
-      },
-      0
-    );
+    // circle animation
+    const circleAnimation = () => {
+      const circleTl = gsap.timeline();
 
-    // Animate the hours counter for the first cycle
-    tl.to(
-      hoursData.current,
-      {
-        value: 10.0,
-        duration: 4,
+      // First entrance animation
+      circleTl.to(circleRef.current, {
+        strokeDashoffset: circumference * 0.08, // 92% complete
+        duration: 6,
+        ease: 'power1.out',
+      });
+
+      // Reset for loop
+      circleTl.to(circleRef.current, {
+        strokeDashoffset: circumference * 0.88, // Reset to 12%
+        duration: 3,
+        ease: 'power1.out',
+      });
+
+      // Loop animation
+      const circleLoop = gsap.timeline({ repeat: -1, yoyo: true });
+      circleLoop.to(circleRef.current, {
+        strokeDashoffset: circumference * 0.08,
+        duration: 6,
+        ease: 'power1.out',
+      });
+
+      circleTl.add(circleLoop);
+      return circleTl;
+    };
+
+    // text animation
+    const textAnimation = () => {
+      const textTl = gsap.timeline();
+
+      // First entrance animation
+      textTl.to(textProgress.current, {
+        value: 15.0,
+        duration: 6,
+        ease: 'power1.out',
         onUpdate: () => {
-          if (timeRef.current) {
-            timeRef.current.textContent = `${hoursData.current.value.toFixed(
+          if (textRef.current) {
+            const roundedValue =
+              Math.round(textProgress.current.value * 10) / 10;
+            textRef.current.textContent = `${roundedValue.toFixed(1)} hours`;
+          }
+        },
+      });
+
+      // Reset for loop
+      textTl.to(textProgress.current, {
+        value: 0,
+        duration: 3,
+        onUpdate: () => {
+          if (textRef.current) {
+            textRef.current.textContent = `${textProgress.current.value.toFixed(
               1
             )} hours`;
           }
         },
-      },
-      0
-    ); // Start at the same time as circle animation
+      });
 
-    // Looping rotation
-    tl.to(circleRef.current, {
-      strokeDashoffset: circumference * 0.88,
-      duration: 1,
-      onStart: () => {
-        hoursData.current.value = 0;
-        if (timeRef.current) {
-          timeRef.current.textContent = `0.0 hours`;
-        }
-      },
-    });
-
-    // Create a nested timeline for the repeating part
-    const loopTl = gsap.timeline({ repeat: -1, yoyo: true });
-
-    // Reset hours and animate again
-    loopTl
-      .set(hoursData.current, { value: 0 })
-      .to(
-        hoursData.current,
-        {
-          value: 10.0,
-          duration: 4,
-          onUpdate: () => {
-            if (timeRef.current) {
-              timeRef.current.textContent = `${hoursData.current.value.toFixed(
-                1
-              )} hours`;
-            }
-          },
+      // Loop animation
+      const textLoop = gsap.timeline({ repeat: -1, yoyo: true });
+      textLoop.to(textProgress.current, {
+        value: 15.0,
+        duration: 6,
+        ease: 'power1.out',
+        onUpdate: () => {
+          if (textRef.current) {
+            const roundedValue =
+              Math.round(textProgress.current.value * 10) / 10;
+            textRef.current.textContent = `${roundedValue.toFixed(1)} hours`;
+          }
         },
-        0
-      )
-      .to(
-        circleRef.current,
-        {
-          strokeDashoffset: circumference * 0.08,
-          duration: 4,
-        },
-        0
-      );
+      });
 
-    tl.add(loopTl);
-  });
+      textTl.add(textLoop);
+      return textTl;
+    };
+
+    // Add both animations to master timeline with perfect sync
+    masterTl.add(circleAnimation(), 0);
+    masterTl.add(textAnimation(), 0); // Start at same time for perfect sync
+  }, [circumference]);
 
   return (
     <div className="flex items-center justify-center gap-5">
-      <svg className="w-[250px] h-[250px] -rotate-90" viewBox="0 0 200 200">
-        <circle
-          cx="100"
-          cy="100"
-          r="80"
-          fill="transparent"
-          stroke="rgba(79, 70, 229, 0.1)"
-          strokeWidth="20"
-          strokeDasharray={`${2 * Math.PI * 80 * 0.95} ${2 * Math.PI * 80}`}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="opacity-100"
-        />
-        <circle
-          ref={circleRef}
-          cx="100"
-          cy="100"
-          r="80"
-          fill="transparent"
-          stroke="currentColor"
-          strokeWidth="20"
-          className="text-primary-green drop-shadow-lg"
-          strokeLinecap="round"
-        />
-      </svg>
-      <div className="flex flex-col gap-1">
-        <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-green-new-500">
-          Time Saved
-        </h2>
-        <p ref={timeRef} className="text-gray-600 text-lg">
+      <div className="relative">
+        <svg
+          className="size-[150px] md:size-[200px] lg:size-[250px] -rotate-60"
+          style={{
+            transform: 'rotate(-90deg)',
+            transformOrigin: 'center',
+          }}
+          viewBox="0 0 200 200"
+        >
+          {/* Background circle */}
+          <circle
+            cx="100"
+            cy="100"
+            r="80"
+            fill="transparent"
+            stroke="rgba(79, 70, 229, 0.1)"
+            strokeWidth="20"
+            strokeDasharray={`${2 * Math.PI * 80 * 0.95} ${2 * Math.PI * 80}`}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="opacity-100"
+          />
+          {/* Animated progress circle */}
+          <circle
+            ref={circleRef}
+            cx="100"
+            cy="100"
+            r="80"
+            fill="transparent"
+            stroke="currentColor"
+            strokeWidth="20"
+            className="text-primary-green drop-shadow-lg"
+            strokeLinecap="round"
+          />
+        </svg>
+      </div>
+
+      <div className="flex flex-col">
+        <p
+          ref={textRef}
+          className="text-gray-600 text-sm md:text-lg lg:text-xl"
+        >
           0.0 hours
         </p>
+        <h2 className="text-sm md:text-lg lg:text-xl font-semibold text-green-new-500">
+          Saved
+        </h2>
       </div>
     </div>
   );

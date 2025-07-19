@@ -25,12 +25,12 @@ const OverviewCard = ({
           <div className="relative flex flex-col gap-5 text-dark-background-color overflow-hidden rounded-xl">
             <div className="relative z-20 flex flex-col items-start p-5">
               <i
-                className={`${iconClass} text-4xl md:text-5xl text-gray-500 mb-2`}
+                className={`${iconClass} text-4xl md:text-5xl text-rose-500 mb-2`}
               ></i>
-              <h2 className="font-roboto text-lg md:text-xl lg:text-2xl font-semibold">
+              <h2 className="font-roboto text-lg md:text-xl lg:text-2xl text-green-new-500 font-semibold">
                 {title}
               </h2>
-              <p className="text-sm md:text-md lg:text-lg text-gray-500">
+              <p className="text-sm md:text-base text-gray-600">
                 {description}
               </p>
             </div>

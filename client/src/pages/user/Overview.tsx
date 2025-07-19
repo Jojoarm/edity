@@ -1,9 +1,11 @@
-import { howItWorksSteps, overviewIssues } from '@/assets/assets';
+import { howItWorksSteps, overviewIssues, testimonials } from '@/assets/assets';
 import AiExpertise from '@/components/common/cards/overview-cards/AiExpertise';
 import HowItWorksStep from '@/components/common/cards/overview-cards/HowItWorksStep';
 import OverviewCard from '@/components/common/cards/overview-cards/OverviewCard';
 import Progress from '@/components/common/cards/overview-cards/Progress';
 import Resources from '@/components/common/cards/overview-cards/Resources';
+import TestimonialCard from '@/components/common/cards/overview-cards/TestimonialCard';
+import SemiCircle from '@/components/common/svg/SemiCircle';
 import ShapeDivider from '@/components/common/svg/ShapeDivider';
 import TopWave from '@/components/common/svg/TopWave';
 import { Card, CardContent } from '@/components/ui/card';
@@ -13,10 +15,27 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
+import { useEffect, useRef, useState } from 'react';
 
 const Overview = () => {
+  //for carousel
+  const createAutoplay = (delay = 5000) =>
+    Autoplay({ delay, stopOnInteraction: false, stopOnMouseEnter: false });
+  const plugin1 = useRef(createAutoplay(5000));
+  const plugin2 = useRef(createAutoplay(7000));
+  const [api, setApi] = useState<CarouselApi | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    if (!api) return;
+    const onSelect = () => setSelectedIndex(api.selectedScrollSnap());
+    onSelect(); // initial
+    api.on('select', onSelect);
+  }, [api]);
+
   return (
     <div className=" w-full h-full ">
       <div className="relative section h-full bg-light-background-color pb-14 lg:pb-24 xl:pb-34">
@@ -162,13 +181,7 @@ const Overview = () => {
             </p>
           </div>
 
-          <Carousel
-            plugins={[
-              Autoplay({
-                delay: 6000,
-              }),
-            ]}
-          >
+          <Carousel opts={{ loop: true }} plugins={[plugin1.current]}>
             <CarouselContent>
               {howItWorksSteps.map((stepData, index) => (
                 <CarouselItem key={index}>
@@ -192,37 +205,59 @@ const Overview = () => {
             <CarouselNext />
           </Carousel>
         </div>
-
-        <div></div>
       </div>
 
-      <div className="relative w-full h-[631px] my-10 overflow-hidden">
-        <svg
-          viewBox="0 0 1366 631"
-          height="631"
-          width="100%"
-          className="absolute top-0 left-0 -z-10"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path
-            d="M1366 614.626V42.2878C1216.44 32.481 1071.16 25.6274 902.892 20.0618C647.674 11.6203 291.457 3.37253 0 0.135254V612.111C313.572 631.987 694.403 637.367 1189.78 619.86C1248.63 617.783 1307.48 616.071 1366 614.626Z"
-            fill="#E4F0D0"
-          />
-        </svg>
-        <svg
-          viewBox="0 0 376 621"
-          height="631"
-          width="auto"
-          className="absolute top-0 right-0 rotate-180 -z-10"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path
-            d="M0 9.68462V617.774C147.168 622.024 270.083 621.875 376 618.496V0C260.308 0 77.1282 6.45641 0 9.68462Z"
-            fill="#E4F0D0"
-          />
-        </svg>
+      <div className="relative w-full mb-20">
+        <div className="absolute top-0 left-0 w-full">
+          <SemiCircle />
+        </div>
+        <div className="absolute bottom-0 left-0 w-full rotate-180">
+          <SemiCircle />
+        </div>
+
+        <div className="section bg-primary-green/10 pb-34">
+          <div className=" h-full min-h-[500px] flex flex-col gap-4 justify-center items-center">
+            <div className="w-full flex flex-col items-center space-y-6 mb-4">
+              <p className="p-2 bg-primary text-white text-center font-semibold font-roboto rounded-2xl w-[150px]">
+                Our Community
+              </p>
+              <p className="font-bold text-xl md:text-2xl lg:text-3xl text-center text-dark-background-color">
+                What other educators are saying!
+              </p>
+            </div>
+            <div className="w-full max-w-6xl mx-auto flex flex-col items-center space-y-6">
+              <Carousel
+                opts={{ loop: true }}
+                plugins={[plugin2.current]}
+                setApi={setApi}
+                className="w-full"
+              >
+                <CarouselContent>
+                  {testimonials.map((item, index) => (
+                    <CarouselItem key={index}>
+                      <TestimonialCard {...item} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+
+              {/* Dot indicators */}
+              <div className="flex gap-2 mt-4">
+                {testimonials.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => api?.scrollTo(idx)}
+                    className={`h-2 w-2 rounded-full transition-colors duration-300 ${
+                      selectedIndex === idx
+                        ? 'bg-dark-background-color'
+                        : 'bg-dark-background-color/40'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
