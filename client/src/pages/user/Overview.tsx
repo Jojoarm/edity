@@ -1,5 +1,7 @@
 import { howItWorksSteps, overviewIssues, testimonials } from '@/assets/assets';
+import { edityFAQs } from '@/assets/faq';
 import AiExpertise from '@/components/common/cards/overview-cards/AiExpertise';
+import FaqItem from '@/components/common/cards/overview-cards/FaqItem';
 import HowItWorksStep from '@/components/common/cards/overview-cards/HowItWorksStep';
 import OverviewCard from '@/components/common/cards/overview-cards/OverviewCard';
 import Progress from '@/components/common/cards/overview-cards/Progress';
@@ -28,6 +30,8 @@ const Overview = () => {
   const plugin2 = useRef(createAutoplay(7000));
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [showAll, setShowAll] = useState(false);
+  const visibleFaqs = showAll ? edityFAQs : edityFAQs.slice(0, 5);
 
   useEffect(() => {
     if (!api) return;
@@ -45,7 +49,7 @@ const Overview = () => {
               <span className="inline text-balance ">Create Exactly </span>
               <div className=" flex flex-wrap space-x-3">
                 <span>What You Need</span>
-                <span className="inline  bg-gradient-to-r from-[#ffb178] via-[#ff7eb3] to-[#9c7aff] bg-clip-text text-transparent">
+                <span className="inline  bg-gradient-to-r from-[#667eea] via-[#764ba2] to-[#f093fb] bg-clip-text text-transparent">
                   Your Way!
                 </span>
               </div>
@@ -107,7 +111,7 @@ const Overview = () => {
         </div>
       </div>
 
-      <div className="relative w-full h-full section bg-primary-green/10 pb-14 lg:pb-24 xl:pb-34">
+      <div className="relative w-full h-full section bg-primary-green/10 pb-24 xl:pb-34">
         <div className="absolute inset-0 flex justify-end items-center -z-10">
           <img
             src="/assets/images/laptopbg.png"
@@ -156,9 +160,13 @@ const Overview = () => {
             <AiExpertise />
           </OverviewCard>
         </div>
+        <div className="absolute bottom-0 left-0 w-full">
+          <TopWave />
+        </div>
       </div>
 
-      <div className="relative section h-full pb-34">
+      {/* How to */}
+      <div className="relative section h-full pb-14 lg:pb-34">
         <div className="absolute top-0 left-0 rotate-180 w-full">
           <TopWave />
         </div>
@@ -172,7 +180,7 @@ const Overview = () => {
         </div>
 
         <div className="w-full p-6">
-          <div className="w-full flex flex-col items-center space-y-6 mb-4">
+          <div className="w-full flex flex-col items-center gap-6 mb-10">
             <p className="p-2 bg-primary text-white text-center font-semibold font-roboto rounded-2xl w-[150px]">
               How Edity Works
             </p>
@@ -185,8 +193,8 @@ const Overview = () => {
             <CarouselContent>
               {howItWorksSteps.map((stepData, index) => (
                 <CarouselItem key={index}>
-                  <div className="p-1">
-                    <Card>
+                  <div className="p-1 md:p-2 border rounded-2xl bg-light-background-color shadow-md">
+                    <Card className="py-10">
                       <CardContent>
                         <HowItWorksStep
                           step={stepData.step}
@@ -207,7 +215,8 @@ const Overview = () => {
         </div>
       </div>
 
-      <div className="relative w-full mb-20">
+      {/* Testimonials */}
+      <div className="relative w-full">
         <div className="absolute top-0 left-0 w-full">
           <SemiCircle />
         </div>
@@ -256,6 +265,38 @@ const Overview = () => {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Faqs */}
+      <div className="relative section h-full pb-34">
+        <div className="w-full flex flex-col items-center space-y-6 mb-4">
+          <p className="p-2 bg-primary text-white text-center font-semibold font-roboto rounded-2xl w-[150px]">
+            FAQ Section
+          </p>
+          <p className="font-bold text-xl md:text-2xl lg:text-3xl text-center text-dark-background-color">
+            Frequently Asked Questions!
+          </p>
+          <div className="w-full max-w-6xl border rounded-2xl shadow-md p-6">
+            <div className="flex flex-col gap-3">
+              {visibleFaqs.map((faq, index) => (
+                <FaqItem
+                  question={faq.question}
+                  answer={faq.answer}
+                  key={index}
+                />
+              ))}
+            </div>
+
+            {edityFAQs.length > 5 && (
+              <button
+                onClick={() => setShowAll((prev) => !prev)}
+                className="mt-4 text-primary cursor-pointer hover:underline"
+              >
+                {showAll ? 'Show Less' : 'Show More'}
+              </button>
+            )}
           </div>
         </div>
       </div>
